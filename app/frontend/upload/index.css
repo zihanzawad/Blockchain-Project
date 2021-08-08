@@ -1,0 +1,28 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.upload{
+    width: 500px;
+    height: 400px;
+    background-color: lightgrey;
+    text-align: center;
+}
+.container{
+    width: 800px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: red;
+}
+
