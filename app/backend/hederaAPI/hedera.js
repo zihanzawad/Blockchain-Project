@@ -47,12 +47,34 @@ async function createFile(file, client, key) {
 }
 
 // add content to existing file
-async function appendFile(fileId, file) {
-
+async function appendFile(fileId, file, client, key) {
+    // console.log(fileId)
+    // console.log(file)
+    // console.log(client)
+    // console.log(key)
     //Create the transaction
-    const transaction = new FileAppendTransaction()
+    const transaction = await new FileAppendTransaction()
         .setFileId(fileId)
-        .setContents(file);
+        .setContents(file)
+        .setMaxTransactionFee(new Hbar(2))
+        .freezeWith(client);
+
+    //Sign with the file private key
+    const signTx = await transaction.sign(key);
+
+    //Sign with the client operator key and submit to a Hedera network
+    console.log("Appending new chunck");
+    const txResponse = await signTx.execute(client);
+
+    console.log("Retting result");
+
+    //Request the receipt
+    const receipt = await txResponse.getReceipt(client);
+
+    //Get the transaction consensus status
+    const transactionStatus = receipt.status;
+
+    console.log("The transaction consensus status is " + transactionStatus);
 
 }
 
@@ -65,39 +87,48 @@ async function getFileContent(fileId, client) {
     //Sign with client operator private key and submit the query to a Hedera network
     const contents = await query.execute(client);
 
-    //v2.0.7
+    console.log(contents);
 }
 
 
 // splits file into 3kib chunks
-function splitFile(s, maxBytes) {
-    let buf = Buffer.from(s);
-    const result = [];
-    while (buf.length) {
-        let i = buf.lastIndexOf(32, maxBytes + 1);
-        // If no space found, try forward search
-        if (i < 0) i = buf.indexOf(32, maxBytes);
-        // If there's no space at all, take the whole string
-        if (i < 0) i = buf.length;
-        // This is a safe cut-off point; never half-way a multi-byte
-        result.push(buf.slice(0, i).toString());
-        buf = buf.slice(i + 1); // Skip space (if any)
+function createChunks(file, cSize) {
+    let startPointer = 0;
+    let endPointer = file.length;
+    let chunks = [];
+    while (startPointer < endPointer) {
+        let newStartPointer = startPointer + cSize;
+        chunks.push(file.slice(startPointer, newStartPointer));
+        startPointer = newStartPointer;
     }
-    return result;
+    return chunks;
 }
-
 
 // uploads a file to the block chain
 async function uploadToBlockChain(file) {
     let { client, key } = await connectClient();
-    let chunks = await splitFile(file.buffer, 3 * 1024)
+    let chunks = await createChunks(file, 3 * 1024)
 
     let first = chunks.shift();
     txHash = await createFile(first, client, key);
-    for (chunk of chunks) {
-        await appendFile(txHash, chunk, client, key);
-    }
-    await getFileContent(txHash, client)
+
+    console.log(first);
+    console.log(file)
+
+    // for (chunk of chunks) {
+    //     await appendFile(txHash, chunk, client, key);
+    // }
+
+    // console.log("" + txHash)
+    // let val = await getFileContent(txHash, client)
+    // console.log(file);
+
+    // if (val === file) {
+    //     console.log(true);
+    // } else {
+    //     console.log(false);
+
+    // }
 }
 
 

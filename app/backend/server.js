@@ -5,6 +5,7 @@ const app = express()
 const multer = require('multer');
 const upload = multer();
 
+
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({
@@ -25,8 +26,8 @@ const testUserObj = {
 };
 
 //takes pdf payload from server and gets encrypted version into server; 
-app.post('/upload', upload.single('pdf'), function (req, res, next) {
-  uploadToBlockChain(req.file)
+app.post('/upload', upload.single('pdf'), function (req, res) {
+  uploadToBlockChain(req.file.buffer)
   res.send("Finshed")
 })
 // returns the testUserObject
