@@ -115,12 +115,12 @@ async function uploadToBlockChain(file) {
     console.log(first);
     console.log(file)
 
-    // for (chunk of chunks) {
-    //     await appendFile(txHash, chunk, client, key);
-    // }
+    for (chunk of chunks) {
+        await appendFile(txHash, chunk, client, key);
+    }
 
     // console.log("" + txHash)
-    // let val = await getFileContent(txHash, client)
+    let val = await getFileContent(txHash, client)
     // console.log(file);
 
     // if (val === file) {

@@ -4,7 +4,7 @@ const cors = require('cors')
 const app = express()
 const multer = require('multer');
 const upload = multer();
-
+const { addToDatabase, returnToUser} = require('../database/index')
 
 app.use(cors())
 app.use(express.json());
@@ -14,16 +14,7 @@ app.use(express.urlencoded({
 
 const port = 8080;
 
-const testUserObj = {
-  user: "SEP",
-  stored: [
-    {
-      Date: "19-Jan-2012",
-      fileName: "My Secrete Mix Tape",
-      TxHash: "https://etherscan.io/tx/0x8ef8e6db26a41e5690b57b895d4f87c86256c241975f1838d6fdb283f92e1bf5",
-    }
-  ]
-};
+
 
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
@@ -31,8 +22,9 @@ app.post('/upload', upload.single('pdf'), function (req, res) {
   res.send("Finshed")
 })
 // returns the testUserObject
-app.get('/getUser', (req, res) => {
-  res.send(testUserObj);
+app.get('/getUser', async (req, res) => {
+  let user = await returnToUser('TestUser')
+  res.send(user);
 })
 
 app.listen(port, () => {
