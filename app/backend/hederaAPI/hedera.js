@@ -1,4 +1,5 @@
 const { Client, FileCreateTransaction, Hbar, PrivateKey, FileContentsQuery, FileAppendTransaction } = require("@hashgraph/sdk");
+const { addToDatabase } = require('../../database/index')
 require('dotenv').config();
 const fs = require('fs')
 
@@ -102,29 +103,26 @@ function createChunks(file, cSize) {
 
 // uploads a file to the block chain
 async function uploadToBlockChain(file) {
+    let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
-    let chunks = await createChunks(file, 3 * 1024)
+    let chunks = await createChunks(fileContent, 3 * 1024)
 
     let first = chunks.shift();
-    txHash = await createFile(first, client, key, publicKey);
+    let fileId = await createFile(first, client, key, publicKey);
 
     let size = chunks.length;
 
     for (chunk of chunks) {
-        await appendFile(txHash, chunk, client, key);
+        await appendFile(fileId, chunk, client, key);
         console.log(--size);
     }
-
-    let val = await getFileContent(txHash, client)
-    fs.writeFileSync('input.docx', file);
-    fs.writeFileSync('output.docx', val);
-
-    if (val === file) {
-        console.log(true);
-    } else {
-        console.log(false);
-
+    let obj = {
+        Date : new Date().toLocaleDateString(),
+        fileName : file.originalname,
+        TxHash : fileId.toString()
     }
+
+    await addToDatabase('TestUser', obj);
 }
 
 

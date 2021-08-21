@@ -4,7 +4,7 @@ const cors = require('cors')
 const app = express()
 const multer = require('multer');
 const upload = multer();
-const { addToDatabase, returnToUser} = require('../database/index')
+const { returnToUser } = require('../database/index')
 
 app.use(cors())
 app.use(express.json());
@@ -18,7 +18,8 @@ const port = 8080;
 
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
-  uploadToBlockChain(req.file.buffer)
+  console.log(req.file);
+  uploadToBlockChain(req.file)
   res.send("Finshed")
 })
 // returns the testUserObject
