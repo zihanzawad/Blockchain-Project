@@ -82,8 +82,7 @@ async function getFileContent(TxHash) {
 
     //Sign with client operator private key and submit the query to a Hedera network
     const contents = await query.execute(client);
-
-    return contents;
+    return contents ;
 }
 
 

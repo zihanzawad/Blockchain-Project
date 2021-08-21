@@ -1,5 +1,4 @@
 
-
 //invokes onload
 (async function () {
     let testUserObj = {};
@@ -26,17 +25,34 @@ renderData = (obj) => {
     }
 }
 
-function createDownloadable(data) {
+function createDownloadable(data, fileName, parent) {
+    console.log(data)
+    let element = document.createElement('a');
+    var blob = new Blob([data], { type: 'application/json' });
+    console.log(blob);
+    element.setAttribute('download', fileName);
+    element.setAttribute('target', '_blank');
+    var URL = window.URL || window.webkitURL;
+    var downloadUrl = URL.createObjectURL(blob);
 
+    element.href = downloadUrl;
+
+    element.style.display = 'none';
+    parent.appendChild(element);
+    element.click();
 }
 
 async function getFile() {
     let TxHash = event.target.parentNode.parentNode.children[2].innerHTML;
-    console.log(TxHash);
     let parent = event.target.parentNode;
+    let fileName = event.target.parentNode.parentNode.children[1].innerHTML
+    let url = `http://localhost:8080/getFile/${TxHash}`;
 
-    await $.get(`http://localhost:8080/getFile/${TxHash}`, function (data) {
-        parent.innerHTML = ``;
-        createDownloadable(data, parent);
+    let data = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/octet-stream'
+        },
     })
+    createDownloadable(await data.arrayBuffer(), fileName, parent);
 }
