@@ -1,4 +1,4 @@
-const { Client, FileCreateTransaction, Hbar, PrivateKey, FileContentsQuery, FileAppendTransaction } = require("@hashgraph/sdk");
+const { Client, FileCreateTransaction, Hbar, FileId, PrivateKey, FileContentsQuery, FileAppendTransaction } = require("@hashgraph/sdk");
 const { addToDatabase } = require('../../database/index')
 require('dotenv').config();
 const fs = require('fs')
@@ -50,9 +50,9 @@ async function createFile(file, client, key, publicKey) {
 }
 
 // add content to existing file
-async function appendFile(fileId, file, client, key) {
+async function appendFile(TxHash, file, client, key) {
     const transaction = await new FileAppendTransaction()
-        .setFileId(fileId)
+        .setFileId(TxHash)
         .setContents(file)
         .freezeWith(client);
 
@@ -60,26 +60,25 @@ async function appendFile(fileId, file, client, key) {
     const signTx = await transaction.sign(key);
 
     //Sign with the client operator key and submit to a Hedera network
-    console.log("Appending new chunck");
     const txResponse = await signTx.execute(client);
-
-    console.log("Getting result");
 
     //Request the receipt
     const receipt = await txResponse.getReceipt(client);
-
+c
     //Get the transaction consensus status
     const transactionStatus = receipt.status;
 
-    console.log("The transaction consensus status is " + transactionStatus);
 
 }
 
 //retrieves content stored in a file based on the file id
-async function getFileContent(fileId, client) {
+async function getFileContent(TxHash) {
+    let { client } = await connectClient();
+    console.log(TxHash)
+    TxHash = FileId.fromString(TxHash)
     //Create the query
     const query = new FileContentsQuery()
-        .setFileId(fileId);
+        .setFileId(TxHash);
 
     //Sign with client operator private key and submit the query to a Hedera network
     const contents = await query.execute(client);
@@ -108,18 +107,15 @@ async function uploadToBlockChain(file) {
     let chunks = await createChunks(fileContent, 3 * 1024)
 
     let first = chunks.shift();
-    let fileId = await createFile(first, client, key, publicKey);
-
-    let size = chunks.length;
+    let TxHash = await createFile(first, client, key, publicKey);
 
     for (chunk of chunks) {
-        await appendFile(fileId, chunk, client, key);
-        console.log(--size);
+        await appendFile(TxHash, chunk, client, key);
     }
     let obj = {
-        Date : new Date().toLocaleDateString(),
-        fileName : file.originalname,
-        TxHash : fileId.toString()
+        Date: new Date().toLocaleDateString(),
+        fileName: file.originalname,
+        TxHash: TxHash.toString()
     }
 
     await addToDatabase('TestUser', obj);
@@ -127,5 +123,6 @@ async function uploadToBlockChain(file) {
 
 
 module.exports = {
-    uploadToBlockChain
+    uploadToBlockChain,
+    getFileContent
 }

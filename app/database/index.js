@@ -15,10 +15,9 @@ async function getClient() {
 
 // add the new pdf to the database
 async function addToDatabase(userName, obj) {
+
     const client = await getClient();
     const collection = client.db("SEP").collection("users");
-
-    console.log({ userName, obj })
 
     await collection.updateOne(
         { user: userName },
@@ -52,14 +51,14 @@ module.exports = {
     returnToUser, addToDatabase
 }
 
-let temp = {
-    Date: '19-Jan-2012',
-    fileName: 'Not Cool Bro',
-    TxHash: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-}
+// let temp = {
+//     Date: '19-Jan-2012',
+//     fileName: 'Not Cool Bro',
+//     TxHash: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+// }
 
-async function init() {
-    await addToDatabase('TestUser', temp);
-}
+// async function init() {
+//     await addToDatabase('TestUser', temp);
+// }
 
-init();
+// init();
