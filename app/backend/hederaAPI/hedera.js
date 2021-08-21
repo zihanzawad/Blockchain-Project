@@ -1,5 +1,6 @@
 const { Client, FileCreateTransaction, Hbar, PrivateKey, FileContentsQuery, FileAppendTransaction } = require("@hashgraph/sdk");
-
+require('dotenv').config();
+const fs = require('fs')
 
 //create a hadera client
 async function connectClient() {
@@ -14,19 +15,20 @@ async function connectClient() {
         throw new Error("Environment variables myAccountId and myPrivateKey must be present");
     }
 
-    let key = PrivateKey.fromString(myPrivateKey);
+    let key = await PrivateKey.generate(myPrivateKey);
+    let publicKey = key.publicKey;
 
     const client = Client.forTestnet();
 
-    await client.setOperator(myAccountId, myPrivateKey);
-    return { client, key }
+    client.setOperator(myAccountId, myPrivateKey);
+    return { client, key, publicKey }
 }
 
 // create the first instance of a file
-async function createFile(file, client, key) {
+async function createFile(file, client, key, publicKey) {
 
     const transaction = await new FileCreateTransaction()
-        .setKeys(key) //A different key then the client operator key
+        .setKeys([publicKey]) //A different key then the client operator key
         .setContents(file)
         .setMaxTransactionFee(new Hbar(2))
         .freezeWith(client);
@@ -48,15 +50,9 @@ async function createFile(file, client, key) {
 
 // add content to existing file
 async function appendFile(fileId, file, client, key) {
-    // console.log(fileId)
-    // console.log(file)
-    // console.log(client)
-    // console.log(key)
-    //Create the transaction
     const transaction = await new FileAppendTransaction()
         .setFileId(fileId)
         .setContents(file)
-        .setMaxTransactionFee(new Hbar(2))
         .freezeWith(client);
 
     //Sign with the file private key
@@ -66,7 +62,7 @@ async function appendFile(fileId, file, client, key) {
     console.log("Appending new chunck");
     const txResponse = await signTx.execute(client);
 
-    console.log("Retting result");
+    console.log("Getting result");
 
     //Request the receipt
     const receipt = await txResponse.getReceipt(client);
@@ -87,7 +83,7 @@ async function getFileContent(fileId, client) {
     //Sign with client operator private key and submit the query to a Hedera network
     const contents = await query.execute(client);
 
-    console.log(contents);
+    return contents;
 }
 
 
@@ -106,29 +102,29 @@ function createChunks(file, cSize) {
 
 // uploads a file to the block chain
 async function uploadToBlockChain(file) {
-    let { client, key } = await connectClient();
+    let { client, key, publicKey } = await connectClient();
     let chunks = await createChunks(file, 3 * 1024)
 
     let first = chunks.shift();
-    txHash = await createFile(first, client, key);
+    txHash = await createFile(first, client, key, publicKey);
 
-    console.log(first);
-    console.log(file)
+    let size = chunks.length;
 
     for (chunk of chunks) {
         await appendFile(txHash, chunk, client, key);
+        console.log(--size);
     }
 
-    // console.log("" + txHash)
     let val = await getFileContent(txHash, client)
-    // console.log(file);
+    fs.writeFileSync('input.docx', file);
+    fs.writeFileSync('output.docx', val);
 
-    // if (val === file) {
-    //     console.log(true);
-    // } else {
-    //     console.log(false);
+    if (val === file) {
+        console.log(true);
+    } else {
+        console.log(false);
 
-    // }
+    }
 }
 
 
