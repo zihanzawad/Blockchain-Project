@@ -1,9 +1,0 @@
-:root {
-    --theme: #C4C4C4;
-    --navbarW : 1440px;
-    --navbarH : 155px;
-}
-
-.themeColor {
-    background-color: var(--theme);
-}
