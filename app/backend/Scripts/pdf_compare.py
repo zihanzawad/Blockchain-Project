@@ -33,7 +33,6 @@ def compare_pdfs(original:pdf, test:pdf):
             print(f"Changes in page: {page+1}")
 
 
-
 originalFile, newFile = [argv[1], argv[2]]
 originalFile = pdf(originalFile)
 newFile = pdf(newFile)
