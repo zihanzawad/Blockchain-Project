@@ -64,7 +64,6 @@ async function appendFile(TxHash, file, client, key) {
 
     //Request the receipt
     const receipt = await txResponse.getReceipt(client);
-c
     //Get the transaction consensus status
     const transactionStatus = receipt.status;
 
