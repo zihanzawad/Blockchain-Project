@@ -1,7 +1,8 @@
 const { Client, FileCreateTransaction, Hbar, FileId, PrivateKey, FileContentsQuery, FileAppendTransaction } = require("@hashgraph/sdk");
 const { addToDatabase } = require('../../database/index')
 require('dotenv').config();
-const fs = require('fs')
+const fs = require('fs');
+const crypto = require('crypto');
 
 //create a hadera client
 async function connectClient() {
@@ -98,18 +99,23 @@ function createChunks(file, cSize) {
     return chunks;
 }
 
+//takes in a file buffer and encrypts it with SHA256, returning a hex string
+async function encryptData(data) {
+    const hashSum = crypto.createHash('sha256');
+    hashSum.update(data);
+
+    const hexHash = hashSum.digest('hex');
+    return hexHash;
+}
+
 // uploads a file to the block chain
 async function uploadToBlockChain(file) {
+    
     let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
-    let chunks = await createChunks(fileContent, 3 * 1024)
+    let fileHash = await encryptData(fileContent);
 
-    let first = chunks.shift();
-    let TxHash = await createFile(first, client, key, publicKey);
-
-    for (chunk of chunks) {
-        await appendFile(TxHash, chunk, client, key);
-    }
+    let TxHash = await createFile(fileHash, client, key, publicKey);
     let obj = {
         Date: new Date().toLocaleDateString(),
         fileName: file.originalname,
