@@ -121,7 +121,7 @@ async function uploadToBlockChain(file) {
     let TxHash = await createFile(first, client, key, publicKey);
 
     for (chunk of chunks) {
-        await appendFile(TXHash, chunk, client, key);
+        await appendFile(TxHash, chunk, client, key);
     }*/
 
     let TxHash = await createFile(fileHash, client, key, publicKey);
