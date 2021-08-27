@@ -100,7 +100,7 @@ function createChunks(file, cSize) {
 }
 
 //takes in a file buffer and encrypts it with SHA256, returning a hex string
-async function encryptData(data) {
+function encryptData(data) {
     const hashSum = crypto.createHash('sha256');
     hashSum.update(data);
 
@@ -113,7 +113,16 @@ async function uploadToBlockChain(file) {
     
     let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
-    let fileHash = await encryptData(fileContent);
+    let fileHash = encryptData(fileContent);
+
+    /*
+    let chunks = await createChunks(fileContent, 3 * 1024);
+    let first = chunks.shift();
+    let TxHash = await createFile(first, client, key, publicKey);
+
+    for (chunk of chunks) {
+        await appendFile(TXHash, chunk, client, key);
+    }*/
 
     let TxHash = await createFile(fileHash, client, key, publicKey);
     let obj = {
