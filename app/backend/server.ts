@@ -16,18 +16,18 @@ app.use(express.urlencoded({
 const port:number = 8080;
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
-  uploadToBlockChain(req.file)
-  res.send("Finshed")
+  uploadToBlockChain(req.file);
+  res.send("Finshed");
 })
 // returns the testUserObject
 app.get('/getUser', async (req, res) => {
 
-  let user = await returnToUser('TestUser')
+  let user = await returnToUser('TestUser');
   res.send(user);
 })
 app.get('/getFile/:TxHash', async (req, res) => {
 
-  let content = await getFileContent(req.params.TxHash)
+  let content = await getFileContent(req.params.TxHash);
   res.send(content);
 })
 
