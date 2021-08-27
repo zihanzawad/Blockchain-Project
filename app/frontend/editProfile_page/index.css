@@ -1,0 +1,60 @@
+@import url("../global.css");
+
+.button {
+    border-radius: 10px;
+    max-width: 150px;
+    max-height: 50px;
+    box-shadow: 0px 4px 3px #b8b8b8;
+    font-size: 1rem;
+    float:right;
+}
+
+.sideBar {
+    margin-top: 10px;
+    max-width: 300px;
+    padding: 10px 2.5rem 10px 10px;
+    height: 80%;
+    left: auto;
+    position: absolute;
+    border-right: 1px solid rgb(70, 70, 70);
+}
+
+.sideBar small{
+    /* 
+    float:right;
+    display: block; 
+    */
+    position: inherit;
+    right: 0;
+    margin-bottom: 2rem;
+}
+
+.sideBar small:hover{
+    color:blue;
+}
+
+.details {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.profilePic {
+    width: 200px;
+    height: 200px;
+    background-color: grey;
+    display: block;
+    
+}
+
+.editProfile {
+    margin-top: 20px;
+    padding-left: 5rem;
+    padding-top: 2.5rem;
+    margin-left: 300px;
+    /* background-color: beige; */
+}
+
+.editProfile h1 {
+    margin-bottom: 30px;
+}
