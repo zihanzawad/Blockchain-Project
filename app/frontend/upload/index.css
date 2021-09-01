@@ -1,28 +1,45 @@
+@import url("../global.css");
+
 html{
     height: 100%;
     width: 100%;
 }
 
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-}
-.upload{
-    width: 500px;
-    height: 400px;
-    background-color: lightgrey;
-    text-align: center;
-}
-.container{
-    width: 800px;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: lightblue;
+.outerbox{
+    padding-top: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+    max-height: 530px;
 }
 
+.clickUpload{
+    display: flex;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    justify-content: center;
+}
+
+.rightBtn{
+    float: right;
+    display: flex;
+    align-items: center;
+}
+
+.dropUpload {
+    background-color: white;
+    height: 300px;
+    max-height: 300px;
+}
+
+.uploadImg{
+    max-height: 125px;
+    max-width: 125px;
+}
+
+.dottedBorder{
+    border-style: dashed;
+    border-color: black;
+    border-width: 2px;
+    height: 250px;
+    width: 600px;
+}

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uploade your PDF </title>
+    <title>Upload your PDF </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -14,12 +14,32 @@
 </head>
 
 <body>
-    <div class="container">
-        <form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data">
-            <p>Upload Your PDF</p>
-            <input type="file" name="pdf" />
-            <button type="submit">submit</button>
-        </form>
+    <nav class="navbar themeColor sticky-top">
+        <div class="container">
+            <div style="display: inline-block;">
+                <h1>Webpage Title</h1>
+            </div>
+            <button type="button" class="col btn logButton rightBtn" id="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!--Outer grey container-->
+    <div class="container outerbox themeColor">
+        <!--Drag and drop-->
+        <div class="col dropUpload text-center">
+            <div class="col" style="border-color: black; border-style: dashed; width: 600px;">
+                <h3 style="padding-top: 8%; padding-bottom: 4%;">Drag and drop a PDF here</h3>
+                <img src="upload.png" alt="Upload File" class="uploadImg">
+            </div>
+        </div>
+        <!--Selecting file manually-->
+        <div class="col clickUpload text-center">
+            <form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data">
+                <h3>Or upload your PDF here</h3>
+                <input class="btn" type="file" name="pdf" />
+                <button class="logButton btn" type="submit">Submit</button>
+            </form>
+        </div>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
