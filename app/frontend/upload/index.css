@@ -1,12 +1,7 @@
 @import url("../global.css");
 
-html{
-    height: 100%;
-    width: 100%;
-}
-
 .outerbox{
-    padding-top: 2%;
+    padding-top: 5%;
     padding-left: 5%;
     padding-right: 5%;
     max-height: 530px;
@@ -19,16 +14,12 @@ html{
     justify-content: center;
 }
 
-.rightBtn{
-    float: right;
-    display: flex;
-    align-items: center;
-}
-
 .dropUpload {
     background-color: white;
     height: 300px;
     max-height: 300px;
+    border-style: dashed;
+    border-color: black;
 }
 
 .uploadImg{
