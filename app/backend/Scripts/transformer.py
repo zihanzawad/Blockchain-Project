@@ -21,13 +21,6 @@ class transformer():
             page_as_numpy = np.asarray(page)
             pages_as_numpy.append(page_as_numpy)
         return pages_as_numpy
-
-    def __init__(self, input_path:str, output_path:str):
-        """
-        Takes a PDF file and converts it to an image which is returns as a numpy array.
-        """
-        pdf_as_images = self.pdf_to_image(input_path, output_path)
-        self.images_as_numpy = self.PIL_to_Numpy(pdf_as_images)
     
     def PDF_to_Numpy(images_as_numpy: list, chunks: int=18) -> list:
         chunked_images = []
