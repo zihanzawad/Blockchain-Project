@@ -1,10 +1,10 @@
 @import url("../global.css");
 
 .outerbox{
-    padding-top: 5%;
+    padding-top: 4%;
     padding-left: 5%;
     padding-right: 5%;
-    max-height: 530px;
+    height: 580px;
 }
 
 .clickUpload{
@@ -16,6 +16,7 @@
 
 .dropUpload {
     background-color: white;
+    padding-top: 5%;
     height: 300px;
     max-height: 300px;
     border-style: dashed;
@@ -23,6 +24,7 @@
 }
 
 .uploadImg{
+    padding-top: 4%;
     max-height: 125px;
     max-width: 125px;
 }
