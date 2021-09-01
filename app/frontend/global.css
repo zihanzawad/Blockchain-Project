@@ -33,7 +33,13 @@
     max-width: 400px;
 }
 
-/*title and logout*/
+/*outerbox*/
+.outer{
+    background-color: var(--theme);
+    border-radius: 10px;
+}
+
+/*header and its elements*/
 .title{
     top: 50%; 
     transform: translateY(-10%);
