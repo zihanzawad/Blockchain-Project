@@ -58,3 +58,35 @@
 .editProfile h1 {
     margin-bottom: 30px;
 }
+
+/*hamburger icon*/
+.hamIcon {
+    width: 25px;
+    height: 25px;
+    margin-bottom: auto;
+}
+.hamIcon hr {
+    height: 5px;
+    background-color: black;
+    border: none;
+}
+
+.navBar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-right: 2px solid gray;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+.navBar a {
+    
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    transition: 0.3s;
+}
