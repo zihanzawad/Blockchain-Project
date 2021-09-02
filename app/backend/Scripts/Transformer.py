@@ -39,7 +39,7 @@ class Transformer():
         return chunkedImages
 
     #return SHA256 hash of input
-    def encrypt_data(data):
+    def encrypt_data(data:list):
         hash = sha256(data)
         return hash.hexdigest()
 

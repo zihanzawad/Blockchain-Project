@@ -1,6 +1,5 @@
 from Transformer import Transformer as tf
 from PIL import Image
-import base64
 
 # TEST FILE
 
