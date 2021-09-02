@@ -20,10 +20,6 @@
 }
 
 .sideBar small{
-    /* 
-    float:right;
-    display: block; 
-    */
     position: inherit;
     right: 0;
     margin-bottom: 2rem;
@@ -52,7 +48,6 @@
     padding-left: 5rem;
     padding-top: 2.5rem;
     margin-left: 300px;
-    /* background-color: beige; */
 }
 .editProfile h1 {
     margin-bottom: 30px;
@@ -64,7 +59,7 @@
     font-size: 20px;
 }
 .nav-item a:hover {
-    text-shadow: 2px 2px 2px;
+    text-shadow: 2px 2px 2px white;
     color: black;
 }
 
