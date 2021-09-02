@@ -64,29 +64,45 @@
     width: 25px;
     height: 25px;
     margin-bottom: auto;
+    left: 10px;
+
 }
 .hamIcon hr {
     height: 5px;
     background-color: black;
     border: none;
 }
+.nav-item a{
+    color: black;
+    margin-left: 20px; 
+    font-size: 20px;
+}
+.nav-item a:hover {
+    text-shadow: 2px 2px 2px;
+    color: black;
+}
 
 .navBar {
     height: 100%;
-    width: 200px;
+    width: 250px;
     position: fixed;
     z-index: 1;
-    top: 0;
+    
     left: 0;
     border-right: 2px solid gray;
     overflow-x: hidden;
     transition: 0.3s;
-    padding-top: 60px;
+    
+    display: block;
+    padding: 30px 60px;
+    background-color: white;
+    display: block;
 }
 .navBar a {
-    
+    padding-bottom: 20px;
     text-decoration: none;
     font-size: 20px;
     display: block;
     transition: 0.3s;
+    color: black;
 }

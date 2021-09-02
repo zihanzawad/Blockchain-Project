@@ -9,26 +9,37 @@
     <title>Profile</title>
 </head>
 <body>
-    <div class="navBar" id="navbar">
-        <a href="#">Home</a>
-        <a href="#">Verify</a>
-        <a href="#">Upload</a>
-        <a href="#">Logout</a>
-    </div>
-    <nav class="navbar themeColor">
+    <nav class="navbar navbar-expand-lg themeColor">
         <div class="container">
-            
             <div class="navbar-brand" href="#">
-                <div class="hamIcon">
-                <hr>
-                <hr>
-                <hr>
-            </div>
+                <!-- <div class="hamIcon" onclick="openMenu()">
+                    <hr>
+                    <hr>
+                    <hr>
+                </div> -->
                 <h1>Webpage Title</h1>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Verify</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Upload</a>
+                  </li>
+                </ul>
             </div>
             <button type="button" class="col btn logButton button justify-content-end" id="logout">Logout</button>
         </div>
     </nav>
+    <div class="navBar" id="navbar">
+        <a href="#">Home</a>
+        <a href="#">Verify</a>
+        <a href="#">Upload</a>
+    </div> 
     <div class="container">
         <div class="sideBar">
             <div class="section">
@@ -63,11 +74,26 @@
         </div>
         
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
 </body>
+
 </html>
 
 <script>
     function openMenu() {
-        document.getElementById("navBar").style.width = "250px";
+        /*var bar = document.getElementById("navbar").style.width;
+        if (bar == "250px"){
+            document.getElementById("navbar").style.width = "0px";
+        } else {
+            document.getElementById("navbar").style.width = "250px";
+        }
+        document.getElementById("navbar").style.width = "0px";
+        var x = document.getElementById("navbar");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }*/
     }
 </script>
