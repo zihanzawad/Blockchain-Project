@@ -4,10 +4,17 @@
     border-radius: 10px;
     max-width: 150px;
     max-height: 50px;
+    padding-right: 5%;
+    padding-left: 5%;
     background-color: #8FDD60;
     box-shadow: 0px 4px 3px #b8b8b8;
     font-size: 1rem;
     float:left;
+}
+
+.container-fluid {
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .divider {
