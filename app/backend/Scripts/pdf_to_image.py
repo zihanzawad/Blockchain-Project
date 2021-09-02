@@ -3,11 +3,11 @@ from PIL import Image
 
 # TEST FILE
 
-inf = "/home/zihan/projects/Blockchain-Project/app/backend/Scripts/pdf-test.pdf"
-outf = "~/Documents"
+inf = "/home/huy/Desktop/isml_stuff/cover7-converted.pdf"
+outf = "/home/huy/Documents"
 
 a = tf.pdf_to_image(inf, outf)
 b = tf.PIL_to_Numpy(a)
 c = tf.PDF_to_Numpy(b)
-im = Image.fromarray(b[1])
+im = Image.fromarray(b[0])
 im.save('1.png')
