@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-client_id" content="1083300830187-m1i57dv37pd7ed2mskb6aaku3ffas25v.apps.googleusercontent.com">
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
     <title>Webpage</title>
@@ -17,7 +19,6 @@
         </div>
     </nav>
     <div class="container ">
-       
         <div class="row mt-4 justify-content-center greybg">
             <form class="col formWidth">
                 <h1 class="pageTitle">Login</h1>
@@ -32,6 +33,23 @@
             </form>
             <div class="row mt-5 justify-content-center">
                 <button type="button" class="col btn logButton buttons" onclick="window.location.href='login.html'" id="login">Login</button>
+				<div align="center" style="margin-bottom:15px;">
+					or
+				</div>
+				<div id="g_id_onload"
+					 data-client_id="1083300830187-m1i57dv37pd7ed2mskb6aaku3ffas25v.apps.googleusercontent.com"
+					 data-login_uri="https://localhost"
+					 data-auto_prompt="false">
+				</div>
+				<div class="g_id_signin"
+					 data-type="standard"
+					 data-size="large"
+					 data-theme="outline"
+					 data-text="sign_in_with"
+					 data-shape="rectangular"
+					 data-logo_alignment="left"
+					 style="max-width: 300px;padding: 0;">
+				</div>
             </div>
         </div>
     </div>
