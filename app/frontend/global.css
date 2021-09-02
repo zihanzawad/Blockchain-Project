@@ -32,3 +32,22 @@
 .formWidth {
     max-width: 400px;
 }
+
+/*outer/background boxes*/
+.outer{
+    background-color: var(--theme);
+    border-radius: 10px;
+}
+
+/*elements in header*/
+.title{
+    top: 50%; 
+    transform: translateY(-10%);
+}
+
+.logoutBtn{
+    float: right;
+    display: flex;
+    top: 50%;
+    transform: translateY(25%);
+}
