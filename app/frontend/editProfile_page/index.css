@@ -54,12 +54,21 @@
     margin-left: 300px;
     /* background-color: beige; */
 }
-
 .editProfile h1 {
     margin-bottom: 30px;
 }
 
-/*hamburger icon*/
+.nav-item a{
+    color: black;
+    margin-left: 20px; 
+    font-size: 20px;
+}
+.nav-item a:hover {
+    text-shadow: 2px 2px 2px;
+    color: black;
+}
+
+/* not in use
 .hamIcon {
     width: 25px;
     height: 25px;
@@ -72,16 +81,6 @@
     background-color: black;
     border: none;
 }
-.nav-item a{
-    color: black;
-    margin-left: 20px; 
-    font-size: 20px;
-}
-.nav-item a:hover {
-    text-shadow: 2px 2px 2px;
-    color: black;
-}
-
 .navBar {
     height: 100%;
     width: 250px;
@@ -105,4 +104,4 @@
     display: block;
     transition: 0.3s;
     color: black;
-}
+}*/
