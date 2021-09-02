@@ -28,3 +28,8 @@
     color: black;
     max-width: 300px;
 }
+
+.googleButton {
+	max-width: 300px;
+	padding: 0;
+}
