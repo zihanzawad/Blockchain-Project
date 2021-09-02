@@ -1,0 +1,35 @@
+@import url("../global.css");
+
+.button {
+    border-radius: 10px;
+    max-width: 150px;
+    max-height: 50px;
+    background-color: #8FDD60;
+    box-shadow: 0px 4px 3px #b8b8b8;
+    font-size: 1rem;
+    float:left;
+}
+
+.divider {
+    height: 3rem;
+}
+
+.dropdown {
+    float: right;
+}
+
+/* https://css-tricks.com/table-borders-inside/ */
+.table {
+    background-color: #eeeeee;
+    border-color: white;
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+.table th {
+    border-width: 3px;
+}
+
+.table tr {
+    border-top-width: 10px;
+}
