@@ -109,11 +109,11 @@ function encryptData(data) {
 }
 
 // uploads a file to the block chain
-async function uploadToBlockChain(file) {
+async function uploadToBlockChain(originalFileName, hashString) {
     
-    let fileContent = file.buffer;
+    //let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
-    let fileHash = encryptData(fileContent);
+    let fileHash = hashString;
 
     /*
     let chunks = await createChunks(fileContent, 3 * 1024);
@@ -127,7 +127,7 @@ async function uploadToBlockChain(file) {
     let TxHash = await createFile(fileHash, client, key, publicKey);
     let obj = {
         Date: new Date().toLocaleDateString(),
-        fileName: file.originalname,
+        fileName: originalFileName,
         TxHash: TxHash.toString()
     }
 
