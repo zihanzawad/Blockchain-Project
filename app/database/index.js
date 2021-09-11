@@ -9,7 +9,6 @@ async function getClient() {
     } catch {
         console.log("Connection Failed");
     }
-
 }
 
 
@@ -74,7 +73,7 @@ async function loginUser(data){
 
 module.exports = {
     returnToUser, addToDatabase, registerUser, loginUser
-}
+
 
 // let temp = {
 //     Date: '19-Jan-2012',

@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 const multer = require('multer');
 const upload = multer();
+
 const { returnToUser, registerUser } = require('../database/index')
 const { getFileContent } = require('./hederaAPI/hedera')
 
@@ -39,8 +40,6 @@ app.post('/registerUser', async (req, res) => {
     Password: req.body.Password
   });
 })
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
