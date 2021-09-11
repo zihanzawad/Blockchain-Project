@@ -1,10 +1,10 @@
-from Transformer import Transformer as tf
-from PIL import Image
+from transformer import Transformer as tf
+from pathlib import Path
 
 # TEST FILE
 
-inf = "/home/huy/Desktop/isml_stuff/cover7-converted.pdf"
-outf = "/home/huy/Documents"
+inputFile = "app/backend/Scripts/pdf-test.pdf"
+tempLocation = "/home/huy/Documents"
 
 with open("/home/huy/Desktop/isml_stuff/cover7-converted.pdf", 'rb') as pdf_file:
     images = pdf_file.read()

@@ -1,8 +1,8 @@
 from pdf2image import convert_from_path, convert_from_bytes
-from PIL import Image
 from os import path, makedirs
-import numpy as np
 from hashlib import sha256
+import numpy as np
+
 
 class Transformer():
     
@@ -58,3 +58,14 @@ class Transformer():
         npArray = Transformer.PDF_to_Numpy(pilArray)
         hashArray = Transformer.encrypt_document(npArray)
         return hashArray
+
+    def compare_document_hashes(original: list, toVerify: list):
+        tamperedRegions = []
+        if len(original) == len(toVerify):
+            for pageNum in range(len(original)):
+                for chunkNum in range(original[pageNum]):
+                    if original[chunkNum] != toVerify[chunkNum]:
+                        tamperedRegions.append([pageNum, chunkNum])
+            return tamperedRegions
+        else:
+            return 0
