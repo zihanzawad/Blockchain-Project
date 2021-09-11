@@ -59,6 +59,7 @@ class Transformer():
         hashArray = Transformer.encrypt_document(npArray)
         return hashArray
 
+    # compares hash array lists
     def compare_document_hashes(original: list, toVerify: list):
         tamperedRegions = []
         if len(original) == len(toVerify):
@@ -66,6 +67,8 @@ class Transformer():
                 for chunkNum in range(original[pageNum]):
                     if original[chunkNum] != toVerify[chunkNum]:
                         tamperedRegions.append([pageNum, chunkNum])
-            return tamperedRegions
+            if bool(tamperedRegions):
+                return tamperedRegions
         else:
-            return 0
+            return 1
+        return 0
