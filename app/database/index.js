@@ -9,7 +9,6 @@ async function getClient() {
     } catch {
         console.log("Connection Failed");
     }
-
 }
 
 
@@ -47,8 +46,18 @@ async function returnToUser(userName) {
 
 }
 
+// Register User function
+async function registerUser(data){
+    const client = await getClient();
+    const collection = client.db("SEP").collection("users");
+    collection.insert(data);
+}
+
+// Check for user login
+
+
 module.exports = {
-    returnToUser, addToDatabase
+    returnToUser, addToDatabase,registerUser
 }
 
 // let temp = {
