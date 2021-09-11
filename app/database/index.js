@@ -52,17 +52,24 @@ async function registerUser(data){
     const collection = client.db("SEP").collection("users");
     collection.insertOne(data);
     console.log("1 user inserted");
-    return;
+    client.close();
 }
 
 //login user
-async function loginUser(data){
+async function verifyLogin(data){
     console.log("logging in ...")
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: email }).toArray();
-        client.close();
+        let val = await collection.find({ Email: data.Email, Password: data.Password }).toArray();
+        if (val.length == 1 )
+        {
+            console.log("User found!");
+            console.log(val);
+        }
+        else {
+            console.log("Wrong username/pass");
+        }
     }
     catch
     {
@@ -71,7 +78,7 @@ async function loginUser(data){
 }
 
 module.exports = {
-    returnToUser, addToDatabase, registerUser, loginUser
+    returnToUser, addToDatabase, registerUser, verifyLogin
 }
 
 // let temp = {

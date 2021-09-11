@@ -19,20 +19,20 @@
     <div class="container ">
        
         <div class="row mt-4 justify-content-center greybg">
-            <form class="col formWidth">
+            <form class="col formWidth" action="http://localhost:8080/loginUser" method="POST" enctype='application/x-www-form-urlencoded'>
                 <h1 class="pageTitle">Login</h1>
                 <div class="row-mb-3">
                 <label for="Email" class="form-label"></label>
-                <input type="email" class="form-control inputBox" id="Email" placeholder="Email">
+                <input type="email" class="form-control inputBox" id="Email" name="Email" placeholder="Email">
                 </div>
                 <div class="row-mb-3">
                 <label for="Password" class="form-label"></label>
-                <input type="password" class="form-control inputBox" id="Password" placeholder="Password">
+                <input type="password" class="form-control inputBox" id="Password" name="Password" placeholder="Password">
+                </div>
+                <div class="row mt-5 justify-content-center">
+                    <button type="submit" class="col btn logButton buttons" id="login">Login</button>
                 </div>
             </form>
-            <div class="row mt-5 justify-content-center">
-                <button type="button" class="col btn logButton buttons" onclick="window.location.href='login.html'" id="login">Login</button>
-            </div>
         </div>
     </div>
         

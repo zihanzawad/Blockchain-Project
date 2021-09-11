@@ -5,7 +5,7 @@ const app = express()
 const multer = require('multer');
 const upload = multer();
 
-const { returnToUser, registerUser } = require('../database/index')
+const { returnToUser, registerUser, verifyLogin} = require('../database/index')
 const { getFileContent } = require('./hederaAPI/hedera')
 
 app.use(cors())
@@ -37,6 +37,14 @@ app.post('/registerUser', async (req, res) => {
   registerUser({
     Email: req.body.Email,
     Name: req.body.Name,
+    Password: req.body.Password
+  });
+})
+
+app.post('/loginUser', async (req, res) => {
+  console.log(req.body) // currently does not print anyhting
+  verifyLogin({
+    Email: req.body.Email,
     Password: req.body.Password
   });
 })
