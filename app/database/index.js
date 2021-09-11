@@ -63,7 +63,6 @@ async function loginUser(data){
         const collection = client.db("SEP").collection("users");
         let val = await collection.find({ Email: email }).toArray();
         client.close();
-        return val[0];
     }
     catch
     {
@@ -73,7 +72,7 @@ async function loginUser(data){
 
 module.exports = {
     returnToUser, addToDatabase, registerUser, loginUser
-
+}
 
 // let temp = {
 //     Date: '19-Jan-2012',
