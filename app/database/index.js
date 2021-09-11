@@ -47,8 +47,33 @@ async function returnToUser(userName) {
 
 }
 
+//register new user to database
+async function registerUser(data){
+    const client = await getClient();
+    const collection = client.db("SEP").collection("users");
+    collection.insertOne(data);
+    console.log("1 user inserted");
+    return;
+}
+
+//login user
+async function loginUser(data){
+    console.log("logging in ...")
+    try {
+        const client = await getClient();
+        const collection = client.db("SEP").collection("users");
+        let val = await collection.find({ Email: email }).toArray();
+        client.close();
+        return val[0];
+    }
+    catch
+    {
+        console.log("Retrieving data failed");
+    }
+}
+
 module.exports = {
-    returnToUser, addToDatabase
+    returnToUser, addToDatabase, registerUser, loginUser
 }
 
 // let temp = {
