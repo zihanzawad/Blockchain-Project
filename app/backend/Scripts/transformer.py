@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Transformer():
-    
+
     #read pdf from file path and convert to jpegs
     def pdf_to_image(inputPath:str, outputPath:str):
         if not path.exists(outputPath):
@@ -16,7 +16,7 @@ class Transformer():
             fileName = outputPath + 'output' + str(pageNum)
             page.save(fileName, "JPEG")
         return pdfAsImages
-    
+
     #read pdf from byte input and convert to jpegs
     def bytes_to_images(bytes:bytes):
         pdfAsImages = convert_from_bytes(bytes)
@@ -29,7 +29,7 @@ class Transformer():
             pageAsNumpy = np.asarray(page)
             pagesAsNumpy.append(pageAsNumpy)
         return pagesAsNumpy
-    
+
     #separate a page into 18 separate chunks
     def PDF_to_Numpy(imagesAsNumpy: list, chunks: int=18) -> list:
         chunkedImages = []
@@ -59,7 +59,7 @@ class Transformer():
         hashArray = Transformer.encrypt_document(npArray)
         return hashArray
 
-    # compares hash array lists
+    #compares hash array lists
     def compare_document_hashes(original: list, toVerify: list):
         tamperedRegions = []
         if len(original) == len(toVerify):
