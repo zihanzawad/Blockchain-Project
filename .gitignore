@@ -1,3 +1,5 @@
 node_modules/
 app/backend/Scripts/pdf-test.pdf
 app/backend/Scripts/__pycache__
+.pytest_cache
+.coverage
