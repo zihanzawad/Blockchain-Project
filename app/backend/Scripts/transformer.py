@@ -17,7 +17,7 @@ class Transformer():
             page.save(fileName, "JPEG")
         return pdfAsImages
 
-    def pdf_as_image(inputPath: str):
+    def pdf_as_images(inputPath: str):
         pdfAsImages = convert_from_path(inputPath)
         return pdfAsImages
 
@@ -51,8 +51,10 @@ class Transformer():
     def encrypt_document(input:list):
         encryptedPages = []
         for page in input:
+            currentPage = []
             for chunk in page:
-                encryptedPages.append(Transformer.encrypt_data(chunk))
+                currentPage.append(Transformer.encrypt_data(chunk))
+            encryptedPages.append(currentPage)
         return encryptedPages
 
     #converts bytes to array of SHA256 hash strings
@@ -74,8 +76,8 @@ class Transformer():
         tamperedRegions = []
         if len(original) == len(toVerify):
             for pageNum in range(len(original)):
-                for chunkNum in range(original[pageNum]):
-                    if original[chunkNum] != toVerify[chunkNum]:
+                for chunkNum in range(len(original[pageNum])):
+                    if original[pageNum][chunkNum] != toVerify[pageNum][chunkNum]:
                         tamperedRegions.append([pageNum, chunkNum])
             if bool(tamperedRegions):
                 return tamperedRegions
