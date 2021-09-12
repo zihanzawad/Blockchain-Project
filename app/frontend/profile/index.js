@@ -8,6 +8,14 @@
 
 })();
 
+// Datatables
+$(document).ready( function () {
+  $('#myTable').DataTable({
+    columnDefs: [
+      {orderable: false, targets: 3}
+    ]
+  });
+} );
 
 renderData = (obj) => {
     var tbody = document.querySelector('.table').getElementsByTagName('tbody')[0];
