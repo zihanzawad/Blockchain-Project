@@ -7,7 +7,7 @@ import numpy as np
 class Transformer():
 
     #read pdf from file path and convert to jpegs
-    def pdf_to_image(inputPath:str, outputPath:str):
+    def save_pdf_as_image(inputPath:str, outputPath:str):
         if not path.exists(outputPath):
             makedirs(outputPath)
 
@@ -15,6 +15,10 @@ class Transformer():
         for pageNum, page in enumerate(pdfAsImages):
             fileName = outputPath + 'output' + str(pageNum)
             page.save(fileName, "JPEG")
+        return pdfAsImages
+
+    def pdf_as_image(inputPath: str):
+        pdfAsImages = convert_from_path(inputPath)
         return pdfAsImages
 
     #read pdf from byte input and convert to jpegs
@@ -54,6 +58,12 @@ class Transformer():
     #converts bytes to array of SHA256 hash strings
     def bytes_to_hash_array(bytes:bytes):
         images = Transformer.bytes_to_images(bytes)
+        pilArray = Transformer.PIL_to_Numpy(images)
+        npArray = Transformer.PDF_to_Numpy(pilArray)
+        hashArray = Transformer.encrypt_document(npArray)
+        return hashArray
+
+    def images_to_hash_array(images:list):
         pilArray = Transformer.PIL_to_Numpy(images)
         npArray = Transformer.PDF_to_Numpy(pilArray)
         hashArray = Transformer.encrypt_document(npArray)
