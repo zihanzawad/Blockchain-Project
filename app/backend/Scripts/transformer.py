@@ -2,6 +2,7 @@ from pdf2image import convert_from_path, convert_from_bytes
 from os import path, makedirs
 from hashlib import sha256
 import numpy as np
+from skimage.io import imshow, imsave
 
 
 class Transformer():
@@ -84,3 +85,21 @@ class Transformer():
         else:
             return 1
         return 0
+
+    # Highlights tampered areas
+    def visualise_tamper(pagesAsNumpy:list, tamperedRegions:list, chunks: int = 18):
+
+        pages = np.array(pagesAsNumpy,dtype=float)/255
+
+        for region in tamperedRegions:
+            page = region[0]
+            chunk = region[1]
+            lower = round(np.shape(pages[page])[0]*chunk/chunks)
+            upper = round(np.shape(pages[page])[0]*(chunk+1)/chunks)
+            pages[page,lower:upper,:,1] *= 0.4
+            pages[page,lower:upper,:,2] *= 0.4
+
+        for i in range(len(pages)):
+            imsave("tampered_regions_" + str(i) + ".jpg", pages[i])
+
+        imshow(pages[0])
