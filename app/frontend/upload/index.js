@@ -1,8 +1,12 @@
 
-document.querySelectorAll(".dropInput").forEach(inputElement => {
+document.querySelectorAll(".dropInput").forEach((inputElement) => {
     // Finds the closest element with the class dropZone
     const dropZoneElement = inputElement.closest(".dropZone");
-    
+
+    /*inputElement.addEventListener("change", (e) => {
+        updateThumbnail(dropZoneElement, inputElement.files[0]);
+    });*/
+
     // Add class dropOver when dragging a file over the dropZone div
     dropZoneElement.addEventListener("dragover", e => {
         e.preventDefault();
@@ -22,7 +26,7 @@ document.querySelectorAll(".dropInput").forEach(inputElement => {
         // If there is a file
         if (e.dataTransfer.files.length) {
             inputElement.files = e.dataTransfer.files;
-            updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+            //updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
         }
 
         dropZoneElement.classList.remove("dropOver");
@@ -38,10 +42,10 @@ document.querySelectorAll(".dropInput").forEach(inputElement => {
         dropZoneElement.querySelector(".dropPrompt").remove;
     }
 
-    const imageElement = inputElement.closest(".uploadImg");
-    if (imageElement.querySelector(".uploadImg")) {
-        imageElement.classList.add("dropInput");
-    }
+    //const imageElement = inputElement.closest(".uploadImg");
+    //if (imageElement.querySelector(".uploadImg")) {
+        //imageElement.classList.add("dropInput");
+    //}
 
     // Add image
     if (!thumbanilElement) {
@@ -63,3 +67,5 @@ document.querySelectorAll(".dropInput").forEach(inputElement => {
         thumbanilElement.style.backgroundImage = null;
     }
 }*/
+
+document.querySelector(".")
