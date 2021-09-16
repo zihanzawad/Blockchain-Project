@@ -30,7 +30,7 @@ document.querySelectorAll(".dropInput").forEach(inputElement => {
 
 });
 
-function updateThumbnail(dropZoneElement, file) {
+/*function updateThumbnail(dropZoneElement, file) {
     let thumbanilElement = dropZoneElement.querySelector(".dropThumb");
 
     // Removing the text and upload image
@@ -62,4 +62,4 @@ function updateThumbnail(dropZoneElement, file) {
     } else {
         thumbanilElement.style.backgroundImage = null;
     }
-}
+}*/
