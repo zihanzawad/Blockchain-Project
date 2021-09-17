@@ -33,7 +33,7 @@ app.get('/getFile/:TxHash', async (req, res) => {
 })
 
 app.post('/registerUser', async (req, res) => {
-  console.log(req.body) // currently does not print anyhting
+  console.log(req.body)
   registerUser({
     Email: req.body.Email,
     Name: req.body.Name,
@@ -42,7 +42,7 @@ app.post('/registerUser', async (req, res) => {
 })
 
 app.post('/loginUser', async (req, res) => {
-  console.log(req.body) // currently does not print anyhting
+  console.log(req.body)
   verifyLogin({
     Email: req.body.Email,
     Password: req.body.Password
