@@ -35,20 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-let express = require('express');
-let { uploadToBlockChain, getFileContent } = require('./hederaAPI/hedera');
-let spawn = require('child_process').spawn;
-let cors = require('cors');
-let app = express();
-let multer = require('multer');
-let upload = multer();
-let { returnToUser } = require('../database/index');
+const express = require('express');
+const { uploadToBlockChain, getFileContent } = require('./hederaAPI/hedera');
+const spawn = require('child_process').spawn;
+const cors = require('cors');
+const app = express();
+const multer = require('multer');
+const upload = multer();
+const { returnToUser } = require('../database/index');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
 let port = 8080;
+
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
     //spawn python child process to process pdf
@@ -66,6 +67,7 @@ app.post('/upload', upload.single('pdf'), function (req, res) {
     });
     res.send("Finshed");
 });
+
 // returns the testUserObject
 app.get('/getUser', function (req, res) {
     return __awaiter(_this, void 0, void 0, function () {
@@ -81,6 +83,7 @@ app.get('/getUser', function (req, res) {
         });
     });
 });
+
 app.get('/getFile/:TxHash', function (req, res) {
     return __awaiter(_this, void 0, void 0, function () {
         var content;
@@ -95,6 +98,7 @@ app.get('/getFile/:TxHash', function (req, res) {
         });
     });
 });
+
 app.listen(port, function () {
     console.log("Example app listening at http://localhost:" + port);
 });
