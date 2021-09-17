@@ -9,7 +9,6 @@ async function getClient() {
     } catch {
         console.log("Connection Failed");
     }
-
 }
 
 async function getTxHash(userName, id) {
@@ -68,8 +67,39 @@ async function returnToUser(userName) {
 
 }
 
+//register new user to database
+async function registerUser(data){
+    const client = await getClient();
+    const collection = client.db("SEP").collection("users");
+    collection.insertOne(data);
+    console.log("1 user inserted");
+    client.close();
+}
+
+//login user
+async function verifyLogin(data){
+    console.log("logging in ...")
+    try {
+        const client = await getClient();
+        const collection = client.db("SEP").collection("users");
+        let val = await collection.find({ Email: data.Email, Password: data.Password }).toArray();
+        if (val.length == 1 )
+        {
+            console.log("User found!");
+            console.log(val);
+        }
+        else {
+            console.log("Wrong username/pass");
+        }
+    }
+    catch
+    {
+        console.log("Retrieving data failed");
+    }
+}
+
 module.exports = {
-    returnToUser, addToDatabase, getTxHash
+    returnToUser, addToDatabase, registerUser, verifyLogin, getTxHash
 }
 
 // let temp = {
