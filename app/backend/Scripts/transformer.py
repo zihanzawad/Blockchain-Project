@@ -1,13 +1,14 @@
 from pdf2image import convert_from_path, convert_from_bytes
-from PIL import Image
 from os import path, makedirs
-import numpy as np
 from hashlib import sha256
+import numpy as np
+from skimage.io import imshow, imsave
+
 
 class Transformer():
-    
+
     #read pdf from file path and convert to jpegs
-    def pdf_to_image(inputPath:str, outputPath:str):
+    def save_pdf_as_image(inputPath:str, outputPath:str):
         if not path.exists(outputPath):
             makedirs(outputPath)
 
@@ -16,7 +17,11 @@ class Transformer():
             fileName = outputPath + 'output' + str(pageNum)
             page.save(fileName, "JPEG")
         return pdfAsImages
-    
+
+    def pdf_as_images(inputPath: str):
+        pdfAsImages = convert_from_path(inputPath)
+        return pdfAsImages
+
     #read pdf from byte input and convert to jpegs
     def bytes_to_images(bytes:bytes):
         pdfAsImages = convert_from_bytes(bytes)
@@ -29,7 +34,7 @@ class Transformer():
             pageAsNumpy = np.asarray(page)
             pagesAsNumpy.append(pageAsNumpy)
         return pagesAsNumpy
-    
+
     #separate a page into 18 separate chunks
     def PDF_to_Numpy(imagesAsNumpy: list, chunks: int=18) -> list:
         chunkedImages = []
@@ -47,8 +52,10 @@ class Transformer():
     def encrypt_document(input:list):
         encryptedPages = []
         for page in input:
+            currentPage = []
             for chunk in page:
-                encryptedPages.append(Transformer.encrypt_data(chunk))
+                currentPage.append(Transformer.encrypt_data(chunk))
+            encryptedPages.append(currentPage)
         return encryptedPages
 
     #converts bytes to array of SHA256 hash strings
@@ -58,3 +65,41 @@ class Transformer():
         npArray = Transformer.PDF_to_Numpy(pilArray)
         hashArray = Transformer.encrypt_document(npArray)
         return hashArray
+
+    def images_to_hash_array(images:list):
+        pilArray = Transformer.PIL_to_Numpy(images)
+        npArray = Transformer.PDF_to_Numpy(pilArray)
+        hashArray = Transformer.encrypt_document(npArray)
+        return hashArray
+
+    #compares hash array lists
+    def compare_document_hashes(original: list, toVerify: list):
+        tamperedRegions = []
+        if len(original) == len(toVerify):
+            for pageNum in range(len(original)):
+                for chunkNum in range(len(original[pageNum])):
+                    if original[pageNum][chunkNum] != toVerify[pageNum][chunkNum]:
+                        tamperedRegions.append([pageNum, chunkNum])
+            if bool(tamperedRegions):
+                return tamperedRegions
+        else:
+            return 1
+        return 0
+
+    # Highlights tampered areas
+    def visualise_tamper(pagesAsNumpy:list, tamperedRegions:list, chunks: int = 18):
+
+        pages = np.array(pagesAsNumpy,dtype=float)/255
+
+        for region in tamperedRegions:
+            page = region[0]
+            chunk = region[1]
+            lower = round(np.shape(pages[page])[0]*chunk/chunks)
+            upper = round(np.shape(pages[page])[0]*(chunk+1)/chunks)
+            pages[page,lower:upper,:,1] *= 0.4
+            pages[page,lower:upper,:,2] *= 0.4
+
+        for i in range(len(pages)):
+            imsave("test_images/tampered_regions_" + str(i) + ".jpg", pages[i])
+
+        #imshow(pages[0])
