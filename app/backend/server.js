@@ -8,8 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -35,27 +35,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-var express = require('express');
-var uploadToBlockChain = require('./hederaAPI/hedera').uploadToBlockChain;
-var cors = require('cors');
-var app = express();
-var multer = require('multer');
-var upload = multer();
-var returnToUser = require('../database/index').returnToUser;
-var getFileContent = require('./hederaAPI/hedera').getFileContent;
-var spawn = require('child_process').spawn;
+let express = require('express');
+let { uploadToBlockChain, getFileContent } = require('./hederaAPI/hedera');
+let spawn = require('child_process').spawn;
+let cors = require('cors');
+let app = express();
+let multer = require('multer');
+let upload = multer();
+let { returnToUser } = require('../database/index');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-var port = 8080;
+let port = 8080;
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
     //spawn python child process to process pdf
-    var pythonOut;
-    var uploadedFile = req.file.buffer.toString('base64');
-    var python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
+    let pythonOut;
+    let uploadedFile = req.file.buffer.toString('base64');
+    let python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
     //feed all stdout from script into pythonOut
     python.stdout.on('data', function (data) {
         pythonOut = data.toString();
@@ -68,30 +67,34 @@ app.post('/upload', upload.single('pdf'), function (req, res) {
     res.send("Finshed");
 });
 // returns the testUserObject
-app.get('/getUser', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, returnToUser('TestUser')];
-            case 1:
-                user = _a.sent();
-                res.send(user);
-                return [2 /*return*/];
-        }
+app.get('/getUser', function (req, res) {
+    return __awaiter(_this, void 0, void 0, function () {
+        var user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, returnToUser('TestUser')];
+                case 1:
+                    user = _a.sent();
+                    res.send(user);
+                    return [2 /*return*/];
+            }
+        });
     });
-}); });
-app.get('/getFile/:TxHash', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var content;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, getFileContent(req.params.TxHash)];
-            case 1:
-                content = _a.sent();
-                res.send(content);
-                return [2 /*return*/];
-        }
+});
+app.get('/getFile/:TxHash', function (req, res) {
+    return __awaiter(_this, void 0, void 0, function () {
+        var content;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, getFileContent(req.params.TxHash)];
+                case 1:
+                    content = _a.sent();
+                    res.send(content);
+                    return [2 /*return*/];
+            }
+        });
     });
-}); });
+});
 app.listen(port, function () {
     console.log("Example app listening at http://localhost:" + port);
 });
