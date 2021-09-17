@@ -28,14 +28,23 @@
     <div class="container outerbox outer themeColor">
         <div class="col">
             <!--Drag and drop-->
-            <div class="row dropUpload text-center">
-                <div class="col">
-                    <h3>Drag and drop a PDF here</h3>
-                    <img src="upload.png" alt="Upload File" class="uploadImg">
-                </div>
+            <div class="row dropZone text-center">
+                <form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data">
+                    <div class="col">
+                        <h3 class="dropPrompt">Drag and drop a PDF here</h3>
+                        <input type="file" name="pdf" class="dropInput"/>
+                        <img src="upload.png" alt="Upload File" class="uploadImg removeImg">
+                        <hr>
+                        <h3>Or upload your PDF here</h3>
+                        <input class="btn" type="file" name="pdf" />
+                        <div class="col">
+                            <button class="logButton btn" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <!--Selecting file manually-->
-            <div class="row clickUpload text-center">
+            <!--<div class="row clickUpload text-center">
                 <form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data">
                     <h3>Or upload your PDF here</h3>
                     <input class="btn" type="file" name="pdf" />
@@ -43,7 +52,7 @@
                         <button class="logButton btn" type="submit">Submit</button>
                     </div>
                 </form>
-            </div>
+            </div>-->
         </div>
     </div>
 

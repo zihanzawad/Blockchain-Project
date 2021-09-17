@@ -42,7 +42,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser } = require('../database/index');
+const { returnToUser, getTxHash } = require('../database/index')
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -99,6 +99,13 @@ app.get('/getFile/:TxHash', function (req, res) {
     });
 });
 
-app.listen(port, function () {
-    console.log("Example app listening at http://localhost:" + port);
-});
+app.get('/getFile/:username/:_id', async (req, res) => {
+
+  let TxHash = await getTxHash(req.params.username, req.params._id)
+  let content = await getFileContent(TxHash);
+  res.send(content);
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+})
