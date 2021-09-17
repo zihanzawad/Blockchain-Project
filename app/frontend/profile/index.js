@@ -1,24 +1,25 @@
 
-//invokes onload
+// invokes onload
 (async function () {
     let testUserObj = {};
     await $.get("http://localhost:8080/getUser", function (data) {
         renderData(data);
     });
-
+    // Datatables
+    $(document).ready(function () {
+        console.log(document.querySelectorAll("#myTable"))
+        $('#myTable').DataTable({
+            columnDefs: [
+                { orderable: false, targets: 3 }
+            ]
+        });
+    });
 })();
 
-// Datatables
-$(document).ready( function () {
-  $('#myTable').DataTable({
-    columnDefs: [
-      {orderable: false, targets: 3}
-    ]
-  });
-} );
+
 
 renderData = (obj) => {
-    var tbody = document.querySelector('.table').getElementsByTagName('tbody')[0];
+    var tbody = document.querySelector('#myTable').getElementsByTagName('tbody')[0];
     for (item of obj.stored) {
         let row = tbody.insertRow(0);
         var date = row.insertCell(0);
