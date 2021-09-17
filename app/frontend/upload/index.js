@@ -22,11 +22,14 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
 
     dropZoneElement.addEventListener("drop", e => {
         e.preventDefault();
-
         // If there is a file
-        if (e.dataTransfer.files.length) {
-            inputElement.files = e.dataTransfer.files;
-            //updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+        if (e.dataTransfer.getData("text")) {
+            let input = document.querySelector("input.btn");
+            const DT = new DataTransfer();
+            let file = (new File(['foo'] , e.dataTransfer.getData("text")));
+            file.name = e.dataTransfer.getData("text");
+            DT.items.add(file);
+            input.files = DT.files;
         }
 
         dropZoneElement.classList.remove("dropOver");
@@ -68,4 +71,4 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
     }
 }*/
 
-document.querySelector(".")
+// document.querySelector(".")
