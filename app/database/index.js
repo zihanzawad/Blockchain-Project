@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ListCollectionsCursor, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://SEP:blockchain@cluster0.iv7t1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 //IIFE for js, calls function on script load
@@ -12,9 +12,30 @@ async function getClient() {
 
 }
 
+async function getTxHash(userName, id) {
+    const client = await getClient();
+    const collection = client.db("SEP").collection("users");
+
+    let ret = await collection.findOne(
+        {
+            user: userName,
+        });
+    let selected = Array.from(ret.stored);
+
+    let found = ""
+    for (obj of selected) {
+        if (ObjectId(id).equals(obj._id)) {
+            found = obj.TxHash;
+        }
+    }
+
+    return found;
+}
 
 // add the new pdf to the database
 async function addToDatabase(userName, obj) {
+
+    obj._id = ObjectId();
 
     const client = await getClient();
     const collection = client.db("SEP").collection("users");
@@ -48,7 +69,7 @@ async function returnToUser(userName) {
 }
 
 module.exports = {
-    returnToUser, addToDatabase
+    returnToUser, addToDatabase, getTxHash
 }
 
 // let temp = {

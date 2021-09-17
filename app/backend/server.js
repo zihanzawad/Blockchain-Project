@@ -4,7 +4,7 @@ const cors = require('cors')
 const app = express()
 const multer = require('multer');
 const upload = multer();
-const { returnToUser } = require('../database/index')
+const { returnToUser, getTxHash } = require('../database/index')
 const { getFileContent } = require('./hederaAPI/hedera')
 
 app.use(cors())
@@ -31,6 +31,14 @@ app.get('/getFile/:TxHash', async (req, res) => {
   res.send(content);
 })
 
+app.get('/getFile/:username/:_id', async (req, res) => {
+
+  let TxHash = await getTxHash(req.params.username, req.params._id)
+  let content = await getFileContent(TxHash);
+  res.send(content);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 })
+
