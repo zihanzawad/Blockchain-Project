@@ -100,6 +100,6 @@ class Transformer():
             pages[page,lower:upper,:,2] *= 0.4
 
         for i in range(len(pages)):
-            imsave("tampered_regions_" + str(i) + ".jpg", pages[i])
+            imsave("test_images/tampered_regions_" + str(i) + ".jpg", pages[i])
 
-        imshow(pages[0])
+        #imshow(pages[0])

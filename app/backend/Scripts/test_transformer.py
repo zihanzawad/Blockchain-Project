@@ -17,3 +17,12 @@ def test_compare_document_hashes():
     # Check different size hasharrays
     hasharray2.append(['a'])
     print(tf.compare_document_hashes(hasharray1, hasharray2))
+
+
+def test_visualise_tamper():
+    pil = tf.pdf_as_images('app/backend/Scripts/pdf-test.pdf')
+    npImage = tf.PIL_to_Numpy(pil)
+
+    tamper = [[0,1],[0,2],[0,4],[1,5],[1,12]]
+    tf.visualise_tamper(npImage, tamper)
+    
