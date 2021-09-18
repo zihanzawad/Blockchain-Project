@@ -109,7 +109,7 @@ function encryptData(data) {
 }
 
 // uploads a file to the block chain
-async function uploadToBlockChain(originalFileName, hashString) {
+async function uploadToBlockChain(originalFileName, hashString, user) {
     
     //let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
@@ -131,11 +131,28 @@ async function uploadToBlockChain(originalFileName, hashString) {
         TxHash: TxHash.toString()
     }
 
-    await addToDatabase('TestUser', obj);
+    await addToDatabase(user, obj);
 }
 
+//USED FOR TESTING PURPOSES UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
+async function uploadToBlockChainOriginal(file, user) {
+    
+    let fileContent = file.buffer;
+    let { client, key, publicKey } = await connectClient();
+    let fileHash = encryptData(fileContent);
+
+    let TxHash = await createFile(fileHash, client, key, publicKey);
+    let obj = {
+        Date: new Date().toLocaleDateString(),
+        fileName: file.originalname,
+        TxHash: TxHash.toString()
+    }
+
+    await addToDatabase(user, obj);
+}
 
 module.exports = {
     uploadToBlockChain,
+    uploadToBlockChainOriginal,
     getFileContent
 }

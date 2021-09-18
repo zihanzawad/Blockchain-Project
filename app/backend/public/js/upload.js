@@ -1,4 +1,3 @@
-
 document.querySelectorAll(".dropInput").forEach((inputElement) => {
     // Finds the closest element with the class dropZone
     const dropZoneElement = inputElement.closest(".dropZone");
@@ -39,29 +38,23 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
 
 /*function updateThumbnail(dropZoneElement, file) {
     let thumbanilElement = dropZoneElement.querySelector(".dropThumb");
-
     // Removing the text and upload image
     if (dropZoneElement.querySelector(".dropPrompt")) {
         dropZoneElement.querySelector(".dropPrompt").remove;
     }
-
     //const imageElement = inputElement.closest(".uploadImg");
     //if (imageElement.querySelector(".uploadImg")) {
         //imageElement.classList.add("dropInput");
     //}
-
     // Add image
     if (!thumbanilElement) {
         thumbanilElement = document.elementFromPoint("div");
         thumbanilElement.classList.add("dropThumb");
         dropZoneElement.appendChild(thumbanilElement);
     }
-
     thumbanilElement.dataset.label = file.name;
-
     if (file.type.startsWith("file")) {
         const reader = new FileReader();
-
         reader.readAsDataURL(file);
         reader.onload = () => {
             thumbanilElement.style.backgroundImage = `url('${reader.result}')`;

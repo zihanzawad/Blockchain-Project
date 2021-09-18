@@ -32,15 +32,14 @@ async function getTxHash(userName, id) {
 }
 
 // add the new pdf to the database
-async function addToDatabase(userName, obj) {
+async function addToDatabase(email, obj) {
 
     obj._id = ObjectId();
-
     const client = await getClient();
     const collection = client.db("SEP").collection("users");
 
     await collection.updateOne(
-        { user: userName },
+        { Email: email },
         {
             $addToSet: {
                 stored: obj,
@@ -52,11 +51,11 @@ async function addToDatabase(userName, obj) {
 }
 
 // return a list of pdf ids;
-async function returnToUser(userName) {
+async function returnToUser(email) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ user: userName }).toArray();
+        let val = await collection.find({ Email: email }).toArray();
         client.close();
         return val[0];
     }
@@ -64,33 +63,35 @@ async function returnToUser(userName) {
     {
         console.log("Retrieving data failed");
     }
-
-}
-
-//register new user to database
-async function registerUser(data){
-    const client = await getClient();
-    const collection = client.db("SEP").collection("users");
-    collection.insertOne(data);
-    console.log("1 user inserted");
-    client.close();
 }
 
 //login user
-async function verifyLogin(data){
-    console.log("logging in ...")
+async function validateUser(email, password) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: data.Email, Password: data.Password }).toArray();
-        if (val.length == 1 )
-        {
-            console.log("User found!");
-            console.log(val);
+        let val = await collection.find({ Email: email, Password: password }).toArray();
+        client.close();
+        if(val.length != 0) {
+            return true;
         }
-        else {
-            console.log("Wrong username/pass");
+        return false;
+    }
+    catch {
+        console.log("Retrieving data failed");
+    }
+}
+
+async function emailAvailability(email) {
+    try {
+        const client = await getClient();
+        const collection = client.db("SEP").collection("users");
+        let val = await collection.find({ Email: email }).toArray();
+        client.close();
+        if(val.length == 0) {
+            return true;
         }
+        return false;
     }
     catch
     {
@@ -98,8 +99,21 @@ async function verifyLogin(data){
     }
 }
 
+//register new user to database
+async function registerUser(data){
+    try {
+        const client = await getClient();
+        const collection = client.db("SEP").collection("users");
+        collection.insertOne(data);
+        client.close();
+    }
+    catch {
+        console.log("Retrieving data failed");
+    }
+}
+
 module.exports = {
-    returnToUser, addToDatabase, registerUser, verifyLogin, getTxHash
+    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash
 }
 
 // let temp = {

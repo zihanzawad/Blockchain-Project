@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="1083300830187-m1i57dv37pd7ed2mskb6aaku3ffas25v.apps.googleusercontent.com">
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <nav class="navbar themeColor">
+        <div class="container">
+            <div class="navbar-brand" href="#">
+                <h1>Webpage Title</h1>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-4 justify-content-center greybg">
+            <form action="/home" method="post" class="col formWidth" enctype='application/x-www-form-urlencoded'>
+                <h1 class="pageTitle">Login</h1>
+                <div class="row-mb-3">
+                <label for="Email" class="form-label"></label>
+                <input type="email" class="form-control inputBox" id="Email" name="email" placeholder="Email">
+                </div>
+                <div class="row-mb-3">
+                <label for="Password" class="form-label"></label>
+                <input type="password" class="form-control inputBox" id="Password" name="password" placeholder="Password">
+                </div>
+                <div class="row mt-5 justify-content-center">
+                    <input type="submit" class="col btn logButton loginRegisterBtn" id="login"/>
+                    <div class="middleText">
+                        or
+                    </div>
+                    <div id="g_id_onload"
+                        data-client_id="1083300830187-m1i57dv37pd7ed2mskb6aaku3ffas25v.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        data-login_uri="/google"
+                        data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin googleBtn1"
+                        data-type="standard"
+                        data-shape="rectangle"
+                        data-theme="outline"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="center"
+                        data-width="300">
+                    </div>
+                    <div class="g_id_signin googleBtn2"
+                        data-type="standard"
+                        data-shape="rectangle"
+                        data-theme="outline"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="center"
+                        data-width="240">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
