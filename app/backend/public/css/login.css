@@ -30,32 +30,23 @@
 }
 
 .middleText {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
-.g_id_signin {
-    max-width:300px;
-    margin: 5px 0 0 0;
-    padding: 0;
+.googleBtn {
+    background-color: white;
+    font-size: 1em;
 }
 
-.googleBtn2 {
-    display: none;
+.googleImg {
+    width: 1em;
+    margin-bottom: 3px;
+    margin-right: 10px;
 }
 
 @media all and (max-width: 400px){
 	.loginRegisterBtn {
 		margin: 20px 12px;
 	}
-}
-
-@media all and (max-width: 300px){
-    .googleBtn1 {
-        display: none;
-    }
-    .googleBtn2 {
-        display: block;
-        margin-left: 5px;
-    }
 }

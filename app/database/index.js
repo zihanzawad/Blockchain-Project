@@ -93,18 +93,17 @@ async function emailAvailability(email) {
         }
         return false;
     }
-    catch
-    {
+    catch {
         console.log("Retrieving data failed");
     }
 }
 
 //register new user to database
-async function registerUser(data){
+async function registerUser(email, name, password){
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        collection.insertOne(data);
+        await collection.insertOne({ Email: email, Name: name, Password: password });
         client.close();
     }
     catch {

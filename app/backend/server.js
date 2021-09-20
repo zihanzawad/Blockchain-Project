@@ -43,25 +43,30 @@ const app = express();
 const multer = require('multer');
 const upload = multer();
 const { returnToUser, validateUser, registerUser, emailAvailability  } = require('../database/index')
+const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
+require('./passport');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-
-let rootDir = '/home/rextorm/newBranch/Blockchain-Project/app/';
+let rootDir = '/home/rextorm/Blockchain-Project/app/';
 const port = 8080;
 
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
+    name: 'google-auth-session',
+    keys: ['key1', 'key2'],
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
@@ -89,8 +94,35 @@ app.post('/home', async (req,res) => {
     }
   });
   
-app.post('/google', async (req,res) => {
-    res.sendFile('html/select.html',{'root': rootDir})
+app.get('/google',
+    passport.authenticate('google', {
+        scope:
+            ['email', 'profile']
+    }
+));
+
+app.get('/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/',
+    }),
+    function (req, res) {
+        session=req.session;
+        // session.firstname=req.user.name.givenName;
+        // session.lastname=req.user.name.familyName;
+        session.userid=req.user.email;
+        session.name=req.user.name.givenName;
+        res.redirect('/googleValidate');
+    }
+);
+
+app.get('/googleValidate', async (req,res) => {
+    session=req.session;
+    let emailCheck = await emailAvailability(session.userid);
+    if (emailCheck) {
+        await registerUser(session.userid, session.name, '');
+    }
+    console.log(session);
+    res.redirect('/');
 });
 
 app.get('/register', function (req,res) {
@@ -100,7 +132,7 @@ app.get('/register', function (req,res) {
 app.post('/registration', async (req,res) => {
     let emailCheck = await emailAvailability(req.body.email);
     if (emailCheck) {
-        registerUser(req.body.email, req.body.name, req.body.password);
+        await registerUser(req.body.email, req.body.name, req.body.password);
         res.redirect('/');
     }
     else {
@@ -162,20 +194,22 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
 });
 
 // returns the testUserObject
+//COMMENTED GENERATOR CODE FOR USER TESTING PURPOSES, FEEL FREE TO UNCOMMENT AT WILL
 app.get('/getUser', async (req, res) => {
     session=req.session;
-    let user = await returnToUser(session.userid)
-    return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, user];
-                case 1:
-                    user = _a.sent();
-                    res.send(user);
-                    return [2 /*return*/];
-            }
-        });
-    });
+    let user = await returnToUser(session.userid);
+    // return __awaiter(_this, void 0, void 0, function () {
+    //     return __generator(this, function (_a) {
+    //         switch (_a.label) {
+    //             case 0: return [4 /*yield*/, user];
+    //             case 1:
+    //                 user = _a.sent();
+    //                 res.send(user);
+    //                 return [2 /*return*/];
+    //         }
+    //     });
+    // });
+    res.send(user);
 });
 
 app.get('/getFile/:TxHash', function (req, res) {
