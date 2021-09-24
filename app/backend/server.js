@@ -52,11 +52,10 @@ app.use(express.urlencoded({
 let port = 8080;
 
 
-function run_python_script(scriptPath, scriptInput, func) {
+function run_python_script(scriptPath, scriptInput, func, funcInput) {
     //spawn python child process to process pdf
     let pythonOut;
-    let uploadedFile = req.file.buffer.toString('base64');
-    let python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
+    let python = spawn('python', [scriptPath, scriptInput]);
     //feed all stdout from script into pythonOut
     python.stdout.on('data', function (data) {
         pythonOut = data.toString();
@@ -64,7 +63,11 @@ function run_python_script(scriptPath, scriptInput, func) {
     //flush stdout data into uploadToBlockchain on close
     python.on('close', function (code) {
         console.log("Python script exiting with code " + code);
-        func(input);
+        if(funcInput) {
+            func(funcInput, pythonOut);
+        } else {
+            func(pythonOut);
+        }
     });
 }
 
@@ -73,16 +76,7 @@ app.post('/upload', upload.single('pdf'), function (req, res) {
     //spawn python child process to process pdf
     let pythonOut;
     let uploadedFile = req.file.buffer.toString('base64');
-    let python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
-    //feed all stdout from script into pythonOut
-    python.stdout.on('data', function (data) {
-        pythonOut = data.toString();
-    });
-    //flush stdout data into uploadToBlockchain on close
-    python.on('close', function (code) {
-        console.log("Python script exiting with code " + code);
-        uploadToBlockChain(req.file.originalname, pythonOut);
-    });
+    run_python_script('Scripts/convert_pdf.py', uploadedFile, uploadToBlockChain, req.file.originalname);
     res.send("Finshed");
 });
 
