@@ -51,27 +51,8 @@ app.use(express.urlencoded({
 }));
 let port = 8080;
 
-
-function run_python_script(scriptPath, scriptInput, func, funcInput) {
-    //spawn python child process to process pdf
-    let pythonOut;
-    let python = spawn('python', [scriptPath, scriptInput]);
-    //feed all stdout from script into pythonOut
-    python.stdout.on('data', function (data) {
-        pythonOut = data.toString();
-    });
-    //flush stdout data into uploadToBlockchain on close
-    python.on('close', function (code) {
-        console.log("Python script exiting with code " + code);
-        if(funcInput) {
-            func(funcInput, pythonOut);
-        } else {
-            func(pythonOut);
-        }
-    });
-}
-
-function spawn_get_output(command, args) {
+//spawns a child process to run a specific command with passed args
+function run_child_process(command, args) {
     return new Promise((resolve) => {
         const process = spawn(command, args)
         let stdout = "";
@@ -83,30 +64,35 @@ function spawn_get_output(command, args) {
             stderr += data.toString();
         });
         process.on("close", (code) => {
+            console.log("Child process exiting with code " + code)
             resolve({ stdout, stderr, code });
         });
     });
 }
 
-function print_callback(data) {
-    console.log(data)
-}
-
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
     //spawn python child process to process pdf
-    let pythonOut;
+    var hashes;
     let uploadedFile = req.file.buffer.toString('base64');
-    spawn_get_output("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
+    run_child_process("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
         ({ stdout }) => {
-            console.log(stdout);
+            uploadToBlockChain(req.file.originalname, stdout);
         },
     );
+
     res.send("Finshed");
 });
 
-app.post('/compare', function(req, res) {
-    let hashToFetch = req.body;
+app.post('/compare', upload.single('pdf'), function(req, res) {
+    var hashToFetch = req.params.fetchHash;
+    var originalHashes = getFileContent(hashToFetch);
+    let uploadedFile = req.file.buffer.toString('base64');
+    run_child_process("python", ['Scripts/compare_hash_arrays.py', originalHashes, newHashes, uploadedFile]).then(
+        ({ stdout }) => {
+            res.send(stdout);
+        },
+    );
 });
 
 // returns the testUserObject
