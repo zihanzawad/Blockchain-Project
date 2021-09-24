@@ -71,13 +71,42 @@ function run_python_script(scriptPath, scriptInput, func, funcInput) {
     });
 }
 
+function spawn_get_output(command, args) {
+    return new Promise((resolve) => {
+        const process = spawn(command, args)
+        let stdout = "";
+        let stderr = "";
+        process.stdout.on("data", (data) => {
+            stdout += data.toString();
+        });
+        process.stderr.on("data", (data) => {
+            stderr += data.toString();
+        });
+        process.on("close", (code) => {
+            resolve({ stdout, stderr, code });
+        });
+    });
+}
+
+function print_callback(data) {
+    console.log(data)
+}
+
 //takes pdf payload from server and gets encrypted version into server; 
 app.post('/upload', upload.single('pdf'), function (req, res) {
     //spawn python child process to process pdf
     let pythonOut;
     let uploadedFile = req.file.buffer.toString('base64');
-    run_python_script('Scripts/convert_pdf.py', uploadedFile, uploadToBlockChain, req.file.originalname);
+    spawn_get_output("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
+        ({ stdout }) => {
+            console.log(stdout);
+        },
+    );
     res.send("Finshed");
+});
+
+app.post('/compare', function(req, res) {
+    let hashToFetch = req.body;
 });
 
 // returns the testUserObject
