@@ -1,8 +1,8 @@
 
-// invokes onload
+//invokes onload
 (async function () {
     let testUserObj = {};
-    await $.get("http://localhost:8080/getUser", function (data) {
+    await $.get("/getUser", function (data) {
         renderData(data);
     });
     // Datatables

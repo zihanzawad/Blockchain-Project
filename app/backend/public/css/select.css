@@ -1,5 +1,5 @@
-@import url("../global.css");
-
+@import url("global.css");
+/*SELECT-PAGE-------------------------------*/
 .main{
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@
     text-align: center;
 }
 
-.line{
+.selectLine{
     float: left;
     height: 380px;
     margin: 0px 150px;
@@ -32,3 +32,19 @@
     font-size: 72px;
 }
 
+@media all and (max-width: 1000px){
+	.main {
+		height: 100%;
+		max-width: 100%;
+		margin: 0;
+	}
+	.selectLine{
+		display: none;
+	}
+	.right, .left{
+		width: 100%;
+		margin: 25px 0;
+		padding: 0;
+		float: none;
+	}
+}

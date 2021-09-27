@@ -1,5 +1,5 @@
-@import url("../global.css");
-
+@import url("global.css");
+/*UPLOAD-PAGE-------------------------------*/
 .outerbox{
     padding-top: 4%;
     padding-left: 5%;
@@ -47,4 +47,4 @@
     background-color: #cccccc;
     background-size: cover;
     position: relative;
-  }
+}

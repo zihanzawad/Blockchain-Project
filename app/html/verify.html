@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Verify Documents</title>
     <meta charset="utf-8">
@@ -9,7 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/verify.css">
 </head>
 
 <body>
@@ -19,23 +18,20 @@
             <div class="navbar-brand">
                 <h1>Verify Documents</h1>
             </div>
-        </div>
+			<button type="button" class="col btn logButton button justify-content-end" id="logout" onclick="window.location.href='logout'">Logout</button>
+       </div>
     </nav>
-
     <div class="divider"></div>
-
     <!--Buttons above table-->
     <div class="container-fluid">
         <div class="row">
             <!--Upload button-->
             <div class="col">
-                <button class="btn button">Upload</button>
+                <button class="btn button profileBtn" onclick="window.location.href='upload'">Upload</button>
             </div>
         </div>
     </div>
-
     <div class="divider"></div>
-
     <!--Table-->
     <div class="container-fluid">
         <table class="table table-striped" id="myTable">
@@ -69,9 +65,8 @@
             </tbody>
         </table>
     </div>
-    
     <!--Script for datatables-->
     <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" defer ></script>
     <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-    <script src="index.js"></script>
+    <script src="js/verify.js"></script>
 </body>

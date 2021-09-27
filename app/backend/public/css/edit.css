@@ -1,0 +1,94 @@
+@import url("global.css");
+/*EDIT-PROFILE-PAGE-------------------------*/
+.sideBar {
+	margin-top: 2.5rem;
+    width: 25%;
+    padding: 10px 2.5rem 10px 10px;
+    height: 100%;
+    left: auto;
+	display: inline-block;
+    border-right: 1px solid rgb(70, 70, 70);
+}
+
+.sideBar small {
+    position: inherit;
+    right: 0;
+    margin-bottom: 2rem;
+}
+
+.sideBar small:hover {
+    color:blue;
+}
+
+.editSection {
+	text-align:center;
+}
+
+.details {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.profilePic {
+    width: 200px;
+    height: 200px;
+    background-color: grey;
+    display: block;
+	margin-left: auto;
+	margin-right: auto;
+    
+}
+
+.editProfile {
+	width: 75%;
+	margin-top: 2.5rem;
+    padding-left: 5rem;
+	display: inline-block;
+}
+
+.editProfile h1 {
+    margin-bottom: 30px;
+}
+
+.nav-item a{
+    color: black;
+    margin-left: 20px; 
+    font-size: 20px;
+}
+.nav-item a:hover {
+    text-shadow: 2px 2px 2px white;
+    color: black;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+@media all and (max-width: 1000px){
+	.sideBar {
+		padding: 10px;
+		width: 100%;
+		display: block;
+		float:left;
+		border-right: none;
+	}
+	.editProfile {
+		padding: 10px;
+		width: 100%;
+		display: block;
+		float:left;
+		text-align: center;
+	}
+	.formWidth {
+		max-width: 100%;
+	}
+	.formLabel {
+		width: 100%;
+		display: block;
+	}
+	.saveBtn {
+		float: none;
+		max-width: 100%;
+	}
+}
