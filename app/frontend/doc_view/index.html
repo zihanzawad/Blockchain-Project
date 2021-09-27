@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- Bootstrap JavaScript-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* document viewer */
+        html, body {
+            background-color: rgb(53, 53, 53);
+            margin: 0;
+        }
+        /* header/top-bar */
+        .header {
+            background-color: grey;
+            position: fixed;
+            width: 100%;
+        }
+        /* icons of the zoom in/out, fullscreen */
+        .icons {
+            max-height: 50px;
+            max-width: 40px;
+            margin: 10px;
+            margin-left: 20px;
+        }
+        /* div of the viewer */
+        #viewer {
+            height: 100%;
+            background-color: rgb(53, 53, 53);
+        }
+        /* for each page of the document */
+        .page {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="screen">
+        <!--Functions to Zoom In/Out and Fullscreen-->
+        <header class="header">
+            <div class="container">
+                <div class="d-flex justify-content-end ">
+                    <h4 class="icons" id="counter">50%</h4>
+                    <a href="#" onclick="zoomIn()"><img src="plus_white.png" class="img-fluid icons" data-toggle="tooltip"  title="Zoom In"></a>
+                    <a href="#" onclick="zoomOut()"><img src="minus_white.png" class="img-fluid icons" data-toggle="tooltip" title="Zoom Out"></a>
+                    <a href="#" onclick="fullscr()"><img src="arrow_white2.png" class="img-fluid icons" data-toggle="tooltip"title="Fullscreen"></a>
+                </div>
+            </div>
+        </header>
+
+        <!--container where the images go-->
+        <div id="viewer" class="d-flex align-items-center flex-column" style="background-color: rgb(53, 53, 53);">
+            <div >
+
+            </div>
+        </div>  
+    </div>
+    
+    
+    <script type='text/javascript'>
+        /*tooltip function*/
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+
+        var viewer = document.getElementById('viewer');
+        /*append each image to div*/
+        function appendImg(doc,srcImg) {
+            var img = document.createElement('img');
+            img.className = "img-fluid page";
+            img.src = srcImg;
+            img.style.width = '70%';
+            doc.appendChild(img);
+        }
+
+        // append fake imgs
+        let arr = ['page1.jpg','page2.jpg'];
+        for (let i = 0; i < 2; i++) {
+            appendImg(viewer,arr[i]);
+        }
+
+        var viewSize = 70;
+        document.getElementById('counter').innerHTML = String(viewSize)+'%';
+        /* Zoom in on document*/
+        function zoomIn() {
+            var cols = document.getElementsByClassName('page');
+            if (viewSize<=85 && viewSize>=10) { viewSize += 15;}
+            
+            for(i = 0; i < cols.length; i++) {
+                cols[i].style.width = String(viewSize) + '%';
+            }
+            document.getElementById('counter').innerHTML = String(viewSize)+'%';
+        }
+        /*Zoom out on document*/
+        function zoomOut() {
+            if (viewSize<=100 && viewSize>=25) {
+                viewSize -= 15;
+            }
+            
+            var cols = document.getElementsByClassName('page');
+            for(i = 0; i < cols.length; i++) {
+                cols[i].style.width = String(viewSize) + '%';
+            }
+            document.getElementById('counter').innerHTML = String(viewSize)+'%';
+        }
+
+        /*get fullscreen*/
+        var el = document.getElementById("screen");
+        function fullscr() {
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            /*fullscreen for internet explorer browser*/
+            } else if (el.msRequestFullscreen) { 
+                el.msRequestFullscreen();  
+            /*fullscreen for safari browser*/
+            } else if (el.webkitRequestFullscreen) { 
+                el.webkitRequestFullscreen();
+            } 
+        }
+    </script>
+</body>
