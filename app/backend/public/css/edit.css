@@ -37,7 +37,6 @@
     display: block;
 	margin-left: auto;
 	margin-right: auto;
-    
 }
 
 .editProfile {
@@ -49,20 +48,6 @@
 
 .editProfile h1 {
     margin-bottom: 30px;
-}
-
-.nav-item a{
-    color: black;
-    margin-left: 20px; 
-    font-size: 20px;
-}
-.nav-item a:hover {
-    text-shadow: 2px 2px 2px white;
-    color: black;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: black;
 }
 
 @media all and (max-width: 1000px){
