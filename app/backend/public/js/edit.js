@@ -1,11 +1,10 @@
-//invokes onload
+//invokes onload to load user details from session
 (async function () {
     let testUserObj = {};
     await $.get("/getUser", function (data) {
         renderData(data);
     });
 })();
-
 
 
 renderData = (obj) => {
@@ -16,28 +15,27 @@ renderData = (obj) => {
     displayEmail.innerHTML = obj.Email;
 }
 
-
+//validates form input and updates database for user profile changes
 async function update() {
-    // console.log(document.getElementById("newName").value);
-    // console.log(document.getElementById("currPassword").value);
-    // console.log(document.getElementById("newPassword").value);
-    // console.log(document.getElementById("confirmPassword").value);
-    
+
     let newProfile = {
         newName: document.getElementById("newName").value,
         currPass: document.getElementById("currPassword").value,
         newPass1: document.getElementById("newPassword").value,
         newPass2: document.getElementById("confirmPassword").value
     }
+    
+    let inputWarning = document.getElementById("inputValidation");
+    inputWarning.innerHTML = "";
 
     if (newProfile.newName == "" ){
-        alert("Enter Name");
+        inputWarning.innerHTML = "*Enter New Name";
     }
     else if (newProfile.currPass == ""){
-        alert("Enter Current Pass");
+        inputWarning.innerHTML = "*Enter Current Password";
     } 
     else if (newProfile.newPass1 == "" || newProfile.newPass2 == "" ){
-        alert("Enter New pass");
+        inputWarning.innerHTML  = "*Enter New password";
     }
     else {
         await $.post("/saveChanges", newProfile, function (data) {

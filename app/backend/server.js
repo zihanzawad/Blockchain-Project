@@ -149,20 +149,21 @@ app.get('/edit', function (req,res) {
 });
 
 app.post('/saveChanges', async function (req,res) {
-    //console.log("sending over: " + req.body);
 
     let validation = await validateUser(req.session.userid, req.body.currPass);
-    console.log(validation);
 
-    if(validation && (req.body.newPass1 == req.body.newPass2 )){
+    if(validation && (req.body.newPass1 == req.body.newPass2 ) && (req.body.newPass1 != req.body.currPass)){
         await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
-        res.send("Successful: profile saved");
+        res.send("Successful: Profile saved");
     }
     else if (validation == false) {
-        res.send("Unsucessful: old password incorrect");
+        res.send("Unsucessful: Old password incorrect");
     }
     else if (req.body.newPass1 != req.body.newPass2) {
-        res.send('Unsucessful: New Password do not match');
+        res.send('Unsucessful: New Passwords do not match');
+    }
+    else if (req.body.newPass1 == req.body.currPass || req.body.newPass2 == req.body.currPass){
+        res.send('Unsucessful: No changes in Password');
     }
 });
 

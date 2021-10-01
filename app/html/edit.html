@@ -46,6 +46,7 @@
         </div>
         <div class="editProfile">
             <h1>Edit Profile</h1>
+            <p id="inputValidation" class="text-danger"></p>
             <form class="col formWidth" form action="/saveChanges" method="post" enctype='application/x-www-form-urlencoded'>
                 <div class="form-group row mb-4">
                     <label for="Name" class="col-sm-2 col-form-label formLabel">Name: </label>
@@ -66,7 +67,7 @@
                     </div>
                 </div>
                 <div class="form-group row mb-3">
-                    <label for="Password" class="col-sm-2 col-form-label formLabel">Password: </label>
+                    <label for="Password" class="col-sm-2 col-form-label formLabel">Confirm Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="confirmPassword" name="confirmPassword">
                     </div>

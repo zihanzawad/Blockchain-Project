@@ -118,7 +118,7 @@ async function updateProfile (userId, newName, newPassword){
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
         let val = await collection.findOne({ Email: userId });
-        //console.log(val);
+
         await collection.updateOne(
             { _id: val._id },
             { $set: 
