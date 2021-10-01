@@ -173,21 +173,21 @@ app.get('/logout', function (req,res) {
 //COMMENTED CURRENT VERSION UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
 app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     session=req.session;
-    // //spawn python child process to process pdf
-    // let pythonOut;
-    // let uploadedFile = req.file.buffer.toString('base64');
-    // let python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
-    // //feed all stdout from script into pythonOut
-    // python.stdout.on('data', function (data) {
-    //     pythonOut = data.toString();
-    // });
-    // //flush stdout data into uploadToBlockchain on close
-    // python.on('close', function (code) {
-    //     console.log("Python script exiting with code " + code);
-    //     console.log(req.file.originalname);
-    //     console.log(pythonOut);
-    //     uploadToBlockChain(req.file.originalname, pythonOut, session.userid);
-    // });
+    //spawn python child process to process pdf
+    let pythonOut;
+    let uploadedFile = req.file.buffer.toString('base64');
+    let python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
+    //feed all stdout from script into pythonOut
+    python.stdout.on('data', function (data) {
+        pythonOut = data.toString();
+    });
+    //flush stdout data into uploadToBlockchain on close
+    python.on('close', function (code) {
+        console.log("Python script exiting with code " + code);
+        console.log(req.file.originalname);
+        console.log(pythonOut);
+        uploadToBlockChain(req.file.originalname, pythonOut, session.userid);
+    });
     uploadToBlockChainOriginal(req.file, session.userid);
     console.log("File Uploaded!")
     res.redirect('/');
