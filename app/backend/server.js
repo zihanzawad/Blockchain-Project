@@ -42,7 +42,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, validateUser, registerUser, emailAvailability  } = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile  } = require('../database/index')
 const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/home/rextorm/Blockchain-Project/app/';
+let rootDir = '/Users/jennytran/Documents/GitHub/Blockchain-Project/app';
 const port = 8080;
 
 const oneDay = 1000 * 60 * 60 * 24;
@@ -143,6 +143,18 @@ app.post('/registration', async (req,res) => {
 app.get('/edit', function (req,res) {
     session=req.session;
     if(session.userid){
+        res.sendFile('html/edit.html',{'root': rootDir})
+    }else
+    res.redirect('/');
+});
+
+app.post('/saveChanges', function (req,res) {
+    session=req.session;
+    console.log(session);
+    console.log(req.body);
+
+    if(session.userid){
+        updateProfile(session.userid, req.body.newName, req.body.newEmail);
         res.sendFile('html/edit.html',{'root': rootDir})
     }else
     res.redirect('/');
