@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/home/rextorm/Blockchain-Project/app/';
+let rootDir = 'C:\Users\a1766749\Documents\GitHub\Blockchain-Project\app';
 const port = 8080;
 
 const oneDay = 1000 * 60 * 60 * 24;
@@ -198,17 +198,18 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
 app.get('/getUser', async (req, res) => {
     session=req.session;
     let user = await returnToUser(session.userid);
-    // return __awaiter(_this, void 0, void 0, function () {
-    //     return __generator(this, function (_a) {
-    //         switch (_a.label) {
-    //             case 0: return [4 /*yield*/, user];
-    //             case 1:
-    //                 user = _a.sent();
-    //                 res.send(user);
-    //                 return [2 /*return*/];
-    //         }
-    //     });
-    // });
+    return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, user];
+                case 1:
+                    user = _a.sent();
+                    res.send(user);
+                    return [2 /*return*/];
+            }
+        });
+    });
+
     res.send(user);
 });
 

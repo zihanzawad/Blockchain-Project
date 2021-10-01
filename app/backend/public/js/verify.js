@@ -2,7 +2,7 @@
 //invokes onload
 (async function () {
     let testUserObj = {};
-    await $.get("/getUser", function (data) {
+    await $.get("http://localhost:8080/getUser", function (data) {
         renderData(data);
     });
     // Datatables
@@ -20,6 +20,7 @@
 
 renderData = (obj) => {
     var tbody = document.querySelector('#myTable').getElementsByTagName('tbody')[0];
+    console.log(obj);
     for (item of obj.stored) {
         let row = tbody.insertRow(0);
         var date = row.insertCell(0);
