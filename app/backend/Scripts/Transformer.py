@@ -2,7 +2,7 @@ from pdf2image import convert_from_path, convert_from_bytes
 from os import path, makedirs
 from hashlib import sha256
 import numpy as np
-from skimage.io import imshow, imsave
+import base64
 
 
 class Transformer():
@@ -100,6 +100,6 @@ class Transformer():
             pages[page,lower:upper,:,2] *= 0.4
 
         for i in range(len(pages)):
-            imsave("test_images/tampered_regions_" + str(i) + ".jpg", pages[i])
+            print(pages[0])
 
         #imshow(pages[0])
