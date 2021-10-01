@@ -137,7 +137,6 @@ async function updateProfile (userId, newName, newPassword){
     return; 
 }
 
-
 module.exports = {
     returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, updateProfile
 }

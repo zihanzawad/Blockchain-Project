@@ -148,16 +148,33 @@ app.get('/edit', function (req,res) {
     res.redirect('/');
 });
 
-app.post('/saveChanges', function (req,res) {
-    session=req.session;
+app.post('/saveChanges', async function (req,res) {
+    //res.send(req.body);
+    req.session.userid
+    console.log(req.body);
+    let validation = await validateUser(req.session.userid, req.body.currPass);
+
+    if(validation && (req.body.newPass1 == req.body.newPass2 )){
+        await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
+        res.redirect('/edit');
+    }
+    else{
+        res.send('Invalid username or password');
+    }
+    //session=req.session;
     //console.log(session);
     //console.log(req.body);
 
-    if(session.userid){
-        updateProfile(session.userid, req.body.newName, req.body.newPassword);
-        res.sendFile('html/edit.html',{'root': rootDir})
-    }else
-    res.redirect('/');
+    //name
+    //current pass
+    //new pass
+    //confirm new pass
+    //res.sendStatus(404)
+    // if(session.userid){
+    //     updateProfile(session.userid, req.body.newName, req.body.newPassword);
+    //     res.sendFile('html/edit.html',{'root': rootDir})
+    // }else
+    // res.redirect('/');
 });
 
 app.get('/upload', function (req,res) {
