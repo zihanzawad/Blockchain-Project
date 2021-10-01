@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <title>Selection </title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selection </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/select.css">
 </head>
 
 <body>
@@ -19,29 +17,30 @@
             <div class="navbar-brand" href="#">
                 <h1>Webpage Title</h1>
             </div>
-            <button type="button" class="col btn logButton button justify-content-end" id="logout">Logout</button>
+            <button type="button" class="col btn logButton button justify-content-end" id="logout" onclick="window.location.href='logout'">Logout</button>
         </div>
     </nav>
     <div class="container main">
         <div class="split"> 
             <div class="section left">
-                <h1 class="section-header">Upload</h1>
-                <a href="#"><img src="upload.png" alt="Upload"></a>
+                <a href="/upload">
+					<h1 class="section-header">Upload</h1>
+					<img src="media/upload.png" alt="Upload" class="sectionImg">
+				</a>
             </div>
-            <div class="line"></div>
+            <div class="selectLine"></div>
             <div class="section right">
-                <h1 class="section-header">Verify</h1>
-                <a href="#"><img src="verified_placeholder.png" alt = "Verified"></a>
+                <a href="/verify">
+					<h1 class="section-header">Verify</h1>
+					<img src="media/verified_placeholder.png" alt="Verified" class="sectionImg">
+				</a>
             </div>
         </div>
     </div>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="index.js"></script>
 </body>
-
 </html>

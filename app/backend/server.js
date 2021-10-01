@@ -36,20 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 const express = require('express');
-const { uploadToBlockChain, getFileContent } = require('./hederaAPI/hedera');
+const { uploadToBlockChain, uploadToBlockChainOriginal, getFileContent } = require('./hederaAPI/hedera');
 const spawn = require('child_process').spawn;
 const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, registerUser, verifyLogin} = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability  } = require('../database/index')
+const passport = require('passport');
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+require('./passport');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let port = 8080;
+let rootDir = '/home/rextorm/Blockchain-Project/app/';
+const port = 8080;
 
 //spawns a child process to run a specific command with passed args
 function run_child_process(command, args) {
@@ -70,14 +75,129 @@ function run_child_process(command, args) {
     });
 }
 
-//takes pdf payload from server and gets encrypted version into server; 
-app.post('/upload', upload.single('pdf'), function (req, res) {
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(sessions({
+    name: 'google-auth-session',
+    keys: ['key1', 'key2'],
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
+var session;
+
+app.get('/', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/select.html',{'root': rootDir})
+    }else
+        res.sendFile('html/login.html',{'root': rootDir})
+});
+
+app.post('/home', async (req,res) => {
+    let validation = await validateUser(req.body.email, req.body.password);
+    if(validation){
+        session=req.session;
+        session.userid=req.body.email;
+        console.log(req.session)
+        res.sendFile('html/select.html',{'root': rootDir})
+    }
+    else{
+        res.send('Invalid username or password');
+    }
+  });
+  
+app.get('/google',
+    passport.authenticate('google', {
+        scope:
+            ['email', 'profile']
+    }
+));
+
+app.get('/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/',
+    }),
+    function (req, res) {
+        session=req.session;
+        // session.firstname=req.user.name.givenName;
+        // session.lastname=req.user.name.familyName;
+        session.userid=req.user.email;
+        session.name=req.user.name.givenName;
+        res.redirect('/googleValidate');
+    }
+);
+
+app.get('/googleValidate', async (req,res) => {
+    session=req.session;
+    let emailCheck = await emailAvailability(session.userid);
+    if (emailCheck) {
+        await registerUser(session.userid, session.name, '');
+    }
+    console.log(session);
+    res.redirect('/');
+});
+
+app.get('/register', function (req,res) {
+    res.sendFile('html/register.html',{'root': rootDir})
+});
+
+app.post('/registration', async (req,res) => {
+    let emailCheck = await emailAvailability(req.body.email);
+    if (emailCheck) {
+        await registerUser(req.body.email, req.body.name, req.body.password);
+        res.redirect('/');
+    }
+    else {
+        res.redirect('/register');
+    }
+});
+
+app.get('/edit', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/edit.html',{'root': rootDir})
+    }else
+    res.redirect('/');
+});
+
+app.get('/upload', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/upload.html',{'root': rootDir})
+    }else
+    res.redirect('/');
+});
+
+app.get('/verify', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/verify.html',{'root': rootDir})
+    }else
+    res.redirect('/');
+});
+
+app.get('/logout', function (req,res) {
+    req.session.destroy();
+    res.redirect('/');
+});
+
+//takes pdf payload from server and gets encrypted version into server;
+//COMMENTED CURRENT VERSION UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
+app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
+    session=req.session;
     //spawn python child process to process pdf
     var hashes;
     let uploadedFile = req.file.buffer.toString('base64');
     run_child_process("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
         ({ stdout }) => {
-            uploadToBlockChain(req.file.originalname, stdout);
+            uploadToBlockChain(req.file.originalname, stdout, session.userid);
         },
     );
 
@@ -96,19 +216,22 @@ app.post('/compare', upload.single('pdf'), function(req, res) {
 });
 
 // returns the testUserObject
-app.get('/getUser', function (req, res) {
-    return __awaiter(_this, void 0, void 0, function () {
-        var user;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, returnToUser('TestUser')];
-                case 1:
-                    user = _a.sent();
-                    res.send(user);
-                    return [2 /*return*/];
-            }
-        });
-    });
+//COMMENTED GENERATOR CODE FOR USER TESTING PURPOSES, FEEL FREE TO UNCOMMENT AT WILL
+app.get('/getUser', async (req, res) => {
+    session=req.session;
+    let user = await returnToUser(session.userid);
+    // return __awaiter(_this, void 0, void 0, function () {
+    //     return __generator(this, function (_a) {
+    //         switch (_a.label) {
+    //             case 0: return [4 /*yield*/, user];
+    //             case 1:
+    //                 user = _a.sent();
+    //                 res.send(user);
+    //                 return [2 /*return*/];
+    //         }
+    //     });
+    // });
+    res.send(user);
 });
 
 app.get('/getFile/:TxHash', function (req, res) {
@@ -127,29 +250,12 @@ app.get('/getFile/:TxHash', function (req, res) {
 });
 
 app.get('/getFile/:username/:_id', async (req, res) => {
-
   let TxHash = await getTxHash(req.params.username, req.params._id)
   let content = await getFileContent(TxHash);
   res.send(content);
-})
-
-app.post('/registerUser', async (req, res) => {
-  console.log(req.body)
-  registerUser({
-    Email: req.body.Email,
-    Name: req.body.Name,
-    Password: req.body.Password
-  });
-})
-
-app.post('/loginUser', async (req, res) => {
-  console.log(req.body)
-  verifyLogin({
-    Email: req.body.Email,
-    Password: req.body.Password
-  });
-})
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-})
+});
+
