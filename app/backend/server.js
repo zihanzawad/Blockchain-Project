@@ -150,11 +150,11 @@ app.get('/edit', function (req,res) {
 
 app.post('/saveChanges', function (req,res) {
     session=req.session;
-    console.log(session);
-    console.log(req.body);
+    //console.log(session);
+    //console.log(req.body);
 
     if(session.userid){
-        updateProfile(session.userid, req.body.newName, req.body.newEmail);
+        updateProfile(session.userid, req.body.newName, req.body.newPassword);
         res.sendFile('html/edit.html',{'root': rootDir})
     }else
     res.redirect('/');
