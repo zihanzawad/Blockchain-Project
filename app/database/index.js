@@ -82,6 +82,7 @@ async function validateUser(email, password) {
     }
 }
 
+//check if email exists
 async function emailAvailability(email) {
     try {
         const client = await getClient();
@@ -111,8 +112,25 @@ async function registerUser(email, name, password){
     }
 }
 
+//retrieve user's name
+async function getUserName(email) {
+    try {
+        const client = await getClient();
+        const collection = client.db("SEP").collection("users");
+        let val = await collection.find({ Email: email }).toArray();
+        client.close();
+        if(val.length != 0) {
+            return val[0].Name;
+        }
+        return "User";
+    }
+    catch {
+        return "User";
+    }
+}
+
 module.exports = {
-    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash
+    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, getUserName
 }
 
 // let temp = {

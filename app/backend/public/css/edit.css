@@ -44,7 +44,7 @@
 	width: 75%;
 	margin-top: 2.5rem;
     padding-left: 5rem;
-	display: inline-block;
+	float: right;
 }
 
 .editProfile h1 {
@@ -63,6 +63,10 @@
 
 .navbar-light .navbar-nav .nav-link {
     color: black;
+}
+
+.backEdit {
+	margin-top:25px;
 }
 
 @media all and (max-width: 1000px){

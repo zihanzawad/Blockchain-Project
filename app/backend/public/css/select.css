@@ -32,6 +32,21 @@
     font-size: 72px;
 }
 
+.welcomeText {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.welcomeText h2 {
+    margin-right: 10px;
+    display: block;
+}
+
+.welcomeText h5 {
+    margin-right: 10px;
+    display: block;
+}
+
 @media all and (max-width: 1000px){
 	.main {
 		height: 100%;

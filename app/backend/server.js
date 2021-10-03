@@ -42,7 +42,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, validateUser, registerUser, emailAvailability  } = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability, getUserName  } = require('../database/index')
 const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
@@ -78,19 +78,35 @@ app.get('/', function (req,res) {
     if(session.userid){
         res.sendFile('html/select.html',{'root': rootDir})
     }else
-        res.sendFile('html/login.html',{'root': rootDir})
+        var errorText = req.query.valid;
+        if (errorText != null || errorText != "") {
+            res.sendFile('html/login.html',{'root': rootDir})
+        }
+        else {
+            res.sendFile('html/login.html',{'root': rootDir, error:errorText})
+        }
 });
 
 app.post('/home', async (req,res) => {
     let validation = await validateUser(req.body.email, req.body.password);
-    if(validation){
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (req.body.email == "" || req.body.email == null) {
+        var errorText = encodeURIComponent('error2');
+        res.redirect('/?valid=' + errorText);
+    }
+    else if (req.body.password == "" || req.body.password == null) {
+        var errorText = encodeURIComponent('error3');
+        res.redirect('/?valid=' + errorText);
+    }
+    else if(validation && req.body.email.match(regexEmail)){
         session=req.session;
         session.userid=req.body.email;
         console.log(req.session)
-        res.sendFile('html/select.html',{'root': rootDir})
+        res.redirect('/');
     }
     else{
-        res.send('Invalid username or password');
+        var errorText = encodeURIComponent('error1');
+        res.redirect('/?valid=' + errorText);
     }
   });
   
@@ -126,17 +142,53 @@ app.get('/googleValidate', async (req,res) => {
 });
 
 app.get('/register', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.redirect('/');
+    }else
     res.sendFile('html/register.html',{'root': rootDir})
 });
 
 app.post('/registration', async (req,res) => {
+    let regexName = /^[A-Za-z]+$/;
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let emailCheck = await emailAvailability(req.body.email);
-    if (emailCheck) {
+    if (req.body.email == "" || req.body.email == null) {
+        var errorText = encodeURIComponent('error1');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (req.body.name == "" || req.body.name == null) {
+        var errorText = encodeURIComponent('error2');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (req.body.password == "" || req.body.password == null) {
+        var errorText = encodeURIComponent('error3');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (req.body.confirmPassword == "" || req.body.confirmPassword == null) {
+        var errorText = encodeURIComponent('error4');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (!req.body.email.match(regexEmail)) {
+        var errorText = encodeURIComponent('error5');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (!req.body.name.match(regexName)) {
+        var errorText = encodeURIComponent('error6');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (req.body.password != req.body.confirmPassword) {
+        var errorText = encodeURIComponent('error7');
+        res.redirect('/register?valid=' + errorText);
+    }
+    else if (emailCheck) {
         await registerUser(req.body.email, req.body.name, req.body.password);
-        res.redirect('/');
+        var errorText = encodeURIComponent('success');
+        res.redirect('/?valid=' + errorText);
     }
     else {
-        res.redirect('/register');
+        var errorText = encodeURIComponent('error8');
+        res.redirect('/register?valid=' + errorText);
     }
 });
 
@@ -209,7 +261,19 @@ app.get('/getUser', async (req, res) => {
     //         }
     //     });
     // });
+    console.log(user);
     res.send(user);
+});
+
+app.get('/getName', async (req, res) => {
+    session=req.session;
+    let user = await getUserName(session.userid);
+    res.send(user);
+});
+
+app.get('/getEmail', async (req, res) => {
+    session=req.session;
+    res.send(session.userid);
 });
 
 app.get('/getFile/:TxHash', function (req, res) {
