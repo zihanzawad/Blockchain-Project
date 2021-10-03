@@ -13,14 +13,27 @@
 
 <body>
     <!--Navbar-->
-    <nav class="navbar themeColor">
-        <div class="container-fluid">
-            <div class="navbar-brand">
-                <h1>Verify Documents</h1>
+    <nav class="navbar navbar-expand-sm navbar-light themeColor">
+        <div class="container">
+            <div class="navbar-brand" href="#">
+                <a href="/"><h1>Webpage Title</h1></a>
             </div>
-			<button type="button" class="col btn logButton button justify-content-end" id="logout" onclick="window.location.href='logout'">Logout</button>
-       </div>
-    </nav>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarLinks">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/edit">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/upload">Upload</a>
+                  </li>
+                </ul>
+            </div>
+            <button type="button" class="col btn logButton button justify-content-end" id="logout" onclick="window.location.href='logout'">Logout</button>
+        </div>
+    </nav> 
     <div class="divider"></div>
     <!--Buttons above table-->
     <div class="container-fluid">
@@ -28,6 +41,10 @@
             <!--Upload button-->
             <div class="col">
                 <button class="btn button profileBtn" onclick="window.location.href='upload'">Upload</button>
+            </div>
+            <!-- Verify Button -->
+            <div class="col">
+                <button class="btn button profileBtn">Verify</button>
             </div>
         </div>
     </div>

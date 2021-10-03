@@ -5,17 +5,7 @@
     --navbarH : 155px;
 }
 
-/* grey color for navbar */
-.themeColor {
-    background-color: var(--theme);
-}
-
-/* size for navbar */
-.navbarSize {
-    max-height: var(--navbarH);
-    max-width: var(--navbarW);
-}
-
+/* login button */
 .logButton {
     margin-top: 10px;
     margin-bottom: 20px;
@@ -45,6 +35,7 @@
     transform: translateY(-10%);
 }
 
+/* logout button*/
 .logoutBtn{
     float: right;
     display: flex;
@@ -64,4 +55,31 @@
 a:link, a:hover, a:visited, a:active, a:focus {
 	text-decoration: none;
 	color: var(--bs-body-color);
+}
+
+/* Navbar ------------------------ */
+/* grey color for navbar */
+.themeColor {
+    background-color: var(--theme);
+}
+
+/* size for navbar */
+.navbarSize {
+    max-height: var(--navbarH);
+    max-width: var(--navbarW);
+}
+
+.nav-item a{
+    color: black;
+    margin-left: 20px; 
+    font-size: 20px;
+}
+
+.nav-item a:hover {
+    text-shadow: 2px 2px 2px white;
+    color: black;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
 }
