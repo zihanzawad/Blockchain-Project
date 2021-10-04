@@ -111,8 +111,34 @@ async function registerUser(email, name, password){
     }
 }
 
+//update user profile on database
+async function updateProfile (userId, newName, newPassword){
+    
+    try {
+        const client = await getClient();
+        const collection = client.db("SEP").collection("users");
+        let val = await collection.findOne({ Email: userId });
+
+        await collection.updateOne(
+            { _id: val._id },
+            { $set: 
+                {
+                    Name: newName,
+                    Password: newPassword
+                }
+            }
+         )
+
+        client.close();
+    }
+    catch {
+        console.log("Retrieving data failed");
+    }
+    return; 
+}
+
 module.exports = {
-    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash
+    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, updateProfile
 }
 
 // let temp = {

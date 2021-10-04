@@ -42,7 +42,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, validateUser, registerUser, emailAvailability  } = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile  } = require('../database/index')
 const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/home/rextorm/Blockchain-Project/app/';
+let rootDir = '/Users/jennytran/Documents/GitHub/Blockchain-Project/app';
 const port = 8080;
 
 //spawns a child process to run a specific command with passed args
@@ -165,6 +165,25 @@ app.get('/edit', function (req,res) {
         res.sendFile('html/edit.html',{'root': rootDir})
     }else
     res.redirect('/');
+});
+
+app.post('/saveChanges', async function (req,res) {
+
+    let validation = await validateUser(req.session.userid, req.body.currPass);
+
+    if(validation && (req.body.newPass1 == req.body.newPass2 ) && (req.body.newPass1 != req.body.currPass)){
+        await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
+        res.send("Successful: Profile saved");
+    }
+    else if (validation == false) {
+        res.send("Unsucessful: Old password incorrect");
+    }
+    else if (req.body.newPass1 != req.body.newPass2) {
+        res.send('Unsucessful: New Passwords do not match');
+    }
+    else if (req.body.newPass1 == req.body.currPass || req.body.newPass2 == req.body.currPass){
+        res.send('Unsucessful: No changes in Password');
+    }
 });
 
 app.get('/upload', function (req,res) {
