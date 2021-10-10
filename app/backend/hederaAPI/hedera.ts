@@ -2,7 +2,7 @@ const { Client, FileCreateTransaction, Hbar, FileId, PrivateKey, FileContentsQue
 const { addToDatabase } = require('../../database/index')
 require('dotenv').config();
 const fs = require('fs');
-const crypto = require('crypto');
+const hash = require('crypto');
 
 //create a hadera client
 async function connectClient() {
@@ -52,6 +52,7 @@ async function createFile(file, client, key, publicKey) {
 
 // add content to existing file
 async function appendFile(TxHash, file, client, key) {
+
     const transaction = await new FileAppendTransaction()
         .setFileId(TxHash)
         .setContents(file)
@@ -65,6 +66,7 @@ async function appendFile(TxHash, file, client, key) {
 
     //Request the receipt
     const receipt = await txResponse.getReceipt(client);
+
     //Get the transaction consensus status
     const transactionStatus = receipt.status;
 
@@ -73,9 +75,11 @@ async function appendFile(TxHash, file, client, key) {
 
 //retrieves content stored in a file based on the file id
 async function getFileContent(TxHash) {
+
     let { client } = await connectClient();
     console.log(TxHash)
     TxHash = FileId.fromString(TxHash)
+    
     //Create the query
     const query = new FileContentsQuery()
         .setFileId(TxHash);
@@ -88,9 +92,11 @@ async function getFileContent(TxHash) {
 
 // splits file into 3kib chunks
 function createChunks(file, cSize) {
+
     let startPointer = 0;
     let endPointer = file.length;
     let chunks = [];
+
     while (startPointer < endPointer) {
         let newStartPointer = startPointer + cSize;
         chunks.push(file.slice(startPointer, newStartPointer));
@@ -101,7 +107,8 @@ function createChunks(file, cSize) {
 
 //takes in a file buffer and encrypts it with SHA256, returning a hex string
 function encryptData(data) {
-    const hashSum = crypto.createHash('sha256');
+
+    const hashSum = hash.createHash('sha256');
     hashSum.update(data);
 
     const hexHash = hashSum.digest('hex');
