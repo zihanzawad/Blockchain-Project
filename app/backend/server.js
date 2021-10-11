@@ -202,6 +202,15 @@ app.get('/verify', function (req,res) {
     res.redirect('/');
 });
 
+// document viewer
+app.get('/docView', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/view.html',{'root': rootDir})
+    }else
+    res.redirect('/');
+});
+
 app.get('/logout', function (req,res) {
     req.session.destroy();
     res.redirect('/');

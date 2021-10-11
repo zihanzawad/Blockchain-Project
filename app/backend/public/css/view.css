@@ -1,0 +1,30 @@
+/* document viewer */
+html, body {
+    background-color: rgb(53, 53, 53);
+    margin: 0;
+}
+/* header/top-bar */
+.header {
+    background-color: grey;
+    position: fixed;
+    width: 100%;
+}
+/* icons of the zoom in/out, fullscreen */
+.icons {
+    max-height: 50px;
+    max-width: 40px;
+    margin: 10px;
+    margin-left: 20px;
+}
+/* div of the viewer */
+#viewer {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    background-color: rgb(53, 53, 53);
+    /* overflow: scroll; */
+}
+/* for each page of the document */
+.page {
+    margin: 5px;
+}
