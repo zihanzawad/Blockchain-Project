@@ -77,7 +77,9 @@ app.get('/', function (req,res) {
     session=req.session;
     if(session.userid){
         res.sendFile('html/select.html',{'root': rootDir})
-    }else
+    }
+
+    else {
         var errorText = req.query.valid;
         if (errorText != null || errorText != "") {
             res.sendFile('html/login.html',{'root': rootDir})
@@ -85,6 +87,7 @@ app.get('/', function (req,res) {
         else {
             res.sendFile('html/login.html',{'root': rootDir, error:errorText})
         }
+    }
 });
 
 app.post('/home', async (req,res) => {
