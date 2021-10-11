@@ -5,14 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="css/edit.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-sm navbar-light themeColor">
         <div class="container">
-            <div class="navbar-brand" href="#">
-                <h1>Webpage Title</h1>
+            <div class="navbar-brand">
+                <a href="/"><h1>Webpage Title</h1></a>
             </div>
             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
                 <span class="navbar-toggler-icon"></span>
@@ -20,10 +23,10 @@
             <div class="navbar-collapse collapse" id="navbarLinks">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../profile/index.html">Verify</a>
+                    <a class="nav-link" href="/verify">Verify</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="../upload/index.html">Upload</a>
+                    <a class="nav-link" href="/upload">Upload</a>
                   </li>
                 </ul>
             </div>
@@ -44,20 +47,33 @@
         </div>
         <div class="editProfile">
             <h1>Edit Profile</h1>
-            <form class="col formWidth">
+            <p id="inputValidation" class="text-danger"></p>
+            <form class="col formWidth" form action="/saveChanges" method="post" enctype='application/x-www-form-urlencoded'>
                 <div class="form-group row mb-4">
-                    <label for="Email" class="col-sm-2 col-form-label formLabel">Name: </label>
+                    <label class="col-sm-2 col-form-label formLabel">Name: </label>
                     <div class="col">
-                        <input type="email" class="form-control inputBox" id="newName" >
+                        <input type="text" class="form-control inputBox" id="newName" name="newName">
                     </div>
                 </div>
                 <div class="form-group row mb-3">
-                    <label for="Email" class="col-sm-2 col-form-label formLabel">Email: </label>
+                    <label class="col-sm-2 col-form-label formLabel">Current Password: </label>
                     <div class="col">
-                        <input type="email" class="form-control inputBox" id="newEmail">
+                        <input type="password" class="form-control inputBox" id="currPassword" name="currPassword">
                     </div>
                 </div>
-                <button type="button" class="col btn logButton button saveBtn">Save profile</button>
+                <div class="form-group row mb-3">
+                    <label class="col-sm-2 col-form-label formLabel">New Password: </label>
+                    <div class="col">
+                        <input type="password" class="form-control inputBox" id="newPassword" name="newPassword">
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="col-sm-2 col-form-label formLabel">Confirm Password: </label>
+                    <div class="col">
+                        <input type="password" class="form-control inputBox" id="confirmPassword" name="confirmPassword">
+                    </div>
+                </div>
+                <button type="button" class="col btn logButton button saveBtn" value="Save profile" onClick="update()">Save profile</button>
             </form>
         </div>
     </div>

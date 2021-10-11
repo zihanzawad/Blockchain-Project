@@ -42,7 +42,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, validateUser, registerUser, emailAvailability, getUserName  } = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile, getUserName  } = require('../database/index')
 const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
@@ -53,8 +53,27 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/home/rextorm/Blockchain-Project/app/';
+let rootDir = '/Users/jennytran/Documents/GitHub/Blockchain-Project/app';
 const port = 8080;
+
+//spawns a child process to run a specific command with passed args
+function run_child_process(command, args) {
+    return new Promise((resolve) => {
+        const process = spawn(command, args)
+        let stdout = "";
+        let stderr = "";
+        process.stdout.on("data", (data) => {
+            stdout += data.toString();
+        });
+        process.stderr.on("data", (data) => {
+            stderr += data.toString();
+        });
+        process.on("close", (code) => {
+            console.log("Child process exiting with code " + code)
+            resolve({ stdout, stderr, code });
+        });
+    });
+}
 
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
@@ -203,6 +222,25 @@ app.get('/edit', function (req,res) {
     res.redirect('/');
 });
 
+app.post('/saveChanges', async function (req,res) {
+
+    let validation = await validateUser(req.session.userid, req.body.currPass);
+
+    if(validation && (req.body.newPass1 == req.body.newPass2 ) && (req.body.newPass1 != req.body.currPass)){
+        await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
+        res.send("Successful: Profile saved");
+    }
+    else if (validation == false) {
+        res.send("Unsucessful: Old password incorrect");
+    }
+    else if (req.body.newPass1 != req.body.newPass2) {
+        res.send('Unsucessful: New Passwords do not match');
+    }
+    else if (req.body.newPass1 == req.body.currPass || req.body.newPass2 == req.body.currPass){
+        res.send('Unsucessful: No changes in Password');
+    }
+});
+
 app.get('/upload', function (req,res) {
     session=req.session;
     if(session.userid){
@@ -219,6 +257,15 @@ app.get('/verify', function (req,res) {
     res.redirect('/');
 });
 
+// document viewer
+app.get('/docView', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/view.html',{'root': rootDir})
+    }else
+    res.redirect('/');
+});
+
 app.get('/logout', function (req,res) {
     req.session.destroy();
     res.redirect('/');
@@ -228,24 +275,27 @@ app.get('/logout', function (req,res) {
 //COMMENTED CURRENT VERSION UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
 app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     session=req.session;
-    // //spawn python child process to process pdf
-    // let pythonOut;
-    // let uploadedFile = req.file.buffer.toString('base64');
-    // let python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
-    // //feed all stdout from script into pythonOut
-    // python.stdout.on('data', function (data) {
-    //     pythonOut = data.toString();
-    // });
-    // //flush stdout data into uploadToBlockchain on close
-    // python.on('close', function (code) {
-    //     console.log("Python script exiting with code " + code);
-    //     console.log(req.file.originalname);
-    //     console.log(pythonOut);
-    //     uploadToBlockChain(req.file.originalname, pythonOut, session.userid);
-    // });
-    uploadToBlockChainOriginal(req.file, session.userid);
-    console.log("File Uploaded!")
-    res.redirect('/');
+    //spawn python child process to process pdf
+    var hashes;
+    let uploadedFile = req.file.buffer.toString('base64');
+    run_child_process("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
+        ({ stdout }) => {
+            uploadToBlockChain(req.file.originalname, stdout, session.userid);
+        },
+    );
+
+    res.send("Finshed");
+});
+
+app.post('/compare', upload.single('pdf'), function(req, res) {
+    var hashToFetch = req.params.fetchHash;
+    var originalHashes = getFileContent(hashToFetch);
+    let uploadedFile = req.file.buffer.toString('base64');
+    run_child_process("python", ['Scripts/compare_hash_arrays.py', originalHashes, newHashes, uploadedFile]).then(
+        ({ stdout }) => {
+            res.send(stdout);
+        },
+    );
 });
 
 // returns the testUserObject

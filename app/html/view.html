@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- Bootstrap JavaScript-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/view.css">
+</head>
+
+<body>
+    <div id="screen">
+        <!--Functions to Zoom In/Out and Fullscreen-->
+        <header class="header">
+            <div class="container">
+                <div class="d-flex justify-content-end ">
+                    <h4 class="icons" id="counter">50%</h4>
+                    <a href="#" onclick="zoomIn()"><img src="media/plus_white.png" class="img-fluid icons" data-toggle="tooltip"  title="Zoom In"></a>
+                    <a href="#" onclick="zoomOut()"><img src="media/minus_white.png" class="img-fluid icons" data-toggle="tooltip" title="Zoom Out"></a>
+                    <a href="#" onclick="fullscr()"><img src="media/arrow_white2.png" class="img-fluid icons" data-toggle="tooltip"title="Fullscreen"></a>
+                </div>
+            </div>
+        </header>
+
+        <!--container where the images go-->
+        <div id="viewer" class="d-flex align-items-center flex-column" style="background-color: rgb(53, 53, 53);">
+            <div >
+
+            </div>
+        </div>  
+    </div>
+    
+    <!--javascript to view documents-->
+    <script src="js/view.js"></script>
+</body>
