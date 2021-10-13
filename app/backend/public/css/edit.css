@@ -66,6 +66,10 @@
 	display: none;
 }
 
+#edit {
+	cursor: pointer;
+}
+
 @media all and (max-width: 1000px){
 	.sideBar {
 		padding: 10px;
