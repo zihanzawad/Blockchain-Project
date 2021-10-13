@@ -15,7 +15,9 @@
     <nav class="navbar navbar-expand-sm navbar-light themeColor">
         <div class="container">
             <div class="navbar-brand">
-                <a href="/"><h1>Webpage Title</h1></a>
+                <a href="/">
+                    <img class="logo" src="media/logo.png" alt="logo"> 
+                </a>
             </div>
             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
                 <span class="navbar-toggler-icon"></span>
@@ -38,9 +40,12 @@
             <div class="editSection">
                 <!-- <img src="" alt="profile_pic"> -->
                 <div class="profilePic">
-                    <img src="media/default_profile.png" alt="profile_pic"> 
+                    <img id="profile_picture" src="media/default_profile.png" alt="profile_pic"> 
                 </div>
-                <small id="edit">Edit</small>
+                <div>
+                    <input type="file" id="image_upload" name="image" accept="image/*" onchange="readURL(this);"/>
+                </div>
+                <small id="edit" style="cursor:pointer">Edit</small>
             </div>
             <div class="details">
                 <p id="displayName">Name</p>
