@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/Users/jennytran/Documents/GitHub/Blockchain-Project/app';
+let rootDir = 'C:\\Users\\a1766749\\Documents\\GitHub\\Blockchain-Project\\app';
 const port = 8080;
 
 //spawns a child process to run a specific command with passed args
