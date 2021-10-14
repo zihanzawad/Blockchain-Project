@@ -93,12 +93,12 @@ async function getFileContent(TxHash) {
 // splits file into 3kib chunks
 function createChunks(file, cSize) {
 
-    let startPointer = 0;
-    let endPointer = file.length;
+    let startPointer: number = 0;
+    let endPointer: number = file.length;
     let chunks = [];
 
     while (startPointer < endPointer) {
-        let newStartPointer = startPointer + cSize;
+        let newStartPointer: number = startPointer + cSize;
         chunks.push(file.slice(startPointer, newStartPointer));
         startPointer = newStartPointer;
     }
