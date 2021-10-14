@@ -50,31 +50,10 @@ async function createFile(file, client, key, publicKey) {
 
 }
 
-// add content to existing file
-async function appendFile(TxHash, file, client, key) {
-    const transaction = await new FileAppendTransaction()
-        .setFileId(TxHash)
-        .setContents(file)
-        .freezeWith(client);
-
-    //Sign with the file private key
-    const signTx = await transaction.sign(key);
-
-    //Sign with the client operator key and submit to a Hedera network
-    const txResponse = await signTx.execute(client);
-
-    //Request the receipt
-    const receipt = await txResponse.getReceipt(client);
-    //Get the transaction consensus status
-    const transactionStatus = receipt.status;
-
-
-}
 
 //retrieves content stored in a file based on the file id
 async function getFileContent(TxHash) {
     let { client } = await connectClient();
-    console.log(TxHash)
     TxHash = FileId.fromString(TxHash)
     //Create the query
     const query = new FileContentsQuery()
@@ -85,19 +64,6 @@ async function getFileContent(TxHash) {
     return contents;
 }
 
-
-// splits file into 3kib chunks
-function createChunks(file, cSize) {
-    let startPointer = 0;
-    let endPointer = file.length;
-    let chunks = [];
-    while (startPointer < endPointer) {
-        let newStartPointer = startPointer + cSize;
-        chunks.push(file.slice(startPointer, newStartPointer));
-        startPointer = newStartPointer;
-    }
-    return chunks;
-}
 
 //takes in a file buffer and encrypts it with SHA256, returning a hex string
 function encryptData(data) {
@@ -114,15 +80,6 @@ async function uploadToBlockChain(originalFileName, hashString, user) {
     //let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
     let fileHash = hashString;
-
-    /*
-    let chunks = await createChunks(fileContent, 3 * 1024);
-    let first = chunks.shift();
-    let TxHash = await createFile(first, client, key, publicKey);
-
-    for (chunk of chunks) {
-        await appendFile(TxHash, chunk, client, key);
-    }*/
 
     let TxHash = await createFile(fileHash, client, key, publicKey);
     let obj = {

@@ -53,7 +53,8 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = 'C:\\Users\\a1766749\\Documents\\GitHub\\Blockchain-Project\\app';
+let rootDir = `${__dirname}/../`;
+console.log(rootDir)
 const port = 8080;
 
 //spawns a child process to run a specific command with passed args
@@ -95,9 +96,9 @@ var session;
 app.get('/', function (req,res) {
     session=req.session;
     if(session.userid){
-        res.sendFile('html/select.html',{'root': __dirname})
+        res.sendFile('html/select.html',{'root': rootDir})
     }else
-        res.sendFile('html/login.html',{'root': __dirname})
+        res.sendFile('html/login.html',{'root': rootDir})
 });
 
 app.post('/home', async (req,res) => {
@@ -106,7 +107,7 @@ app.post('/home', async (req,res) => {
         session=req.session;
         session.userid=req.body.email;
         console.log(req.session)
-        res.sendFile('html/select.html',{'root': __dirname})
+        res.sendFile('html/select.html',{'root': rootDir})
     }
     else{
         res.send('Invalid username or password');
