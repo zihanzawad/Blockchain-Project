@@ -1,15 +1,15 @@
 const { Client, FileCreateTransaction, Hbar, FileId, PrivateKey, FileContentsQuery, FileAppendTransaction } = require("@hashgraph/sdk");
 const { addToDatabase } = require('../../database/index')
+console.log()
 require('dotenv').config();
-const fs = require('fs');
 const crypto = require('crypto');
 
 //create a hadera client
 async function connectClient() {
 
     //Grab your Hedera testnet account ID and private key from your .env file
-    const myAccountId = "0.0.2225458";
-    const myPrivateKey = "302e020100300506032b65700422042042921f16be7462a2f2f3888700ea55c69ab0deb3ee0c557cf744e9322ac04248";
+    const myAccountId = process.env.ACCOUNTID
+    const myPrivateKey = process.env.PRIVATEKEY;
 
     // If we weren't able to grab it, we should throw a new error
     if (myAccountId == null ||
@@ -82,7 +82,7 @@ async function getFileContent(TxHash) {
 
     //Sign with client operator private key and submit the query to a Hedera network
     const contents = await query.execute(client);
-    return contents ;
+    return contents;
 }
 
 
@@ -110,7 +110,7 @@ function encryptData(data) {
 
 // uploads a file to the block chain
 async function uploadToBlockChain(originalFileName, hashString, user) {
-    
+
     //let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
     let fileHash = hashString;
@@ -136,7 +136,7 @@ async function uploadToBlockChain(originalFileName, hashString, user) {
 
 //USED FOR TESTING PURPOSES UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
 async function uploadToBlockChainOriginal(file, user) {
-    
+
     let fileContent = file.buffer;
     let { client, key, publicKey } = await connectClient();
     let fileHash = encryptData(fileContent);

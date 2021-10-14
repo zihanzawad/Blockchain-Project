@@ -95,9 +95,9 @@ var session;
 app.get('/', function (req,res) {
     session=req.session;
     if(session.userid){
-        res.sendFile('html/select.html',{'root': rootDir})
+        res.sendFile('html/select.html',{'root': __dirname})
     }else
-        res.sendFile('html/login.html',{'root': rootDir})
+        res.sendFile('html/login.html',{'root': __dirname})
 });
 
 app.post('/home', async (req,res) => {
@@ -106,7 +106,7 @@ app.post('/home', async (req,res) => {
         session=req.session;
         session.userid=req.body.email;
         console.log(req.session)
-        res.sendFile('html/select.html',{'root': rootDir})
+        res.sendFile('html/select.html',{'root': __dirname})
     }
     else{
         res.send('Invalid username or password');
