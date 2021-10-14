@@ -14,7 +14,7 @@ function appendImg(doc,srcImg) {
 }
 
 // append fake imgs
-let arr = ['media/test_page1.jpg','media/test_page2.jpg'];
+let arr = ['media/document/test_page1.jpg','media/document/test_page2.jpg'];
 for (let i = 0; i < 2; i++) {
     appendImg(viewer,arr[i]);
 }

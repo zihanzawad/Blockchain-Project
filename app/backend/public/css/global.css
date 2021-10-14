@@ -57,6 +57,27 @@ a:link, a:hover, a:visited, a:active, a:focus {
 	color: var(--bs-body-color);
 }
 
+.backButton {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.backButton a {
+    font-size: 1em; 
+    text-decoration: underline;
+}
+
+.backButton img {
+    width: 1em; 
+    margin-right: 5px;
+}
+
+@media all and (max-width: 500px){
+    .navbar-toggler {
+        margin-right: 1em;
+    }
+}
+
 /* Navbar ------------------------ */
 /* grey color for navbar */
 .themeColor {
