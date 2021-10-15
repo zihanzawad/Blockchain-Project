@@ -138,7 +138,7 @@ async function updateProfile (userId, newName, newPassword){
 }
 
 module.exports = {
-    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, updateProfile
+    getClient, returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, updateProfile
 }
 
 // let temp = {
