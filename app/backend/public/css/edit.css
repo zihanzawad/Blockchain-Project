@@ -78,14 +78,6 @@
     margin-left: 20px; 
     font-size: 20px;
 }
-.nav-item a:hover {
-    text-shadow: 2px 2px 2px white;
-    color: black;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: black;
-}
 
 .backEdit {
 	margin-top:25px;
