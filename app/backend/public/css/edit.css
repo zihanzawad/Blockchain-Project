@@ -71,6 +71,7 @@
 
 #edit {
 	cursor: pointer;
+}
 
 .nav-item a{
     color: black;
@@ -80,6 +81,7 @@
 .nav-item a:hover {
     text-shadow: 2px 2px 2px white;
     color: black;
+}
 
 .navbar-light .navbar-nav .nav-link {
     color: black;
