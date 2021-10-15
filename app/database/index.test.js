@@ -102,18 +102,11 @@ describe('getTxHash', () => {
   
       let ret = await users.findOne(
         {
-            user: "Testing",
+            user: "TestUser",
         });
         
-        let selected = Array.from(ret.stored);
-
-        let found = ""
-        for (obj of selected) {
-            if (ObjectId(id).equals(obj._id)) {
-                found = obj.TxHash;
-            }
-        }
-  
-      expect(found).toEqual('sadasd');
+        
+        console.log(ret.stored[0])
+      expect(ret.stored[0].TxHash).toEqual('https://etherscan.io/tx/0x8ef8e6db26a41e5690b57b895d4f87c86256c241975f1838d6fdb283f92e1bf5');
     });
   });
