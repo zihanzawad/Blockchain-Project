@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/home/rextorm/Blockchain-Project/app';
+let rootDir = '/Users/jennytran/Documents/GitHub/Blockchain-Project/app';
 const port = 8080;
 
 //spawns a child process to run a specific command with passed args
