@@ -1,6 +1,6 @@
 const { MongoClient, ListCollectionsCursor, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://SEP:blockchain@cluster0.iv7t1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
+require('dotenv').config({path : require('find-config')('.env')});
+const uri = process.env.DBURI;
 //IIFE for js, calls function on script load
 async function getClient() {
     try {
@@ -156,17 +156,5 @@ async function updateProfile (userId, newName, newPassword){
 }
 
 module.exports = {
-    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, getUserName, updateProfile
+    returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, updateProfile
 }
-
-// let temp = {
-//     Date: '19-Jan-2012',
-//     fileName: 'Not Cool Bro',
-//     TxHash: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-// }
-
-// async function init() {
-//     await addToDatabase('TestUser', temp);
-// }
-
-// init();
