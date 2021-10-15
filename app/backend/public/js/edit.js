@@ -1,3 +1,13 @@
+//invokes onload
+(async function () {
+    await $.get("/getName", function (data) {
+        $('#newName').val(data);
+    });
+    await $.get("/getEmail", function (data) {
+        $('#newEmail').val(data);
+    });
+})();
+
 //invokes onload to load user details from session
 (async function () {
     let testUserObj = {};

@@ -52,7 +52,7 @@
     border-radius: 10px;
     max-width: 150px;
     max-height: 50px;
-    box-shadow: 0px 4px 3px #b8b8b8;
+    /*box-shadow: 0px 4px 3px #b8b8b8;*/
     font-size: 1rem;
     float: right;
 }
@@ -60,6 +60,27 @@
 a:link, a:hover, a:visited, a:active, a:focus {
 	text-decoration: none;
 	color: var(--bs-body-color);
+}
+
+.backButton {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.backButton a {
+    font-size: 1em; 
+    text-decoration: underline;
+}
+
+.backButton img {
+    width: 1em; 
+    margin-right: 5px;
+}
+
+@media all and (max-width: 500px){
+    .navbar-toggler {
+        margin-right: 1em;
+    }
 }
 
 /* Navbar ------------------------ */

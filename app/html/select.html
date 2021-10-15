@@ -30,20 +30,23 @@
             </div>
             <button type="button" class="col btn logButton button justify-content-end" id="logout" onclick="window.location.href='logout'">Logout</button>
         </div>
-    </nav> 
+    </nav>
+    <span class="welcomeText">
+        <h2 id="nameHeader">Welcome </h2>
+    </span>
     <div class="container main">
         <div class="split"> 
             <div class="section left">
                 <a href="/upload">
 					<h1 class="section-header">Upload</h1>
-					<img src="media/upload.png" alt="Upload" class="sectionImg">
+					<img src="media/buttons/upload.png" alt="Upload" class="sectionImg">
 				</a>
             </div>
             <div class="selectLine"></div>
             <div class="section right">
                 <a href="/verify">
 					<h1 class="section-header">Verify</h1>
-					<img src="media/verified_placeholder.png" alt="Verified" class="sectionImg">
+					<img src="media/buttons/verified_placeholder.png" alt="Verified" class="sectionImg">
 				</a>
             </div>
         </div>
@@ -53,5 +56,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/select.js"></script>
 </body>
 </html>
