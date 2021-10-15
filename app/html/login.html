@@ -13,7 +13,7 @@
     <nav class="navbar themeColor">
         <div class="container">
             <div class="navbar-brand">
-                <h1>Webpage Title</h1>
+                <img class="logo" src="media/logo.png" alt="logo"> 
             </div>
         </div>
     </nav>
@@ -21,25 +21,32 @@
         <div class="row mt-4 justify-content-center greybg">
             <form action="/home" method="post" class="col formWidth" enctype='application/x-www-form-urlencoded'>
                 <h1 class="pageTitle">Login</h1>
+                <div class="valid-feedback" id="success"></div>
                 <div class="row-mb-3">
                 <label for="Email" class="form-label"></label>
                 <input type="email" class="form-control inputBox" id="Email" name="email" placeholder="Email">
+                <small id="emailHelp" class="text-danger"></small> 
                 </div>
                 <div class="row-mb-3">
                 <label for="Password" class="form-label"></label>
                 <input type="password" class="form-control inputBox" id="Password" name="password" placeholder="Password">
+                <small id="passwordHelp" class="text-danger"></small> 
                 </div>
                 <div class="row mt-5 justify-content-center">
-                    <input type="submit" class="col btn logButton loginRegisterBtn" id="login"/>
+                    <input type="submit" class="col btn logButton loginRegisterBtn" id="login" value="Login"/>
                     <div class="middleText">
                         or
                     </div>
                 </div>
             </form>
             <div class="row justify-content-center">
-                <button class="col btn logButton loginRegisterBtn googleBtn" id="googleLogin" onclick="window.location.href='google'"><img src="media/google_logo.png" alt="Google 'G' Logo" class="googleImg"/>Sign in with Google</button>
+                <button class="col btn logButton loginRegisterBtn googleBtn" id="googleLogin" onclick="window.location.href='google'"><img src="media/buttons/google_logo.png" alt="Google 'G' Logo" class="googleImg"/>Sign in with Google</button>
+            </div>
+            <div class="row justify-content-center registerLink">
+                Dont have an account?&nbsp;<a href="/register">Register as a new user</a>
             </div>
         </div>
     </div>
+    <script src="js/login.js"></script>
 </body>
 </html>

@@ -9,6 +9,9 @@
 	display: inline-block;
     border-right: 1px solid rgb(70, 70, 70);
 }
+.container {
+	display: flex ;
+}
 
 .sideBar small {
     position: inherit;
@@ -37,20 +40,53 @@
     display: block;
 	margin-left: auto;
 	margin-right: auto;
+
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profilePic img {
+	object-fit: cover;
+	display: inline;
+	margin: 0 auto;
+	height: 100%;
+	width: 100%;
 }
 
 .editProfile {
 	width: 75%;
 	margin-top: 2.5rem;
     padding-left: 5rem;
-	display: inline-block;
+	float: right;
 }
 
 .editProfile h1 {
     margin-bottom: 30px;
 }
 
+#image_upload {
+	display: none;
+}
+
+#edit {
+	cursor: pointer;
+}
+
+.nav-item a{
+    color: black;
+    margin-left: 20px; 
+    font-size: 20px;
+}
+
+.backEdit {
+	margin-top:25px;
+}
+
 @media all and (max-width: 1000px){
+	.container {
+		display:block ;
+	}
 	.sideBar {
 		padding: 10px;
 		width: 100%;

@@ -45,6 +45,23 @@
     margin-right: 10px;
 }
 
+.registerLink {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.registerLink a {
+    width:140px;
+    padding: 0;
+    display: inline;
+    text-decoration:underline;
+}
+
+.valid-feedback {
+    display: block;
+}
+
 @media all and (max-width: 400px){
 	.loginRegisterBtn {
 		margin: 20px 12px;
