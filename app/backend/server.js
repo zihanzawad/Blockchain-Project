@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = '/home/rextorm/Blockchain-Project/app';
+let rootDir = 'app';
 const port = 8080;
 
 //spawns a child process to run a specific command with passed args
@@ -92,7 +92,44 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 var session;
 
+// backup for root routing 
+// app.get('/', function (req,res) {
+//     session=req.session;
+//     if(session.userid){
+//         res.sendFile('html/select.html',{'root': rootDir})
+//     }
+
+//     else {
+//         var errorText = req.query.valid;
+//         if (errorText != null || errorText != "") {
+//             res.sendFile('html/login.html',{'root': rootDir})
+//         }
+//         else {
+//             res.sendFile('html/login.html',{'root': rootDir, error:errorText})
+//         }
+//     }
+// });
+
+// Route to landing page
 app.get('/', function (req,res) {
+    session=req.session;
+    if(session.userid){
+        res.sendFile('html/select.html',{'root': rootDir})
+    }
+
+    else {
+        var errorText = req.query.valid;
+        if (errorText != null || errorText != "") {
+            res.sendFile('html/land_page.html',{'root': rootDir})
+        }
+        else {
+            res.sendFile('html/land_page.html',{'root': rootDir, error:errorText})
+        }
+    }
+});
+
+// Route to login page
+app.get('/login', function (req,res) {
     session=req.session;
     if(session.userid){
         res.sendFile('html/select.html',{'root': rootDir})
