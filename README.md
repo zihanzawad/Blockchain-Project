@@ -1,6 +1,6 @@
 # Document Anchoring Project for SEP BLOCKCHAIN 6
 
-This is an full stack application made by BLOCKCHAIN 6, which is used to compare files to see if they have been tampered with using the Hadera Hashgraph BlockChain.
+This is an full stack application created by BLOCKCHAIN TEAM 6, The web platform enables users to verify PDFs for authenticity against original documents via secure hashing with [Hadera Hashgraph](https://hedera.com/). 
 
 ## Installation
 ### Requirements
