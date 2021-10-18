@@ -3,9 +3,8 @@
 This is an full stack application made by BLOCKCHAIN 6, which is used to compare files to see if they have been tampered with using the Hadera Hashgraph BlockChain.
 
 ## Installation
-
+### Requirements
 This project requires [Node.js](https://nodejs.org/) to run.
-
 Install the dependencies and devDependencies and start the server.
 
 ```sh
@@ -26,6 +25,10 @@ To view previous files
 ```sh
 Go into frontend / profile 
 Open index.html in your browser
+```
+This project also requires [Python](https://www.python.org/) version 3.7+.
+``` In project directory:
+python3 -m pip install -r requirements.txt
 ```
 
 ## License
