@@ -112,20 +112,20 @@ async function registerUser(email, name, password){
     }
 }
 
-//retrieve user's name
-async function getUserName(email) {
+//retrieve password for checking
+async function passwordCheck(email) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
         let val = await collection.find({ Email: email }).toArray();
         client.close();
         if(val.length != 0) {
-            return val[0].Name;
+            return val[0].Password;
         }
-        return "User";
+        return null;
     }
     catch {
-        return "User";
+        return null;
     }
 }
 
@@ -156,5 +156,5 @@ async function updateProfile (userId, newName, newPassword){
 }
 
 module.exports = {
-    getClient, returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, updateProfile
+    getClient, returnToUser, addToDatabase, validateUser, registerUser, emailAvailability, getTxHash, passwordCheck, updateProfile
 }

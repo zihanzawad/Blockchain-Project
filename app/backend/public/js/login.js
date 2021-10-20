@@ -21,6 +21,9 @@ if (error.valid == 'error3') {
     emailField.classList.add("is-invalid");
     passwordField.classList.add("is-invalid");
 }
-if (error.valid == 'success') {
+if (error.valid == 'success1') {
     successText.innerHTML = "User has been registered!";
+}
+if (error.valid == 'success2') {
+    successText.innerHTML = "Logged out successfully!";
 }

@@ -7,7 +7,7 @@ var emailField = document.getElementById("Email");
 var nameField = document.getElementById("Name");
 var passwordField = document.getElementById("Password");
 var confirmPasswordField = document.getElementById("confirmPassword");
-location.search.substr(1).split("&").forEach(function(item) {error[item.split("=")[0]] = item.split("=")[1]})
+location.search.substr(1).split("&").forEach(function(item) {error[item.split("=")[0]] = item.split("=")[1]});
 if (error.valid == 'error1') {
     emailText.innerHTML = "Email field is empty";
     emailField.classList.add("is-invalid");

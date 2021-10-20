@@ -42,7 +42,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile, getUserName  } = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile, passwordCheck  } = require('../database/index')
 const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = `${__dirname}/../`;
+let rootDir = '/home/rextorm/Blockchain-Project/app/backend/../';
 console.log(rootDir)
 const port = 8080;
 
@@ -206,7 +206,7 @@ app.post('/registration', async (req,res) => {
     }
     else if (emailCheck) {
         await registerUser(req.body.email, req.body.name, req.body.password);
-        var errorText = encodeURIComponent('success');
+        var errorText = encodeURIComponent('success1');
         res.redirect('/?valid=' + errorText);
     }
     else {
@@ -223,22 +223,42 @@ app.get('/edit', function (req,res) {
     res.redirect('/');
 });
 
-app.post('/saveChanges', async function (req,res) {
-
-    let validation = await validateUser(req.session.userid, req.body.currPass);
-
-    if(validation && (req.body.newPass1 == req.body.newPass2 ) && (req.body.newPass1 != req.body.currPass)){
-        await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
-        res.send("Successful: Profile saved");
+app.post('/saveChanges', async (req,res) => {
+    let regexName = /^[A-Za-z]+$/;
+    if (req.body.newName == "" || req.body.newName == null) {
+        var errorText = encodeURIComponent('error1');
+        res.redirect('/edit?valid=' + errorText);
     }
-    else if (validation == false) {
-        res.send("Unsucessful: Old password incorrect");
+    else if (req.body.currPassword == "" || req.body.currPassword == null) {
+        var errorText = encodeURIComponent('error2');
+        res.redirect('/edit?valid=' + errorText);
     }
-    else if (req.body.newPass1 != req.body.newPass2) {
-        res.send('Unsucessful: New Passwords do not match');
+    else if (req.body.newPassword == "" || req.body.newPassword == null) {
+        var errorText = encodeURIComponent('error3');
+        res.redirect('/edit?valid=' + errorText);
     }
-    else if (req.body.newPass1 == req.body.currPass || req.body.newPass2 == req.body.currPass){
-        res.send('Unsucessful: No changes in Password');
+    else if (req.body.confirmPassword == "" || req.body.confirmPassword == null) {
+        var errorText = encodeURIComponent('error4');
+        res.redirect('/edit?valid=' + errorText);
+    }
+    else if (!req.body.newName.match(regexName)) {
+        var errorText = encodeURIComponent('error5');
+        res.redirect('/edit?valid=' + errorText);
+    }
+    else if (req.body.currPassword != await passwordCheck(req.session.userid)) {
+        var errorText = encodeURIComponent('error6');
+        console.log(req.body.currPassword)
+        console.log(passwordCheck(req.session.userid))
+        res.redirect('/edit?valid=' + errorText);
+    }
+    else if (req.body.newPassword != req.body.confirmPassword) {
+        var errorText = encodeURIComponent('error7');
+        res.redirect('/edit?valid=' + errorText);
+    }
+    else{
+        await updateProfile(req.session.userid, req.body.newName, req.body.newPassword);
+        var errorText = encodeURIComponent('success1');
+        res.redirect('/?valid=' + errorText);
     }
 });
 
@@ -269,7 +289,8 @@ app.get('/docView', function (req,res) {
 
 app.get('/logout', function (req,res) {
     req.session.destroy();
-    res.redirect('/');
+    var errorText = encodeURIComponent('success2');
+    res.redirect('/?valid=' + errorText);
 });
 
 //takes pdf payload from server and gets encrypted version into server;
@@ -284,8 +305,8 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
             uploadToBlockChain(req.file.originalname, stdout, session.userid);
         },
     );
-
-    res.send("Finshed");
+    var errorText = encodeURIComponent('success2');
+    res.redirect('/?valid=' + errorText);
 });
 
 app.post('/compare', upload.single('pdf'), function(req, res) {
@@ -316,12 +337,6 @@ app.get('/getUser', async (req, res) => {
     //     });
     // });
     console.log(user);
-    res.send(user);
-});
-
-app.get('/getName', async (req, res) => {
-    session=req.session;
-    let user = await getUserName(session.userid);
     res.send(user);
 });
 
