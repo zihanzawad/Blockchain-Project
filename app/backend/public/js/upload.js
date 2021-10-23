@@ -36,6 +36,10 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
 
 });
 
+Dropzone.options.myDropzone = {
+    // Configuration options go here
+  };
+
 /*function updateThumbnail(dropZoneElement, file) {
     let thumbanilElement = dropZoneElement.querySelector(".dropThumb");
     // Removing the text and upload image
