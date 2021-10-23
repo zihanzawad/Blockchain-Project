@@ -1,8 +1,13 @@
 /*GLOBAL-VARIABLES--------------------------*/
 :root {
-    --theme: #C4C4C4;
+    --theme: black;
+    /*------PREVIOUS COLOUR: #C4C4C4-----*/
     --navbarW : 1440px;
     --navbarH : 155px;
+}
+
+.logo {
+    height: 60px;
 }
 
 /* login button */
@@ -41,13 +46,14 @@
     display: flex;
     top: 50%;
     transform: translateY(25%);
+    box-shadow: none ;
 }
 
 .button {
     border-radius: 10px;
     max-width: 150px;
     max-height: 50px;
-    box-shadow: 0px 4px 3px #b8b8b8;
+    /*box-shadow: 0px 4px 3px #b8b8b8;*/
     font-size: 1rem;
     float: right;
 }
@@ -91,16 +97,20 @@ a:link, a:hover, a:visited, a:active, a:focus {
 }
 
 .nav-item a{
-    color: black;
+    color: white;
     margin-left: 20px; 
     font-size: 20px;
 }
 
-.nav-item a:hover {
+/* .nav-item a:hover {
     text-shadow: 2px 2px 2px white;
-    color: black;
+    color: white ;
+}*/
+
+.navbar-light .navbar-nav .nav-link:hover {
+ color: #8FDD60;
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: black;
+    color: white;
 }
