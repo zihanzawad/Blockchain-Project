@@ -83,17 +83,20 @@ class Transformer():
         return 0
 
     # Highlights tampered areas
-    def visualise_tamper(pagesAsNumpy:list, tamperedRegions:list, chunks: int = 18):
+    def visualise_tamper(pagesAsNumpy:list, tamperedRegions:list, v_chunks: int = 18, h_chunks: int = 18):
 
         pages = np.array(pagesAsNumpy,dtype=float)/255
 
         for region in tamperedRegions:
             page = region[0]
-            chunk = region[1]
-            lower = round(np.shape(pages[page])[0]*chunk/chunks)
-            upper = round(np.shape(pages[page])[0]*(chunk+1)/chunks)
-            pages[page,lower:upper,:,1] *= 0.4
-            pages[page,lower:upper,:,2] *= 0.4
+            v_chunk = region[1]
+            h_chunk = region[2]
+            v_lower = round(np.shape(pages[page])[0]*v_chunk/v_chunks)
+            v_upper = round(np.shape(pages[page])[0]*(v_chunk+1)/v_chunks)
+            h_lower = round(np.shape(pages[page])[1]*h_chunk/h_chunks)
+            h_upper = round(np.shape(pages[page])[1]*(h_chunk+1)/h_chunks)
+            pages[page,v_lower:v_upper, h_lower:h_upper, 1] *= 0.4
+            pages[page,v_lower:v_upper, h_lower:h_upper, 2] *= 0.4
 
         for i in range(len(pages)):
             print(pages[0])
