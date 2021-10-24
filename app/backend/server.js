@@ -123,7 +123,7 @@ app.post('/home', async (req,res) => {
     }
     else if(validation && req.body.email.match(regexEmail)){
         session=req.session;
-        session.userid=req.body.email;
+        session.userid=req.body.email.toLowerCase();
         console.log(req.session)
         res.redirect('/');
     }
@@ -173,7 +173,7 @@ app.get('/register', function (req,res) {
 });
 
 app.post('/registration', async (req,res) => {
-    let regexName = /^[A-Za-z]+$/;
+    let regexName = /^[A-Za-z\\s]+$/;
     let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let emailCheck = await emailAvailability(req.body.email);
     if (req.body.email == "" || req.body.email == null) {
@@ -224,7 +224,7 @@ app.get('/edit', function (req,res) {
 });
 
 app.post('/saveChanges', async (req,res) => {
-    let regexName = /^[A-Za-z]+$/;
+    let regexName = /^[A-Za-z\\s]+$/;
     if (req.body.newName == "" || req.body.newName == null) {
         var errorText = encodeURIComponent('error1');
         res.redirect('/edit?valid=' + errorText);

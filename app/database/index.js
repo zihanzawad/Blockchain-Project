@@ -39,7 +39,7 @@ async function addToDatabase(email, obj) {
     const collection = client.db("SEP").collection("users");
 
     await collection.updateOne(
-        { Email: email },
+        { Email: email.toLowerCase() },
         {
             $addToSet: {
                 stored: obj,
@@ -55,7 +55,7 @@ async function returnToUser(email) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: email }).toArray();
+        let val = await collection.find({ Email: email.toLowerCase() }).toArray();
         client.close();
         return val[0];
     }
@@ -70,7 +70,7 @@ async function validateUser(email, password) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: email, Password: password }).toArray();
+        let val = await collection.find({ Email: email.toLowerCase(), Password: password }).toArray();
         client.close();
         if(val.length != 0) {
             return true;
@@ -87,7 +87,7 @@ async function emailAvailability(email) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: email }).toArray();
+        let val = await collection.find({ Email: email.toLowerCase() }).toArray();
         client.close();
         if(val.length == 0) {
             return true;
@@ -104,7 +104,7 @@ async function registerUser(email, name, password){
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        await collection.insertOne({ Email: email, Name: name, Password: password });
+        await collection.insertOne({ Email: email.toLowerCase(), Name: name, Password: password });
         client.close();
     }
     catch {
@@ -117,7 +117,7 @@ async function passwordCheck(email) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: email }).toArray();
+        let val = await collection.find({ Email: email.toLowerCase() }).toArray();
         client.close();
         if(val.length != 0) {
             return val[0].Password;
@@ -135,7 +135,7 @@ async function updateProfile (userId, newName, newPassword){
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.findOne({ Email: userId });
+        let val = await collection.findOne({ Email: userId.toLowerCase() });
 
         await collection.updateOne(
             { _id: val._id },
