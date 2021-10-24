@@ -21,6 +21,7 @@ app.post('/upload', upload.single('pdf'), function (req, res) {
   //spawn python child process to process pdf
   var pythonOut:string;
   const uploadedFile = req.file.buffer.toString('base64');
+  console.log(uploadToBlockChain);
   const python = spawn('python', ['Scripts/convert_pdf.py', uploadedFile]);
 
   //feed all stdout from script into pythonOut
