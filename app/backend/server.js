@@ -47,6 +47,7 @@ const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 require('./passport');
+const bcrypt = require("bcrypt");
 
 app.use(cors());
 app.use(express.json());
@@ -205,7 +206,9 @@ app.post('/registration', async (req,res) => {
         res.redirect('/register?valid=' + errorText);
     }
     else if (emailCheck) {
-        await registerUser(req.body.email, req.body.name, req.body.password);
+        const salt = await bcrypt.genSalt(10);
+        encPass = await bcrypt.hash(req.body.password, salt)
+        await registerUser(req.body.email, req.body.name, encPass);
         var errorText = encodeURIComponent('success');
         res.redirect('/?valid=' + errorText);
     }
@@ -228,7 +231,9 @@ app.post('/saveChanges', async function (req,res) {
     let validation = await validateUser(req.session.userid, req.body.currPass);
 
     if(validation && (req.body.newPass1 == req.body.newPass2 ) && (req.body.newPass1 != req.body.currPass)){
-        await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
+        const salt = await bcrypt.genSalt(10);
+        encPass = await bcrypt.hash(req.body.newPass1, salt)
+        await updateProfile(req.session.userid, req.body.newName, encPass);
         res.send("Successful: Profile saved");
     }
     else if (validation == false) {

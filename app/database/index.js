@@ -1,6 +1,7 @@
 const { MongoClient, ListCollectionsCursor, ObjectId } = require('mongodb');
 require('dotenv').config({path : require('find-config')('.env')});
 const uri = process.env.DBURI;
+const bcrypt = require("bcrypt");
 //IIFE for js, calls function on script load
 async function getClient() {
     try {
@@ -70,10 +71,14 @@ async function validateUser(email, password) {
     try {
         const client = await getClient();
         const collection = client.db("SEP").collection("users");
-        let val = await collection.find({ Email: email, Password: password }).toArray();
+        let val = await collection.find({ Email: email }).toArray();
         client.close();
         if(val.length != 0) {
-            return true;
+            const passwordMatch = await bcrypt.compare(password, val[0].Password);
+            if (passwordMatch) {
+                return true;
+            }
+            return false;
         }
         return false;
     }
