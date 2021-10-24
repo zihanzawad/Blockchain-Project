@@ -274,10 +274,12 @@ app.get('/logout', function (req, res) {
 
 //takes pdf payload from server and gets encrypted version into server;
 //COMMENTED CURRENT VERSION UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
-app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
+// , upload.single('pdf')
+app.post('/uploadFile', async (req, res) => {
     session = req.session;
+    console.log(req.body);
     //spawn python child process to process pdf
-    uploadToBlockChain(req.file.originalname, req.file.buffer, session.userid);
+    // uploadToBlockChain(req.file.originalname, req.file.buffer, session.userid);
 
     // let uploadedFile = req.file.buffer.toString('base64');
     // uploadedFile = "123";

@@ -7572,6 +7572,8 @@ var defaultOptions = {
    */
   // Those are self explanatory and simply concern the DragnDrop.
   drop: function drop(e) {
+    console.log("This is me");
+
     return this.element.classList.remove("dz-drag-hover");
   },
   dragstart: function dragstart(e) {},
