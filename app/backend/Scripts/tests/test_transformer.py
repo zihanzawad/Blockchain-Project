@@ -1,4 +1,4 @@
-from transformer import Transformer as tf
+from Transformer import Transformer as tf
 from pathlib import Path
 
 def test_compare_document_hashes():

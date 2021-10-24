@@ -1,5 +1,5 @@
 from Transformer import Transformer as tf
-import sys, os
+import sys
 import base64
 
 original = sys.argv[1]

@@ -2,21 +2,9 @@ from pdf2image import convert_from_path, convert_from_bytes
 from os import path, makedirs
 from hashlib import sha256
 import numpy as np
-import base64
 
 
 class Transformer():
-
-    #read pdf from file path and convert to jpegs
-    def save_pdf_as_image(inputPath:str, outputPath:str):
-        if not path.exists(outputPath):
-            makedirs(outputPath)
-
-        pdfAsImages = convert_from_path(inputPath)
-        for pageNum, page in enumerate(pdfAsImages):
-            fileName = outputPath + 'output' + str(pageNum)
-            page.save(fileName, "JPEG")
-        return pdfAsImages
 
     def pdf_as_images(inputPath: str):
         pdfAsImages = convert_from_path(inputPath)
@@ -36,11 +24,15 @@ class Transformer():
         return pagesAsNumpy
 
     #separate a page into 18 separate chunks
-    def PDF_to_Numpy(imagesAsNumpy: list, chunks: int=18) -> list:
+    def numpy_splitter(imagesAsNumpy: list, chunks: int=18) -> list:
         chunkedImages = []
         for image in imagesAsNumpy:
-            chunked_image = np.array_split(image, chunks)
-            chunkedImages.append(chunked_image)
+            current_image = []
+            chunked_image_row = np.array_split(image, chunks)
+            for row in chunked_image_row:
+                chunked_row = np.array_split(row, chunks, axis=1)
+                current_image.append(chunked_row)
+            chunkedImages.append(current_image)
         return chunkedImages
 
     #return SHA256 hash of input
@@ -53,8 +45,11 @@ class Transformer():
         encryptedPages = []
         for page in input:
             currentPage = []
-            for chunk in page:
-                currentPage.append(Transformer.encrypt_data(chunk))
+            for chunk_row in page:
+                row = []
+                for chunk in chunk_row:
+                    row.append(Transformer.encrypt_data(np.ascontiguousarray(chunk)))
+                currentPage.append(row)
             encryptedPages.append(currentPage)
         return encryptedPages
 
@@ -62,13 +57,13 @@ class Transformer():
     def bytes_to_hash_array(bytes:bytes):
         images = Transformer.bytes_to_images(bytes)
         pilArray = Transformer.PIL_to_Numpy(images)
-        npArray = Transformer.PDF_to_Numpy(pilArray)
+        npArray = Transformer.numpy_splitter(pilArray)
         hashArray = Transformer.encrypt_document(npArray)
         return hashArray
 
     def images_to_hash_array(images:list):
         pilArray = Transformer.PIL_to_Numpy(images)
-        npArray = Transformer.PDF_to_Numpy(pilArray)
+        npArray = Transformer.numpy_splitter(pilArray)
         hashArray = Transformer.encrypt_document(npArray)
         return hashArray
 
@@ -77,9 +72,10 @@ class Transformer():
         tamperedRegions = []
         if len(original) == len(toVerify):
             for pageNum in range(len(original)):
-                for chunkNum in range(len(original[pageNum])):
-                    if original[pageNum][chunkNum] != toVerify[pageNum][chunkNum]:
-                        tamperedRegions.append([pageNum, chunkNum])
+                for rowNum in range(len(original[pageNum])):
+                    for chunkNum in range(len(original[pageNum][rowNum])):
+                        if original[pageNum][rowNum][chunkNum] != toVerify[pageNum][rowNum][chunkNum]:
+                            tamperedRegions.append([pageNum, rowNum, chunkNum])
             if bool(tamperedRegions):
                 return tamperedRegions
         else:
@@ -102,4 +98,8 @@ class Transformer():
         for i in range(len(pages)):
             print(pages[0])
 
-        #imshow(pages[0])
+PDF = Transformer.pdf_as_images('app/backend/Scripts/tests/pdf-test.pdf')
+PDF = Transformer.PIL_to_Numpy(PDF)
+chunkedPDF = Transformer.numpy_splitter(PDF)
+hashArray = Transformer.encrypt_document(chunkedPDF)
+print(len(hashArray[0][0]))
