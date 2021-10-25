@@ -48,40 +48,40 @@
                 <small id="edit">Edit</small>
             </div>
             <div class="details">
-                Name<p id="displayName">Name</p>
-                Email<p id="displayEmail">Email</p>
+                <p id="displayName">Name</p>
+                <p id="displayEmail">Email</p>
             </div>
         </div>
         <div class="editProfile">
             <h1>Edit Profile</h1>
             <p id="inputValidation" class="text-danger"></p>
             <form class="col formWidth" action="/saveChanges" method="post" enctype='application/x-www-form-urlencoded'>
-                <div class="form-group row mb-4">
-                    <label class="col-sm-2 col-form-label formLabel">Name: </label>
+                <div class="form-group-wrapper">
+                    <label class="col-form-label formLabel">Name: </label>
                     <div class="col">
                         <input type="text" class="form-control inputBox" id="newName" name="newName">
-                        <small id="nameHelp" class="text-danger"></small> 
+                        <small id="nameHelp" class="text-danger">&nbsp;</small> 
                     </div>
                 </div>
-                <div class="form-group row mb-3">
-                    <label class="col-sm-2 col-form-label formLabel">Current Password: </label>
+                <div class="form-group-wrapper">
+                    <label class="col-form-label formLabel">Current Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="currPassword" name="currPassword">
-                        <small id="currPasswordHelp" class="text-danger"></small> 
+                        <small id="currPasswordHelp" class="text-danger">&nbsp;</small> 
                     </div>
                 </div>
-                <div class="form-group row mb-3">
-                    <label class="col-sm-2 col-form-label formLabel">New Password: </label>
+                <div class="form-group-wrapper">
+                    <label class="col-form-label formLabel">New Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="newPassword" name="newPassword">
-                        <small id="newPasswordHelp" class="text-danger"></small> 
+                        <small id="newPasswordHelp" class="text-danger">&nbsp;</small> 
                     </div>
                 </div>
-                <div class="form-group row mb-3">
-                    <label class="col-sm-2 col-form-label formLabel">Confirm Password: </label>
+                <div class="form-group-wrapper">
+                    <label class="col-form-label formLabel">Confirm Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="confirmPassword" name="confirmPassword">
-                        <small id="confirmPasswordHelp" class="text-danger"></small> 
+                        <small id="confirmPasswordHelp" class="text-danger">&nbsp;</small> 
                     </div>
                 </div>
                 <input type="submit" class="col btn logButton button saveBtn" value="Save profile"/>
