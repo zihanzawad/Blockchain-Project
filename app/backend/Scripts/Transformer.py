@@ -60,8 +60,8 @@ class Transformer():
         return encryptedPages
 
     #converts bytes to array of SHA256 hash strings
-    def bytes_to_hash_array(bytes:bytes):
-        images = Transformer.bytes_to_images(bytes)
+    def bytes_to_hash_array(inputPath:str):
+        images = Transformer.pdf_as_images(inputPath)
         pilArray = Transformer.PIL_to_Numpy(images)
         npArray = Transformer.PDF_to_Numpy(pilArray)
         hashArray = Transformer.encrypt_document(npArray)
