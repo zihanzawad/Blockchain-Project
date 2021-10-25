@@ -42,10 +42,11 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const upload = multer();
-const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile, getUserName  } = require('../database/index')
+const { returnToUser, validateUser, registerUser, emailAvailability, updateProfile, getUserName } = require('../database/index')
 const passport = require('passport');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
+const fs = require('fs')
 require('./passport');
 
 app.use(cors());
@@ -71,7 +72,7 @@ function run_child_process(command, args) {
         });
         process.on("close", (code) => {
             console.log("Child process exiting with code " + code)
-            console.log({stdout,stderr})
+            console.log({ stdout, stderr })
             resolve({ stdout, stderr, code });
         });
     });
@@ -82,7 +83,7 @@ app.use(sessions({
     name: 'google-auth-session',
     keys: ['key1', 'key2'],
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
+    saveUninitialized: true,
     cookie: { maxAge: oneDay },
     resave: false
 }));
@@ -94,24 +95,24 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 var session;
 
-app.get('/', function (req,res) {
-    session=req.session;
-    if(session.userid){
-        res.sendFile('html/select.html',{'root': rootDir})
+app.get('/', function (req, res) {
+    session = req.session;
+    if (session.userid) {
+        res.sendFile('html/select.html', { 'root': rootDir })
     }
 
     else {
         var errorText = req.query.valid;
         if (errorText != null || errorText != "") {
-            res.sendFile('html/login.html',{'root': rootDir})
+            res.sendFile('html/login.html', { 'root': rootDir })
         }
         else {
-            res.sendFile('html/login.html',{'root': rootDir, error:errorText})
+            res.sendFile('html/login.html', { 'root': rootDir, error: errorText })
         }
     }
 });
 
-app.post('/home', async (req,res) => {
+app.post('/home', async (req, res) => {
     let validation = await validateUser(req.body.email, req.body.password);
     let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (req.body.email == "" || req.body.email == null) {
@@ -122,41 +123,41 @@ app.post('/home', async (req,res) => {
         var errorText = encodeURIComponent('error3');
         res.redirect('/?valid=' + errorText);
     }
-    else if(validation && req.body.email.match(regexEmail)){
-        session=req.session;
-        session.userid=req.body.email;
+    else if (validation && req.body.email.match(regexEmail)) {
+        session = req.session;
+        session.userid = req.body.email;
         console.log(req.session)
         res.redirect('/');
     }
-    else{
+    else {
         var errorText = encodeURIComponent('error1');
         res.redirect('/?valid=' + errorText);
     }
-  });
-  
+});
+
 app.get('/google',
     passport.authenticate('google', {
         scope:
             ['email', 'profile']
     }
-));
+    ));
 
 app.get('/google/callback',
     passport.authenticate('google', {
         failureRedirect: '/',
     }),
     function (req, res) {
-        session=req.session;
+        session = req.session;
         // session.firstname=req.user.name.givenName;
         // session.lastname=req.user.name.familyName;
-        session.userid=req.user.email;
-        session.name=req.user.name.givenName;
+        session.userid = req.user.email;
+        session.name = req.user.name.givenName;
         res.redirect('/googleValidate');
     }
 );
 
-app.get('/googleValidate', async (req,res) => {
-    session=req.session;
+app.get('/googleValidate', async (req, res) => {
+    session = req.session;
     let emailCheck = await emailAvailability(session.userid);
     if (emailCheck) {
         await registerUser(session.userid, session.name, '');
@@ -165,15 +166,15 @@ app.get('/googleValidate', async (req,res) => {
     res.redirect('/');
 });
 
-app.get('/register', function (req,res) {
-    session=req.session;
-    if(session.userid){
+app.get('/register', function (req, res) {
+    session = req.session;
+    if (session.userid) {
         res.redirect('/');
-    }else
-    res.sendFile('html/register.html',{'root': rootDir})
+    } else
+        res.sendFile('html/register.html', { 'root': rootDir })
 });
 
-app.post('/registration', async (req,res) => {
+app.post('/registration', async (req, res) => {
     let regexName = /^[A-Za-z]+$/;
     let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let emailCheck = await emailAvailability(req.body.email);
@@ -216,19 +217,19 @@ app.post('/registration', async (req,res) => {
     }
 });
 
-app.get('/edit', function (req,res) {
-    session=req.session;
-    if(session.userid){
-        res.sendFile('html/edit.html',{'root': rootDir})
-    }else
-    res.redirect('/');
+app.get('/edit', function (req, res) {
+    session = req.session;
+    if (session.userid) {
+        res.sendFile('html/edit.html', { 'root': rootDir })
+    } else
+        res.redirect('/');
 });
 
-app.post('/saveChanges', async function (req,res) {
+app.post('/saveChanges', async function (req, res) {
 
     let validation = await validateUser(req.session.userid, req.body.currPass);
 
-    if(validation && (req.body.newPass1 == req.body.newPass2 ) && (req.body.newPass1 != req.body.currPass)){
+    if (validation && (req.body.newPass1 == req.body.newPass2) && (req.body.newPass1 != req.body.currPass)) {
         await updateProfile(req.session.userid, req.body.newName, req.body.newPass1);
         res.send("Successful: Profile saved");
     }
@@ -238,37 +239,37 @@ app.post('/saveChanges', async function (req,res) {
     else if (req.body.newPass1 != req.body.newPass2) {
         res.send('Unsucessful: New Passwords do not match');
     }
-    else if (req.body.newPass1 == req.body.currPass || req.body.newPass2 == req.body.currPass){
+    else if (req.body.newPass1 == req.body.currPass || req.body.newPass2 == req.body.currPass) {
         res.send('Unsucessful: No changes in Password');
     }
 });
 
-app.get('/upload', function (req,res) {
-    session=req.session;
-    if(session.userid){
-        res.sendFile('html/upload.html',{'root': rootDir})
-    }else
-    res.redirect('/');
+app.get('/upload', function (req, res) {
+    session = req.session;
+    if (session.userid) {
+        res.sendFile('html/upload.html', { 'root': rootDir })
+    } else
+        res.redirect('/');
 });
 
-app.get('/verify', function (req,res) {
-    session=req.session;
-    if(session.userid){
-        res.sendFile('html/verify.html',{'root': rootDir})
-    }else
-    res.redirect('/');
+app.get('/verify', function (req, res) {
+    session = req.session;
+    if (session.userid) {
+        res.sendFile('html/verify.html', { 'root': rootDir })
+    } else
+        res.redirect('/');
 });
 
 // document viewer
-app.get('/docView', function (req,res) {
-    session=req.session;
-    if(session.userid){
-        res.sendFile('html/view.html',{'root': rootDir})
-    }else
-    res.redirect('/');
+app.get('/docView', function (req, res) {
+    session = req.session;
+    if (session.userid) {
+        res.sendFile('html/view.html', { 'root': rootDir })
+    } else
+        res.redirect('/');
 });
 
-app.get('/logout', function (req,res) {
+app.get('/logout', function (req, res) {
     req.session.destroy();
     res.redirect('/');
 });
@@ -276,16 +277,14 @@ app.get('/logout', function (req,res) {
 //takes pdf payload from server and gets encrypted version into server;
 //COMMENTED CURRENT VERSION UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
 app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
-    session=req.session;
+    session = req.session;
     //spawn python child process to process pdf
-    let uploadedFile = req.file.buffer.toString('base64');
-    // console.log(uploadedFile);
-    'C:\\Users\\a1766749\\Documents\\GitHub\\Blockchain-Project\\app\\backend\\Scripts\\convert_pdf.py'
+    fs.writeFileSync(`Scripts/files/${req.file.originalname}`, req.file.buffer, 'binary');
+
+
     let pathToScript = 'Scripts\\convert_pdf.py'
-    console.log(pathToScript)
-    run_child_process("python", [pathToScript, uploadedFile]).then(
+    run_child_process("python", [pathToScript, req.file.originalname]).then(
         ({ stdout }) => {
-            console.log(stdout);
             uploadToBlockChain(req.file.originalname, stdout, session.userid);
         },
     );
@@ -293,7 +292,7 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     res.send("Finshed");
 });
 
-app.post('/compare', upload.single('pdf'), function(req, res) {
+app.post('/compare', upload.single('pdf'), function (req, res) {
     var hashToFetch = req.params.fetchHash;
     var originalHashes = getFileContent(hashToFetch);
     let uploadedFile = req.file.buffer.toString('base64');
@@ -307,7 +306,7 @@ app.post('/compare', upload.single('pdf'), function(req, res) {
 // returns the testUserObject
 //COMMENTED GENERATOR CODE FOR USER TESTING PURPOSES, FEEL FREE TO UNCOMMENT AT WILL
 app.get('/getUser', async (req, res) => {
-    session=req.session;
+    session = req.session;
     let user = await returnToUser(session.userid);
     // return __awaiter(_this, void 0, void 0, function () {
     //     return __generator(this, function (_a) {
@@ -325,13 +324,13 @@ app.get('/getUser', async (req, res) => {
 });
 
 app.get('/getName', async (req, res) => {
-    session=req.session;
+    session = req.session;
     let user = await getUserName(session.userid);
     res.send(user);
 });
 
 app.get('/getEmail', async (req, res) => {
-    session=req.session;
+    session = req.session;
     res.send(session.userid);
 });
 
@@ -351,12 +350,12 @@ app.get('/getFile/:TxHash', function (req, res) {
 });
 
 app.get('/getFile/:username/:_id', async (req, res) => {
-  let TxHash = await getTxHash(req.params.username, req.params._id)
-  let content = await getFileContent(TxHash);
-  res.send(content);
+    let TxHash = await getTxHash(req.params.username, req.params._id)
+    let content = await getFileContent(TxHash);
+    res.send(content);
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });
 
