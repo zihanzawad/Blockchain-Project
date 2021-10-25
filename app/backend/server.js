@@ -153,11 +153,11 @@ app.post('/home', async (req,res) => {
     let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (req.body.email == "" || req.body.email == null) {
         var errorText = encodeURIComponent('error2');
-        res.redirect('/?valid=' + errorText);
+        res.redirect('/login?valid=' + errorText);
     }
     else if (req.body.password == "" || req.body.password == null) {
         var errorText = encodeURIComponent('error3');
-        res.redirect('/?valid=' + errorText);
+        res.redirect('/login?valid=' + errorText);
     }
     else if(validation && req.body.email.match(regexEmail)){
         session=req.session;
@@ -167,7 +167,7 @@ app.post('/home', async (req,res) => {
     }
     else{
         var errorText = encodeURIComponent('error1');
-        res.redirect('/?valid=' + errorText);
+        res.redirect('/login?valid=' + errorText);
     }
   });
   
@@ -245,7 +245,7 @@ app.post('/registration', async (req,res) => {
     else if (emailCheck) {
         await registerUser(req.body.email, req.body.name, req.body.password);
         var errorText = encodeURIComponent('success1');
-        res.redirect('/?valid=' + errorText);
+        res.redirect('/login?valid=' + errorText);
     }
     else {
         var errorText = encodeURIComponent('error8');
