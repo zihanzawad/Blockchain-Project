@@ -26,7 +26,8 @@ class Transformer():
     #read pdf from byte input and convert to jpegs
     def bytes_to_images(inputpath:str):
         bytes = inputpath.encode()
-        pdfAsImages = convert_from_bytes(bytes,poppler_path=r'C:\Program Files\poppler-21.10.0\Library\bin')
+        #pdfAsImages = convert_from_bytes(bytes,poppler_path=r'C:\Program Files\poppler-21.10.0\Library\bin')
+        pdfAsImages = convert_from_bytes(bytes)
         return pdfAsImages
 
     #convert PIL arrays to numpy arrays
@@ -62,7 +63,8 @@ class Transformer():
 
     #converts bytes to array of SHA256 hash strings
     def bytes_to_hash_array(inputPath:str):
-        images = Transformer.bytes_to_images(inputPath)
+        #images = Transformer.bytes_to_images(inputPath)
+        images = Transformer.pdf_as_images(inputPath)
         pilArray = Transformer.PIL_to_Numpy(images)
         npArray = Transformer.PDF_to_Numpy(pilArray)
         hashArray = Transformer.encrypt_document(npArray)

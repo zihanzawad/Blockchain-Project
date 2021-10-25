@@ -282,7 +282,7 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     fs.writeFileSync(`Scripts/files/${req.file.originalname}`, req.file.buffer, 'binary');
 
 
-    let pathToScript = 'Scripts\\convert_pdf.py'
+    let pathToScript = 'Scripts/convert_pdf.py'
     run_child_process("python", [pathToScript, req.file.originalname]).then(
         ({ stdout }) => {
             uploadToBlockChain(req.file.originalname, stdout, session.userid);
