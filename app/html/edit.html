@@ -55,32 +55,36 @@
         <div class="editProfile">
             <h1>Edit Profile</h1>
             <p id="inputValidation" class="text-danger"></p>
-            <form class="col formWidth" form action="/saveChanges" method="post" enctype='application/x-www-form-urlencoded'>
+            <form class="col formWidth" action="/saveChanges" method="post" enctype='application/x-www-form-urlencoded'>
                 <div class="form-group row mb-4">
                     <label class="col-sm-2 col-form-label formLabel">Name: </label>
                     <div class="col">
                         <input type="text" class="form-control inputBox" id="newName" name="newName">
+                        <small id="nameHelp" class="text-danger"></small> 
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label formLabel">Current Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="currPassword" name="currPassword">
+                        <small id="currPasswordHelp" class="text-danger"></small> 
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label formLabel">New Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="newPassword" name="newPassword">
+                        <small id="newPasswordHelp" class="text-danger"></small> 
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label formLabel">Confirm Password: </label>
                     <div class="col">
                         <input type="password" class="form-control inputBox" id="confirmPassword" name="confirmPassword">
+                        <small id="confirmPasswordHelp" class="text-danger"></small> 
                     </div>
                 </div>
-                <button type="button" class="col btn logButton button saveBtn" value="Save profile" onClick="update()">Save profile</button>
+                <input type="submit" class="col btn logButton button saveBtn" value="Save profile"/>
             </form>
         </div>
     </div>

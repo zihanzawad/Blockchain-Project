@@ -1,3 +1,13 @@
+var error = {}
+var newNameField = document.getElementById("newName");
+var currPassField = document.getElementById("currPassword");
+var newPass1Field = document.getElementById("newPassword");
+var newPass2Field = document.getElementById("confirmPassword");
+var newNameText = document.getElementById("nameHelp");
+var currPassText = document.getElementById("currPasswordHelp");
+var newPass1Text = document.getElementById("newPasswordHelp");
+var newPass2Text = document.getElementById("confirmPasswordHelp");
+
 //invokes onload
 (async function () {
     await $.get("/getName", function (data) {
@@ -25,38 +35,6 @@ renderData = (obj) => {
     displayEmail.innerHTML = obj.Email;
 }
 
-//validates form input and updates database for user profile changes
-async function update() {
-
-    let newProfile = {
-        newName: document.getElementById("newName").value,
-        currPass: document.getElementById("currPassword").value,
-        newPass1: document.getElementById("newPassword").value,
-        newPass2: document.getElementById("confirmPassword").value
-    }
-    
-    let inputWarning = document.getElementById("inputValidation");
-    inputWarning.innerHTML = "";
-
-    if (newProfile.newName == "" ){
-        inputWarning.innerHTML = "*Enter New Name";
-    }
-    else if (newProfile.currPass == ""){
-        inputWarning.innerHTML = "*Enter Current Password";
-    } 
-    else if (newProfile.newPass1 == "" || newProfile.newPass2 == "" ){
-        inputWarning.innerHTML  = "*Enter New password";
-    }
-    else {
-        await $.post("/saveChanges", newProfile, function (data) {
-            alert(data);
-            location.reload();
-        });
-    }
-    
-
-}
-
 $("#edit").click(function () {
     $("#image_upload").trigger('click');
 });
@@ -72,4 +50,56 @@ function readURL(input) {
 
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+location.search.substr(1).split("&").forEach(function(item) {error[item.split("=")[0]] = item.split("=")[1]})
+if (error.valid == 'error1') {
+    newNameText.innerHTML = "Name field is empty";
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
+}
+if (error.valid == 'error2') {
+    currPassText.innerHTML = "Password field is empty";
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
+}
+if (error.valid == 'error3') {
+    newPass1Text.innerHTML = "Password field is empty";
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
+}
+if (error.valid == 'error4') {
+    newPass2Text.innerHTML = "Password field is empty";
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
+}
+if (error.valid == 'error5') {
+    newNameText.innerHTML = "Name is invalid";    
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
+}
+if (error.valid == 'error6') {
+    currPassText.innerHTML = "Invalid Password";
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
+}
+if (error.valid == 'error7') {
+    newPass1Text.innerHTML = "Passwords do not match";
+    newPass2Text.innerHTML = "Passwords do not match";
+    newNameField.classList.add("is-invalid");
+    currPassField.classList.add("is-invalid");
+    newPass1Field.classList.add("is-invalid");
+    newPass2Field.classList.add("is-invalid");
 }

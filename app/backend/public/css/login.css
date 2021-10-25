@@ -58,10 +58,6 @@
     text-decoration:underline;
 }
 
-.valid-feedback {
-    display: block;
-}
-
 @media all and (max-width: 400px){
 	.loginRegisterBtn {
 		margin: 20px 12px;

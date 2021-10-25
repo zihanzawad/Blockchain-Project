@@ -114,3 +114,7 @@ a:link, a:hover, a:visited, a:active, a:focus {
 .navbar-light .navbar-nav .nav-link {
     color: white;
 }
+
+.valid-feedback {
+    display: block;
+}
