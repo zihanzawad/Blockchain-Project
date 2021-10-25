@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
-let rootDir = 'app';
+let rootDir = 'Blockchain-Project/app';
 const port = 8080;
 
 //spawns a child process to run a specific command with passed args
