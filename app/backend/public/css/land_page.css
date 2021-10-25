@@ -1,0 +1,14 @@
+/* header color */
+.head {
+    background-color:black;
+}
+
+/* size of the picture with logo and brand */
+.banner {
+    max-width: 700px;
+}
+
+/* color of text in the header */
+.motto {
+    color: white;
+}
