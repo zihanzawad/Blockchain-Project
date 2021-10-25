@@ -2,9 +2,9 @@
 /*EDIT-PROFILE-PAGE-------------------------*/
 .sideBar {
 	margin-top: 2.5rem;
-    width: 25%;
+    width: 30%;
     padding: 10px 2.5rem 10px 10px;
-    height: 100%;
+    height: 500px ;
     left: auto;
 	display: inline-block;
     border-right: 1px solid rgb(70, 70, 70);
@@ -83,6 +83,10 @@
 	margin-top:25px;
 }
 
+.text-danger {
+	display: block;
+}
+
 @media all and (max-width: 1000px){
 	.container {
 		display:block ;
@@ -90,6 +94,7 @@
 	.sideBar {
 		padding: 10px;
 		width: 100%;
+		height: 350px;
 		display: block;
 		float:left;
 		border-right: none;
