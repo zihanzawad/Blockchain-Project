@@ -71,6 +71,7 @@ function run_child_process(command, args) {
         });
         process.on("close", (code) => {
             console.log("Child process exiting with code " + code)
+            console.log({stdout,stderr})
             resolve({ stdout, stderr, code });
         });
     });
@@ -277,10 +278,14 @@ app.get('/logout', function (req,res) {
 app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     session=req.session;
     //spawn python child process to process pdf
-    var hashes;
     let uploadedFile = req.file.buffer.toString('base64');
-    run_child_process("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
+    // console.log(uploadedFile);
+    'C:\\Users\\a1766749\\Documents\\GitHub\\Blockchain-Project\\app\\backend\\Scripts\\convert_pdf.py'
+    let pathToScript = 'Scripts\\convert_pdf.py'
+    console.log(pathToScript)
+    run_child_process("python", [pathToScript, uploadedFile]).then(
         ({ stdout }) => {
+            console.log(stdout);
             uploadToBlockChain(req.file.originalname, stdout, session.userid);
         },
     );

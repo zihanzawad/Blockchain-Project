@@ -2,6 +2,7 @@ from pdf2image import convert_from_path, convert_from_bytes
 from os import path, makedirs
 from hashlib import sha256
 import numpy as np
+import sys
 import base64
 
 
@@ -24,7 +25,7 @@ class Transformer():
 
     #read pdf from byte input and convert to jpegs
     def bytes_to_images(bytes:bytes):
-        pdfAsImages = convert_from_bytes(bytes)
+        pdfAsImages = convert_from_bytes(bytes,poppler_path=r'C:\Program Files\poppler-21.10.0\Library\bin')
         return pdfAsImages
 
     #convert PIL arrays to numpy arrays
