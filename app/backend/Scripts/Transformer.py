@@ -20,6 +20,7 @@ class Transformer():
         return pdfAsImages
 
     def pdf_as_images(inputPath: str):
+        #pdfAsImages = convert_from_path(bytes,poppler_path=r'C:\Program Files\poppler-21.10.0\Library\bin')
         pdfAsImages = convert_from_path(inputPath)
         return pdfAsImages
 

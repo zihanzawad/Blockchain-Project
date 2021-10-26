@@ -286,6 +286,7 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     run_child_process("python", [pathToScript, req.file.originalname]).then(
         ({ stdout }) => {
             uploadToBlockChain(req.file.originalname, stdout, session.userid);
+            fs.unlinkSync(`Scripts/files/${req.file.originalname}`);
         },
     );
 
@@ -295,8 +296,8 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
 app.post('/compare', upload.single('pdf'), function (req, res) {
     var hashToFetch = req.params.fetchHash;
     var originalHashes = getFileContent(hashToFetch);
-    let uploadedFile = req.file.buffer.toString('base64');
-    run_child_process("python", ['Scripts/compare_hash_arrays.py', originalHashes, newHashes, uploadedFile]).then(
+    fs.writeFileSync(`Scripts/files/${req.file.originalname}`, req.file.buffer, 'binary');
+    run_child_process("python", ['Scripts/compare_hash_arrays.py', originalHashes, newHashes, req.file.originalname]).then(
         ({ stdout }) => {
             res.send(stdout);
         },
