@@ -1,3 +1,5 @@
+Dropzone.autoDiscover = false;
+
 document.querySelectorAll(".dropInput").forEach((inputElement) => {
     // Finds the closest element with the class dropZone
     const dropZoneElement = inputElement.closest(".dropZone");
@@ -36,6 +38,31 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
 
 });
 
+Dropzone.options.dropzoneFrom = {
+    autoProcessQueue: false,
+    acceptedFiles:".pdf",
+    uploadMultiple: false,
+    init: function(){
+     var submitButton = document.querySelector('#submit-all');
+     myDropzone = this;
+     submitButton.addEventListener("click", function(){
+      myDropzone.processQueue();
+     });
+     this.on("complete", function(){
+      if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0)
+      {
+       var _this = this;
+       _this.removeAllFiles();
+      }
+      testing();
+     });
+    },
+   };
+
+function testing()
+ {
+     alert("complete");
+ }
 /*function updateThumbnail(dropZoneElement, file) {
     let thumbanilElement = dropZoneElement.querySelector(".dropThumb");
     // Removing the text and upload image
