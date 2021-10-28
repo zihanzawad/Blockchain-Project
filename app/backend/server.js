@@ -336,7 +336,10 @@ app.get('/logout', function (req,res) {
 app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     session=req.session;
     //spawn python child process to process pdf
-    var hashes;
+
+    //to be implimented;
+    saveFile()
+
     let uploadedFile = req.file.buffer.toString('base64');
     run_child_process("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
         ({ stdout }) => {
@@ -347,11 +350,14 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     res.redirect('/?valid=' + errorText);
 });
 
-app.post('/compare', upload.single('pdf'), function(req, res) {
-    var hashToFetch = req.params.fetchHash;
+app.post('/compareFile/:TxHash', upload.single('pdf'), function(req, res) {
+    var hashToFetch = req.params.TxHash;
     var originalHashes = getFileContent(hashToFetch);
-    let uploadedFile = req.file.buffer.toString('base64');
-    run_child_process("python", ['Scripts/compare_hash_arrays.py', originalHashes, newHashes, uploadedFile]).then(
+    let fileName = req.file.originalname;
+    //to be implimented;
+    saveFile()
+
+    run_child_process("python", ['Scripts/compare_hash_arrays.py', originalHashes,fileName ]).then(
         ({ stdout }) => {
             res.send(stdout);
         },

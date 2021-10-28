@@ -23,6 +23,11 @@
     float: right;
 }
 
+.tampering{
+    display: flex;
+    flex-direction: column;
+}
+
 /* https://css-tricks.com/table-borders-inside/ */
 .table {
 	width: 100%;
