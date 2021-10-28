@@ -4,6 +4,7 @@ from hashlib import sha256
 import numpy as np
 import sys
 import base64
+from PIL import Image
 
 
 class Transformer():
@@ -104,7 +105,11 @@ class Transformer():
             pages[page,lower:upper,:,1] *= 0.4
             pages[page,lower:upper,:,2] *= 0.4
 
+        scrollFile = np.array()
         for i in range(len(pages)):
-            print(pages[0])
+            np.concatenate(scrollFile, pages[i])
+        
+        im = Image.fromarray(scrollFile)
+        im.save("Scripts/files/tampered_regions.jpg")
 
         #imshow(pages[0])
