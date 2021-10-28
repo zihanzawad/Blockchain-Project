@@ -8,7 +8,7 @@ import numpy as np
 class Transformer():
 
     def pdf_as_images(inputPath: str):
-        pdfAsImages = convert_from_path(inputPath)
+        pdfAsImages = convert_from_path(inputPath, poppler_path=r'C:\Program Files\poppler-21.10.0\Library\bin')
         return pdfAsImages
 
     #read pdf from byte input and convert to jpegs

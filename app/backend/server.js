@@ -274,6 +274,7 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+
 //takes pdf payload from server and gets encrypted version into server;
 //COMMENTED CURRENT VERSION UNTIL convert_pdf.py HAS BEEN COMPLETED AND MERGED INTO MASTER
 app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
@@ -284,6 +285,7 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     let pathToScript = 'Scripts/convert_pdf.py'
     run_child_process("python", [pathToScript, req.file.originalname]).then(
         ({ stdout }) => {
+            //check how data is formatted on python ned
             uploadToBlockChain(req.file.originalname, stdout, session.userid);
             fs.unlinkSync(`Scripts/files/${req.file.originalname}`);
         },
