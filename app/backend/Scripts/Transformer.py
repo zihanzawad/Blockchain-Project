@@ -85,11 +85,11 @@ class Transformer():
         return 0
 
 
-    def concatenate_images(im1, im2):
-        dst = Image.new('RGB', (im1.width, im1.height + im2.height))
-        dst.paste(im1, (0, 0))
-        dst.paste(im2, (0, im1.height))
-        return dst
+    def concatenate_images(im1: Image, im2: Image):
+        concatenated_image = Image.new('RGB', (im1.width, im1.height + im2.height))
+        concatenated_image.paste(im1, (0, 0))
+        concatenated_image.paste(im2, (0, im1.height))
+        return concatenated_image
 
 
     # Highlights tampered areas
@@ -111,6 +111,6 @@ class Transformer():
         output = Image.fromarray(pages[0])
         for page_num in range(1,len(pages)):
             next_image = Image.fromarray(pages[page_num])
-            Transformer.concatenate_images(output, next_image)
+            output = Transformer.concatenate_images(output, next_image)
 
         output.save("Scripts/files/tampered_regions.jpg")

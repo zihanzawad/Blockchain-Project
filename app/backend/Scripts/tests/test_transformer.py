@@ -1,4 +1,4 @@
-from transformer import Transformer as tf
+from Scripts.Transformer import Transformer as tf
 from pathlib import Path
 
 def test_compare_document_hashes():
@@ -25,4 +25,3 @@ def test_visualise_tamper():
 
     tamper = [[0,1],[0,2],[0,4],[1,5],[1,12]]
     tf.visualise_tamper(npImage, tamper)
-    
