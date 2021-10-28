@@ -1,6 +1,7 @@
 from pdf2image import convert_from_path, convert_from_bytes
 from os import path, makedirs
 from hashlib import sha256
+from PIL import Image
 import numpy as np
 
 
@@ -83,6 +84,14 @@ class Transformer():
             return 1
         return 0
 
+
+    def concatenate_images(im1, im2):
+        dst = Image.new('RGB', (im1.width, im1.height + im2.height))
+        dst.paste(im1, (0, 0))
+        dst.paste(im2, (0, im1.height))
+        return dst
+
+
     # Highlights tampered areas
     def visualise_tamper(pagesAsNumpy:list, tamperedRegions:list, v_chunks: int = 18, h_chunks: int = 18):
 
@@ -99,11 +108,9 @@ class Transformer():
             pages[page,v_lower:v_upper, h_lower:h_upper, 1] *= 0.4
             pages[page,v_lower:v_upper, h_lower:h_upper, 2] *= 0.4
 
-        scrollFile = np.array()
-        for i in range(len(pages)):
-            np.concatenate(scrollFile, pages[i])
-        
-        im = Image.fromarray(scrollFile)
-        im.save("Scripts/files/tampered_regions.jpg")
+        output = Image.fromarray(pages[0])
+        for page_num in range(1,len(pages)):
+            next_image = Image.fromarray(pages[page_num])
+            Transformer.concatenate_images(output, next_image)
 
-        #imshow(pages[0])
+        output.save("Scripts/files/tampered_regions.jpg")
