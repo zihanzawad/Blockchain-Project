@@ -281,7 +281,6 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     //spawn python child process to process pdf
     fs.writeFileSync(`Scripts/files/${req.file.originalname}`, req.file.buffer, 'binary');
 
-
     let pathToScript = 'Scripts/convert_pdf.py'
     run_child_process("python", [pathToScript, req.file.originalname]).then(
         ({ stdout }) => {
