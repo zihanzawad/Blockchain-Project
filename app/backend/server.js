@@ -347,24 +347,6 @@ app.post('/uploadFile', upload.single('pdf'), async (req, res) => {
     res.redirect('/?valid=' + errorText);
 });
 
-app.post('/uploadFileTest', async (req, res) => {
-    console.log("hello") ;
-    console.log(JSON.stringify(req.file)) ;
-    res.send() ;
-    // session=req.session;
-    // //spawn python child process to process pdf
-    // var hashes;
-    // let uploadedFile = req.file.buffer.toString('base64');
-    // run_child_process("python", ['Scripts/convert_pdf.py', uploadedFile]).then(
-    //     ({ stdout }) => {
-    //         uploadToBlockChain(req.file.originalname, stdout, session.userid);
-    //     },
-    // );
-    // var errorText = encodeURIComponent('success2');
-    // res.redirect('/?valid=' + errorText);
-});
-
-
 app.post('/compare', upload.single('pdf'), function(req, res) {
     var hashToFetch = req.params.fetchHash;
     var originalHashes = getFileContent(hashToFetch);
