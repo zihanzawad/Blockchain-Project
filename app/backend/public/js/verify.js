@@ -25,8 +25,14 @@ renderData = (obj) => {
         var date = row.insertCell(0);
         var fileName = row.insertCell(1);
         var TxHash = row.insertCell(2);
+
         row.insertCell(3).innerHTML = `
-        <button onclick="getFile()"> Get This File </button>
+        <form id="compare">
+        <div class="tampering">
+        <input type="file" name="pdf"/>
+        <button type="button" onclick="compareFile()"> Get This File </button>
+        </div>
+        </form>
         `;
         date.innerHTML = item.Date;
         fileName.innerHTML = item.fileName;
@@ -51,17 +57,21 @@ function createDownloadable(data, fileName, parent) {
     element.click();
 }
 
-async function getFile() {
-    let TxHash = event.target.parentNode.parentNode.children[2].innerHTML;
+async function compareFile() {
+    let TxHash = event.target.parentElement.parentElement.parentElement.parentElement.children[2].innerHTML;
     let parent = event.target.parentNode;
-    let fileName = event.target.parentNode.parentNode.children[1].innerHTML
-    let url = `http://localhost:8080/getFile/${TxHash}`;
+    let fileName = event.target.parentNode.children[1].innerHTML
+    let url = `http://localhost:8080/compareFile/${TxHash}`;
+
+    let form = event.target.parentElement.parentElement;
+    
+    let formData = new FormData(form)
+
+    console.log({form,TxHash});
 
     let data = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/octet-stream'
-        },
+        method: 'POST',
+        body : formData
     })
-    createDownloadable(await data.arrayBuffer(), fileName, parent);
+    // createDownloadable(await data.arrayBuffer(), fileName, parent);
 }
