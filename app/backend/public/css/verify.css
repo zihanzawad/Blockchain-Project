@@ -10,17 +10,15 @@
 	float: left;
 }
 
-.container-fluid {
-    padding-left: 5%;
-    padding-right: 5%;
+.compareBtn {
+	border-radius: 5px;
+    margin-top: 6px;
+    background-color: #f0ffe6;
+	border-color: #8fdd60;
 }
 
 .divider {
     height: 3rem;
-}
-
-.dropdown {
-    float: right;
 }
 
 .tampering{
@@ -28,32 +26,18 @@
     flex-direction: column;
 }
 
-/* https://css-tricks.com/table-borders-inside/ */
+.page-item.active .page-link {
+	color: rgb(0, 0, 0);
+	background-color: #c0ff96;
+	border-color: #8fdd60;
+}
+
 .table {
 	width: 100%;
-    background-color: #eeeeee;
+    background-color: #fafafa;
     border-color: white;
     border-collapse: collapse;
     border-style: hidden;
-}
-
-.table th {
-    border-width: 3px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	max-width: 1px;
-}
-
-.table tr {
-    border-top-width: 10px;
-}
-
-.table td {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	max-width: 1px;
 }
 
 @media all and (max-width: 400px){
