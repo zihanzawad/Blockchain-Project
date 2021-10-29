@@ -1,6 +1,5 @@
-document.querySelectorAll(".dropInput").forEach((inputElement) => {
     // Finds the closest element with the class dropZone
-    const dropZoneElement = inputElement.closest(".dropZone");
+    var dropZoneElement = document.getElementById("dropzone");
 
     /*inputElement.addEventListener("change", (e) => {
         updateThumbnail(dropZoneElement, inputElement.files[0]);
@@ -21,20 +20,11 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
 
     dropZoneElement.addEventListener("drop", e => {
         e.preventDefault();
-        // If there is a file
-        if (e.dataTransfer.getData("text")) {
-            let input = document.querySelector("input.btn");
-            const DT = new DataTransfer();
-            let file = (new File(['foo'] , e.dataTransfer.getData("text")));
-            file.name = e.dataTransfer.getData("text");
-            DT.items.add(file);
-            input.files = DT.files;
-        }
+        uploadPDF.files = e.dataTransfer.files;
 
         dropZoneElement.classList.remove("dropOver");
     });
 
-});
 
 /*function updateThumbnail(dropZoneElement, file) {
     let thumbanilElement = dropZoneElement.querySelector(".dropThumb");
