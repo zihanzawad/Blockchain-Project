@@ -1,5 +1,5 @@
     // Finds the closest element with the class dropZone
-    var dropZoneElement = document.getElementById("thedropzone");
+    var dropZoneElement = document.getElementById("dropzone");
 
     /*inputElement.addEventListener("change", (e) => {
         updateThumbnail(dropZoneElement, inputElement.files[0]);
