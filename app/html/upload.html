@@ -43,7 +43,7 @@
     <div class="container outerbox outer">
         <div class="col">
             <!--Drag and drop-->
-            <div class="row dropZone text-center">
+            <div class="row dropZone text-center" id="thedropzone">
                 <form action="uploadFile" method="post" enctype="multipart/form-data">
                     <div class="col">
                         <h3 class="dropPrompt">Drag and drop a PDF here</h3>
@@ -51,18 +51,24 @@
                         <img src="media/buttons/upload.png" alt="Upload File" class="uploadImg removeImg">
                         <hr>
                         <h3>Or upload your PDF here</h3>
-                        <input class="btn" type="file" name="pdf" />
+                        <input class="btn" type="file" name="pdf" id="uploadPDF"/>
                         <div class="col">
                             <button class="logButton btn" type="submit">Submit</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="testing">
+            <!-- <div class="testing">
                 <form action="/uploadFile" method="post" class="dropzone" id="dropzoneFrom">
                     <button type ="submit" class="logButton btn" id="submit-all">Upload</button>
                 </form>
-                <div>
+            <div>
+                <div id="dropContainer" style="border:1px solid black;height:100px;">
+                    Drop Here
+                 </div>
+                   Should update here:
+                   <input type="file" id="fileInput" /> -->
+                   
                     <!-- <button type ="submit" class="logButton btn" id="submit-all">
                         Upload
                     </button> -->

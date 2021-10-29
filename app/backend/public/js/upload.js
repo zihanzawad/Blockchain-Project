@@ -1,6 +1,5 @@
-document.querySelectorAll(".dropInput").forEach((inputElement) => {
     // Finds the closest element with the class dropZone
-    const dropZoneElement = inputElement.closest(".dropZone");
+    dropZoneElement = document.getElementById("thedropzone");
 
     /*inputElement.addEventListener("change", (e) => {
         updateThumbnail(dropZoneElement, inputElement.files[0]);
@@ -22,19 +21,25 @@ document.querySelectorAll(".dropInput").forEach((inputElement) => {
     dropZoneElement.addEventListener("drop", e => {
         e.preventDefault();
         // If there is a file
-        if (e.dataTransfer.getData("text")) {
-            let input = document.querySelector("input.btn");
-            const DT = new DataTransfer();
-            let file = (new File(['foo'] , e.dataTransfer.getData("text")));
-            file.name = e.dataTransfer.getData("text");
-            DT.items.add(file);
-            input.files = DT.files;
-        }
+        // if (e.dataTransfer.getData("pdf")) {
+        //     let input = document.querySelector("input.btn");
+        //     const DT = new DataTransfer();
+        //     let file = (new File(['foo'] , e.dataTransfer.getData("pdf")));
+        //     file.name = e.dataTransfer.getData("pdf");
+        //     DT.items.add(file);
+        //     input.files = DT.files;
+        // }
+        uploadPDF.files = e.dataTransfer.files;
+
+        // If you want to use some of the dropped files
+        const dT = new DataTransfer();
+        dT.items.add(e.dataTransfer.files[0]);
+        //dT.items.add(e.dataTransfer.files[3]);
+        uploadPDF.files = dT.files;
 
         dropZoneElement.classList.remove("dropOver");
     });
 
-});
 
 Dropzone.options.dropzoneFrom = {
     autoProcessQueue: false, 
@@ -49,25 +54,7 @@ Dropzone.options.dropzoneFrom = {
             e.stopPropagation();
             myDropzone.processQueue();
         });
-
-        // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-        // of the sending event because uploadMultiple is set to true.
-        this.on("sendingmultiple", function() {
-            // Gets triggered when the form is actually being sent.
-            // Hide the success button or the complete form.
-            console.log("a");
-        });
-        this.on("successmultiple", function(files, response) {
-            // Gets triggered when the files have successfully been sent.
-            // Redirect user or notify of success.
-            console.log("b");
-        });
-        this.on("errormultiple", function(files, response) {
-            // Gets triggered when there was an error sending the files.
-            // Maybe show form again, and notify user of error
-            console.log("a");
-        });
-
+        
     // var submitButton = document.querySelector('#submit-all');
     //  myDropzone = this;
     //  submitButton.addEventListener("click", function(){
@@ -88,6 +75,8 @@ function testing()
  {
    console.log("testing");
  }
+
+
 
 /*function updateThumbnail(dropZoneElement, file) {
     let thumbanilElement = dropZoneElement.querySelector(".dropThumb");
