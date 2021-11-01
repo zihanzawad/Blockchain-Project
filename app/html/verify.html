@@ -4,11 +4,12 @@
     <title>Verify Documents</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/verify.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/verify.js"></script>
     <link rel="shortcut icon" type="image/jpg" href="media/favicon.ico"/>
 </head>
 
@@ -39,7 +40,7 @@
     </nav> 
     <div class="divider"></div>
     <!--Buttons above table-->
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <!-- Verify Button -->
             <div class="col">
@@ -49,26 +50,23 @@
     </div>
     <div class="divider"></div>
     <!--Table-->
-    <div class="container-fluid">
-        <table class="table table-striped" id="myTable">
+    <div class="container">
+        <table class="table table-striped" id="myTable" style="width:100%">
             <thead>
                 <tr>
                     <th scope="col">Date</th>
                     <th scope="col">Name</th>
                     <th scope="col">TxHash</th>
-                    <th scope="col">Check for tampering</th>
+                    <th scope="col">Verify</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
     </div>
-
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <div class="divider"></div>
     <!--Script for datatables-->
-    <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" defer ></script>
-    <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-    <script src="js/verify.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 </body>
 </html>

@@ -10,7 +10,8 @@
         console.log(document.querySelectorAll("#myTable"))
         $('#myTable').DataTable({
             columnDefs: [
-                { orderable: false, targets: 3 }
+                { orderable: false, targets: 3 },
+                { "width": "10%", "targets": 3}
             ]
         });
     });
@@ -30,7 +31,7 @@ renderData = (obj) => {
         <form id="compare">
         <div class="tampering">
         <input type="file" name="pdf"/>
-        <button type="button" onclick="compareFile()"> Get This File </button>
+        <button type="button" class="btn compareBtn" onclick="compareFile()"> Compare File </button>
         </div>
         </form>
         `;
